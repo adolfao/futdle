@@ -1,21 +1,16 @@
-<!DOCTYPE html>
-<html lang="pt-br">
-  <head>
-    <meta charset="UTF-8" />
-    <title>Futdle</title>
-    <link
-      rel="stylesheet"
-      href="{{ url_for('static', filename='style.css') }}"
+{% extends 'base.html' %} {% block body %}
+
+<div class="fundo">
+  <div class="conteudo-home">
+    <img
+      src="{{ url_for('static', filename='images/logo_futdle.png') }}"
+      class="logo"
+      alt="Logo do Futdle"
     />
-  </head>
-  <body>
-    <div class="fundo">
-      <img
-        src="{{ url_for('static', filename='images/logo_futdle.png') }}"
-        class="logo"
-        alt="Logo do Futdle"
-      />
-      <h1 class="titulo">Bem-vindo ao Futdle</h1>
+    <div class="botao-classico">
+      <a href="{{ url_for('.classico') }}" class="btn btn-primary">Clássico</a>
     </div>
-  </body>
-</html>
+  </div>
+</div>
+
+{% endblock %}
