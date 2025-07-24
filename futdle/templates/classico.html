@@ -1,6 +1,13 @@
 {% extends 'base.html' %} {% block body %}
-<div>
-  <p>asiodaiospdsaokda</p>
-</div>
+<h1>Modo Clássico</h1>
 
+{% if resultado %}
+<p><strong>{{ resultado }}</strong></p>
+{% endif %}
+
+<form method="post">
+  <label for="chute">Digite um time:</label>
+  <input type="text" id="chute" name="chute" required />
+  <button type="submit">Enviar</button>
+</form>
 {% endblock %}
