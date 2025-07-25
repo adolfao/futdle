@@ -10,4 +10,25 @@
   <input type="text" id="chute" name="chute" required />
   <button type="submit">Enviar</button>
 </form>
-{% endblock %}
+
+{% if tentativas %}
+<div
+  class="tentativas-container"
+  style="display: flex; gap: 10px; margin-top: 20px; flex-wrap: wrap"
+>
+  {% for time in tentativas %}
+  <div class="tentativa-item">
+    <img
+      src="{{ url_for('static', filename='times/' ~ time ~ '.jpg') }}"
+      alt="{{ time }}"
+      style="
+        width: 100px;
+        height: auto;
+        border-radius: 8px;
+        border: 2px solid #444;
+      "
+    />
+  </div>
+  {% endfor %}
+</div>
+{% endif %} {% endblock %}
