@@ -1,4 +1,3 @@
-from futdle import create_app
 from flask import render_template, Blueprint, request, session
 import random
 from futdle.models import Time
