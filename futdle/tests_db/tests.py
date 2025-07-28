@@ -1,7 +1,7 @@
 from futdle import create_app, db
 from futdle.models import Time
 
-#py -m futdle.tests
+#py -m futdle.tests_db.tests
 app = create_app()
 
 with app.app_context():

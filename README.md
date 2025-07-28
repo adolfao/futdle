@@ -124,7 +124,19 @@ Criar um jogo estilo Loodle onde o jogador precisa adivinhar um **time de futebo
 
    ```bash
    # Execute o script para popular a base de dados com times brasileiros
-   python -m futdle.tests
+   python -m futdle.tests_db.tests
+   ```
+
+   **Scripts de teste disponíveis:**
+   ```bash
+   # Listar todos os times na base de dados
+   python -m futdle.tests_db.test_nomes
+   
+   # Verificar anos de fundação dos times
+   python -m futdle.tests_db.test_anos
+   
+   # Verificar cores dos times
+   python -m futdle.tests_db.test_cores
    ```
 
 5. **Execute a aplicação:**
@@ -150,10 +162,10 @@ Criar um jogo estilo Loodle onde o jogador precisa adivinhar um **time de futebo
 
 O projeto inclui 20 times brasileiros das principais séries:
 
-- Cruzeiro, Santos, Palmeiras, Corinthians, Flamengo
-- Atlético Mineiro, Bahia, Botafogo, São Paulo, Grêmio
-- Internacional, Fluminense, Vasco, Ceará, Fortaleza
-- Chapecoense, Sport, Vitória, Athletico Paranaense, Coritiba
+- Atlético Mineiro, Bahia, Botafogo, Bragantino, Ceará
+- Corinthians, Cruzeiro, Flamengo, Fluminense, Fortaleza
+- Grêmio, Internacional, Juventude, Mirassol, Palmeiras
+- Santos, Sport, São Paulo, Vasco da Gama, Vitória
 
 ---
 
