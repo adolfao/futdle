@@ -1,7 +1,7 @@
+#para rodar manualmente: py -m futdle.tests_db.tests
+
 from futdle import create_app, db
 from futdle.models import Time
-
-app = create_app()
 
 def popular_times():
     times_dados = [
@@ -26,20 +26,19 @@ def popular_times():
         {"nome": "Vasco da Gama", "cores": "Preto e Branco", "estado": "RJ", "ano_fundacao": 1898},
         {"nome": "Vitória", "cores": "Vermelho e Preto", "estado": "BA", "ano_fundacao": 1899},
     ]
-
     adicionados = 0
     for dado in times_dados:
         if not Time.query.filter_by(nome=dado["nome"]).first():
             db.session.add(Time(**dado))
             adicionados += 1
-
     db.session.commit()
     print(f"{adicionados} times adicionados com sucesso!")
-    print(Time.query.all())
 
 def popular_se_vazio():
     if not Time.query.first():
         popular_times()
 
-with app.app_context():
-    popular_se_vazio()
+if __name__ == "__main__":
+    app = create_app()
+    with app.app_context():
+        popular_se_vazio()
