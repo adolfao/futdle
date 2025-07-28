@@ -1,3 +1,5 @@
+@import url("https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Exo+2:wght@400;700;900&family=Russo+One&display=swap");
+
 body {
   margin: 0;
   padding: 0;
@@ -22,14 +24,61 @@ body {
 .logo {
   width: 300px;
   display: block;
-  margin: 0 auto;
+  margin: 0 auto 60px auto;
   text-align: center;
 }
 
 .botao-classico {
+  display: inline-flex;
+  align-items: center;
+  padding: 10px 24px;
+  background: linear-gradient(145deg, #1c4520, #256a29);
+  border: 3px solid #3ecf3e;
+  border-radius: 14px;
+  font-family: "Russo One", "Exo 2", "Orbitron", sans-serif;
+  font-size: 1.8rem;
+  font-weight: 400;
+  color: #fffbe9;
+  cursor: pointer;
+  transition: transform 0.25s ease, box-shadow 0.25s ease, background 0.3s ease;
+  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.35);
+  transform: translateY(-40px);
+  text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.8);
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+
+.botao-classico:hover {
+  transform: translateY(-40px) scale(1.07);
+  box-shadow: 0px 6px 20px rgba(62, 207, 62, 0.7);
+  background: linear-gradient(145deg, #256a29, #2f7c35);
+}
+
+.botao-classico a {
+  display: inline-flex;
+  align-items: center;
+  text-decoration: none;
+  color: inherit;
+}
+
+.botao-classico .icone {
+  width: 44px;
+  height: 44px;
   display: flex;
   justify-content: center;
-  transform: translateY(-40px);
+  align-items: center;
+  margin-right: 14px;
+  transition: transform 0.3s ease;
+}
+
+.botao-classico:hover .icone {
+  transform: rotate(10deg) scale(1.1);
+}
+
+.botao-classico .icone img {
+  width: 180%;
+  height: 180%;
+  pointer-events: none;
 }
 
 .conteudo-classico {
@@ -40,44 +89,195 @@ body {
   min-height: 80vh;
   padding: 20px;
   text-align: center;
-  padding-top: 50px;
+  padding-top: 20px;
+  transform: translateY(-120px);
 }
 
 .conteudo-classico h1 {
-  color: white;
-  margin-bottom: 20px;
+  color: #3ecf3e;
+  font-family: "Orbitron", "Russo One", "Exo 2", sans-serif;
+  font-size: 2.8rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.9);
+  letter-spacing: 3px;
+  margin-bottom: 40px;
 }
 
 .conteudo-classico form {
-  margin-bottom: 20px;
+  margin-bottom: 30px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  position: relative;
+}
+
+.autocomplete-container {
+  position: relative;
+  width: 300px;
+}
+
+.sugestoes-lista {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  background: rgba(255, 255, 255, 0.98);
+  border: 2px solid #3ecf3e;
+  border-top: none;
+  border-radius: 0 0 12px 12px;
+  max-height: 250px;
+  overflow-y: auto;
+  z-index: 1000;
+  box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.4);
+  display: none;
+}
+
+.sugestao-item {
+  display: flex;
+  align-items: center;
+  padding: 12px 15px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.sugestao-item:last-child {
+  border-bottom: none;
+}
+
+.sugestao-item:hover {
+  background-color: #f0f8f0;
+}
+
+.sugestao-item.selected {
+  background-color: #e8f5e8;
+}
+
+.sugestao-escudo {
+  width: 30px;
+  height: 30px;
+  object-fit: cover;
+  border-radius: 6px;
+  margin-right: 12px;
+  border: 1px solid #ccc;
+}
+
+.sugestao-nome {
+  font-family: "Exo 2", sans-serif;
+  font-size: 1rem;
+  font-weight: 600;
+  color: #1c4520;
 }
 
 .conteudo-classico label {
-  color: white;
-  margin-bottom: 10px;
-  display: block;
+  color: #fffbe9;
+  font-family: "Russo One", "Exo 2", "Orbitron", sans-serif;
+  font-size: 1.2rem;
+  font-weight: 400;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+  margin-bottom: 0;
 }
 
 .conteudo-classico input {
-  padding: 10px;
-  margin: 10px;
-  border: none;
-  border-radius: 5px;
-  width: 250px;
+  padding: 15px 20px;
+  margin: 0;
+  border: 3px solid #3ecf3e;
+  border-radius: 12px;
+  width: 300px;
+  font-family: "Exo 2", sans-serif;
+  font-size: 1.1rem;
+  font-weight: 600;
+  background: rgba(255, 255, 255, 0.95);
+  color: #1c4520;
+  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.3);
+  transition: all 0.3s ease;
+  text-align: center;
+}
+
+.conteudo-classico input:focus {
+  outline: none;
+  border-color: #28a745;
+  box-shadow: 0px 6px 20px rgba(62, 207, 62, 0.6);
+  transform: scale(1.02);
 }
 
 .conteudo-classico button {
-  padding: 10px 20px;
-  margin: 10px;
+  padding: 12px 30px;
+  margin: 0;
+  background: linear-gradient(145deg, #1c4520, #256a29);
+  border: 3px solid #3ecf3e;
+  border-radius: 12px;
+  font-family: "Russo One", "Exo 2", "Orbitron", sans-serif;
+  font-size: 1.2rem;
+  font-weight: 400;
+  color: #fffbe9;
+  cursor: pointer;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.35);
+  transition: all 0.25s ease;
+}
+
+.conteudo-classico button:hover {
+  background: linear-gradient(145deg, #256a29, #2f7c35);
+  box-shadow: 0px 6px 20px rgba(62, 207, 62, 0.7);
+  transform: scale(1.05);
 }
 
 .resultado-mensagem {
-  background-color: white;
-  color: black;
-  padding: 10px 20px;
-  border-radius: 8px;
-  margin: 10px 0;
+  background: linear-gradient(145deg, #fffbe9, #f8f9fa);
+  color: #1c4520;
+  padding: 15px 30px;
+  border-radius: 12px;
+  border: 3px solid #3ecf3e;
+  margin: 20px 0;
   display: inline-block;
-  font-weight: bold;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  font-family: "Russo One", "Exo 2", "Orbitron", sans-serif;
+  font-size: 1.3rem;
+  font-weight: 400;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  box-shadow: 0px 6px 20px rgba(62, 207, 62, 0.4);
+  animation: pulseResult 0.6s ease-out;
+}
+
+@keyframes pulseResult {
+  0% {
+    transform: scale(0.8);
+    opacity: 0;
+  }
+  50% {
+    transform: scale(1.05);
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+/* Mensagens específicas por tipo */
+.resultado-mensagem.acertou {
+  background: linear-gradient(145deg, #28a745, #20c997);
+  color: #fffbe9;
+  border-color: #20c997;
+  box-shadow: 0px 6px 20px rgba(40, 167, 69, 0.6);
+}
+
+.resultado-mensagem.errou {
+  background: linear-gradient(145deg, #dc3545, #e74c3c);
+  color: #fffbe9;
+  border-color: #e74c3c;
+  box-shadow: 0px 6px 20px rgba(220, 53, 69, 0.6);
+}
+
+.resultado-mensagem.time-nao-encontrado {
+  background: linear-gradient(145deg, #ffc107, #f39c12);
+  color: #1c4520;
+  border-color: #f39c12;
+  box-shadow: 0px 6px 20px rgba(255, 193, 7, 0.6);
 }

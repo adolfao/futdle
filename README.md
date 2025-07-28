@@ -128,13 +128,14 @@ Criar um jogo estilo Loodle onde o jogador precisa adivinhar um **time de futebo
    ```
 
    **Scripts de teste disponíveis:**
+
    ```bash
    # Listar todos os times na base de dados
    python -m futdle.tests_db.test_nomes
-   
+
    # Verificar anos de fundação dos times
    python -m futdle.tests_db.test_anos
-   
+
    # Verificar cores dos times
    python -m futdle.tests_db.test_cores
    ```

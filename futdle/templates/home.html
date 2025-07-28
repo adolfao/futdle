@@ -2,7 +2,15 @@
 
 <div class="conteudo-home">
   <div class="botao-classico">
-    <a href="{{ url_for('.classico') }}" class="btn btn-primary">Clássico</a>
+    <a href="{{ url_for('.classico') }}">
+      <div class="icone">
+        <img
+          src="{{ url_for('static', filename='images/bola.png') }}"
+          alt="bola futdle"
+        />
+      </div>
+      <span>Clássico</span>
+    </a>
   </div>
 </div>
 
