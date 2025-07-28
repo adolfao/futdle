@@ -1,25 +1,20 @@
-# Auto detect text files and perform LF normalization
 * text=auto
 
-# Python files
 *.py text diff=python
 *.pyw text diff=python
 *.pyx text diff=python
 *.pxd text diff=python
 
-# Web files
 *.css text diff=css
 *.html text diff=html
 *.js text
 *.json text
 *.scss text diff=css
 
-# Template files
 *.jinja text
 *.jinja2 text
 *.j2 text
 
-# Static files should be treated as binary
 *.png binary
 *.jpg binary
 *.gif binary
@@ -38,17 +33,12 @@
 *.ttf binary
 *.svg text
 
-# Database files
 *.db binary
 *.sqlite binary
 *.sqlite3 binary
 
-# Documents
 *.pdf binary
 *.doc binary
 *.docx binary
 *.xls binary
 *.xlsx binary
-
-# Created by GitHub Copilot
-# Date: July 19, 2025

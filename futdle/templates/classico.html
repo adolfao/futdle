@@ -1,34 +1,142 @@
 {% extends 'base.html' %} {% block body %}
-<h1>Modo Clássico</h1>
 
-{% if resultado %}
-<p><strong>{{ resultado }}</strong></p>
-{% endif %}
+<div class="conteudo-classico" style="transform: translateY(-80px)">
+  <h1>Modo Clássico</h1>
 
-<form method="post">
-  <label for="chute">Digite um time:</label>
-  <input type="text" id="chute" name="chute" required />
-  <button type="submit">Enviar</button>
-</form>
+  {% if resultado %}
+  <p class="resultado-mensagem">{{ resultado }}</p>
+  {% endif %}
 
-{% if tentativas %}
-<div
-  class="tentativas-container"
-  style="display: flex; gap: 10px; margin-top: 20px; flex-wrap: wrap"
->
-  {% for time in tentativas %}
-  <div class="tentativa-item">
-    <img
-      src="{{ url_for('static', filename='times/' ~ time ~ '.jpg') }}"
-      alt="{{ time }}"
-      style="
-        width: 100px;
-        height: auto;
-        border-radius: 8px;
-        border: 2px solid #444;
-      "
-    />
+  <form method="post" id="form-chute">
+    <label for="chute"><strong>Digite um time:</strong></label>
+    <input type="text" id="chute" name="chute" required />
+    <button type="submit">Enviar</button>
+  </form>
+
+  <script>
+    document
+      .getElementById("form-chute")
+      .addEventListener("submit", function (event) {
+        event.preventDefault();
+
+        const formData = new FormData(this);
+        const chute = formData.get("chute");
+
+        fetch(window.location.href, {
+          method: "POST",
+          body: formData,
+        })
+          .then((response) => response.text())
+          .then((html) => {
+            const tempDiv = document.createElement("div");
+            tempDiv.innerHTML = html;
+
+            const novoConteudo = tempDiv.querySelector(".conteudo-classico");
+            if (novoConteudo) {
+              document.querySelector(".conteudo-classico").innerHTML =
+                novoConteudo.innerHTML;
+
+              const input = document.getElementById("chute");
+              if (input) {
+                input.value = "";
+                input.focus();
+              }
+
+              document
+                .getElementById("form-chute")
+                .addEventListener("submit", arguments.callee);
+            }
+          })
+          .catch((error) => {
+            console.error("Erro:", error);
+            this.submit();
+          });
+      });
+  </script>
+
+  {% if tentativas %}
+  <div
+    class="tentativas-container"
+    style="
+      display: flex;
+      flex-direction: column-reverse;
+      gap: 10px;
+      margin-top: 20px;
+      flex-wrap: wrap;
+    "
+  >
+    {% for time in tentativas %}
+    <div
+      class="tentativa-item"
+      style="display: flex; align-items: center; gap: 15px; margin-bottom: 10px"
+    >
+      <img
+        src="{{ url_for('static', filename='times/' ~ time.nome_arquivo() ~ '.jpg') }}"
+        alt="{{ time.nome }}"
+        style="
+          width: 100px;
+          height: 100px;
+          object-fit: cover;
+          border-radius: 8px;
+          border: 2px solid #444;
+        "
+      />
+
+      <div
+        style="
+          background-color: {% set resultado_cor = comparar_cores(time.cores, time_secreto.cores) %}{% if resultado_cor == 'exato' %}#28a745{% elif resultado_cor == 'parcial' %}#ffc107{% else %}#dc3545{% endif %};
+          padding: 15px;
+          border-radius: 8px;
+          color: {% if comparar_cores(time.cores, time_secreto.cores) == 'parcial' %}black{% else %}white{% endif %};
+          text-align: center;
+          min-width: 120px;
+          border: 2px solid #ddd;
+        "
+      >
+        <strong>{{ time.cores }}</strong>
+      </div>
+
+      <div
+        style="
+          background-color: {% if time.estado == time_secreto.estado %}#28a745{% else %}#dc3545{% endif %};
+          padding: 15px;
+          border-radius: 8px;
+          color: white;
+          text-align: center;
+          min-width: 80px;
+          border: 2px solid #ddd;
+        "
+      >
+        <strong>{{ time.estado }}</strong>
+      </div>
+
+      <div
+        style="
+          background-color: {% if time.ano_fundacao == time_secreto.ano_fundacao %}#28a745{% else %}#dc3545{% endif %};
+          padding: 15px;
+          border-radius: 8px;
+          color: white;
+          text-align: center;
+          min-width: 80px;
+          border: 2px solid #ddd;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          gap: 5px;
+        "
+      >
+        <strong>{{ time.ano_fundacao }}</strong>
+        {% set resultado_ano = comparar_anos(time.ano_fundacao,
+        time_secreto.ano_fundacao) %} {% if resultado_ano == 'seta_cima' %}
+        <span style="font-size: 16px">↑</span>
+        {% elif resultado_ano == 'seta_baixo' %}
+        <span style="font-size: 16px">↓</span>
+        {% endif %}
+      </div>
+    </div>
+    {% endfor %}
   </div>
-  {% endfor %}
+  {% endif %}
 </div>
-{% endif %} {% endblock %}
+
+{% endblock %}

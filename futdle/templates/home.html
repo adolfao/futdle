@@ -1,15 +1,8 @@
 {% extends 'base.html' %} {% block body %}
 
-<div class="fundo">
-  <div class="conteudo-home">
-    <img
-      src="{{ url_for('static', filename='images/logo_futdle.png') }}"
-      class="logo"
-      alt="Logo do Futdle"
-    />
-    <div class="botao-classico">
-      <a href="{{ url_for('.classico') }}" class="btn btn-primary">Clássico</a>
-    </div>
+<div class="conteudo-home">
+  <div class="botao-classico">
+    <a href="{{ url_for('.classico') }}" class="btn btn-primary">Clássico</a>
   </div>
 </div>
 

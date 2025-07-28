@@ -21,10 +21,63 @@ body {
 
 .logo {
   width: 300px;
+  display: block;
+  margin: 0 auto;
+  text-align: center;
 }
 
 .botao-classico {
   display: flex;
   justify-content: center;
   transform: translateY(-40px);
+}
+
+.conteudo-classico {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  min-height: 80vh;
+  padding: 20px;
+  text-align: center;
+  padding-top: 50px;
+}
+
+.conteudo-classico h1 {
+  color: white;
+  margin-bottom: 20px;
+}
+
+.conteudo-classico form {
+  margin-bottom: 20px;
+}
+
+.conteudo-classico label {
+  color: white;
+  margin-bottom: 10px;
+  display: block;
+}
+
+.conteudo-classico input {
+  padding: 10px;
+  margin: 10px;
+  border: none;
+  border-radius: 5px;
+  width: 250px;
+}
+
+.conteudo-classico button {
+  padding: 10px 20px;
+  margin: 10px;
+}
+
+.resultado-mensagem {
+  background-color: white;
+  color: black;
+  padding: 10px 20px;
+  border-radius: 8px;
+  margin: 10px 0;
+  display: inline-block;
+  font-weight: bold;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
 }

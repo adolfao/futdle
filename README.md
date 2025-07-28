@@ -110,6 +110,8 @@ Criar um jogo estilo Loodle onde o jogador precisa adivinhar um **time de futebo
    ```bash
    python -m venv venv
    .\venv\Scripts\activate  # No Windows
+   # ou
+   source venv/bin/activate  # No Linux/Mac
    ```
 
 3. **Instale as dependências:**
@@ -118,16 +120,40 @@ Criar um jogo estilo Loodle onde o jogador precisa adivinhar um **time de futebo
    pip install -r requirements.txt
    ```
 
-4. **Execute a aplicação:**
+4. **Configure o banco de dados:**
 
    ```bash
-   python main.py
+   # Execute o script para popular a base de dados com times brasileiros
+   python -m futdle.tests
    ```
 
-5. **Acesse no navegador:**
+5. **Execute a aplicação:**
+
+   ```bash
+   python -m flask --app futdle run --debug
+   ```
+
+6. **Acesse no navegador:**
    ```
    http://127.0.0.1:5000
    ```
+
+### 🎮 Modos de Jogo Disponíveis
+
+- **Modo Clássico** (`/classico`): Adivinhe o time baseado em cores, estado e ano de fundação
+  - 🟢 Verde: acerto completo
+  - 🟡 Amarelo: acerto parcial (cores)
+  - 🔴 Vermelho: incorreto
+  - ↑↓ Setas: indicam se o ano é maior ou menor
+
+### 🗃️ Base de Dados
+
+O projeto inclui 20 times brasileiros das principais séries:
+
+- Cruzeiro, Santos, Palmeiras, Corinthians, Flamengo
+- Atlético Mineiro, Bahia, Botafogo, São Paulo, Grêmio
+- Internacional, Fluminense, Vasco, Ceará, Fortaleza
+- Chapecoense, Sport, Vitória, Athletico Paranaense, Coritiba
 
 ---
 
