@@ -46,6 +46,9 @@ def create_app():
 
   with app.app_context():
     from futdle.models import Time
+    from tests_db.tests import popular_times
+
     db.create_all()
+    popular_times()
 
   return app
