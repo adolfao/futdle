@@ -437,6 +437,22 @@ body {
   animation: pulseHint 0.8s ease-out;
 }
 
+.dicas-disponiveis {
+  display: flex;
+  gap: 20px;
+  justify-content: center;
+  align-items: stretch;
+  flex-wrap: wrap;
+  margin: 15px 0;
+}
+
+.dicas-disponiveis .dica-container {
+  flex: 1;
+  min-width: 280px;
+  max-width: 400px;
+  margin: 0;
+}
+
 .dica-container h3 {
   color: #fffbe9;
   font-family: "Russo One", sans-serif;
@@ -454,6 +470,13 @@ body {
 }
 
 .dica-mascote {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+
+.dica-serie {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -1048,5 +1071,16 @@ body {
 
   .header-container {
     margin-bottom: 40px;
+  }
+
+  /* Responsivo para dicas lado a lado */
+  .dicas-disponiveis {
+    flex-direction: column;
+    gap: 15px;
+  }
+
+  .dicas-disponiveis .dica-container {
+    min-width: auto;
+    max-width: none;
   }
 }

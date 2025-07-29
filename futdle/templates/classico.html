@@ -5,7 +5,9 @@
 >
   <div class="titulo-container">
     <h1>Modo Clássico</h1>
-    <button class="botao-ajuda" onclick="mostrarAjuda()" title="Como jogar">?</button>
+    <button class="botao-ajuda" onclick="mostrarAjuda()" title="Como jogar">
+      ?
+    </button>
   </div>
 
   {% if resultado %}
@@ -20,30 +22,61 @@
   </button>
   {% else %}
   <div class="secao-dicas">
-    {% if mostrar_dica and time_secreto.mascote %}
-    <div class="dica-container">
-      <h3>DICA DISPONIVEL!</h3>
-      <div class="dica-mascote">
-        <p class="texto-dica-inicio">O mascote desse time é o/a...</p>
-        <button class="botao-revelar-dica" onclick="revelarDica()">
-          Clique para ver
-        </button>
-        <p
-          class="texto-dica-oculto"
-          id="mascote-revelado"
-          style="display: none"
-        >
-          <strong>{{ time_secreto.mascote }}</strong>!
-        </p>
+    {% if mostrar_dica_serie or mostrar_dica_mascote %}
+    <div class="dicas-disponiveis">
+      {% if mostrar_dica_serie and time_secreto.serie %}
+      <div class="dica-container">
+        <h3>DICA DISPONÍVEL!</h3>
+        <div class="dica-serie">
+          <p class="texto-dica-inicio">Este time está na...</p>
+          <button class="botao-revelar-dica" onclick="revelarDica('serie')">
+            Clique para ver
+          </button>
+          <p
+            class="texto-dica-oculto"
+            id="serie-revelado"
+            style="display: none"
+          >
+            <strong>Série {{ time_secreto.serie }}</strong>!
+          </p>
+        </div>
       </div>
+      {% endif %}
+      
+      {% if mostrar_dica_mascote and time_secreto.mascote %}
+      <div class="dica-container">
+        <h3>DICA DISPONÍVEL!</h3>
+        <div class="dica-mascote">
+          <p class="texto-dica-inicio">O mascote desse time é o/a...</p>
+          <button class="botao-revelar-dica" onclick="revelarDica('mascote')">
+            Clique para ver
+          </button>
+          <p
+            class="texto-dica-oculto"
+            id="mascote-revelado"
+            style="display: none"
+          >
+            <strong>{{ time_secreto.mascote }}</strong>!
+          </p>
+        </div>
+      </div>
+      {% endif %}
     </div>
-    {% elif tentativas_erradas >= 1 and tentativas_erradas < 7 %}
+    {% elif tentativas_erradas >= 1 and tentativas_erradas < 4 %}
+    <div class="dica-bloqueada">
+      <div class="contador-tentativas-integrado">
+        <span class="label-contador">Tentativas Erradas:</span>
+        <span class="numero-tentativas">{{ tentativas_erradas }}/4</span>
+      </div>
+      <p>Próxima dica será liberada após {{ 4 - tentativas_erradas }} erro(s)</p>
+    </div>
+    {% elif tentativas_erradas >= 4 and tentativas_erradas < 7 %}
     <div class="dica-bloqueada">
       <div class="contador-tentativas-integrado">
         <span class="label-contador">Tentativas Erradas:</span>
         <span class="numero-tentativas">{{ tentativas_erradas }}/7</span>
       </div>
-      <p>Dica será liberada após {{ 7 - tentativas_erradas }} erro(s)</p>
+      <p>Próxima dica será liberada após {{ 7 - tentativas_erradas }} erro(s)</p>
     </div>
     {% elif tentativas_erradas >= 1 %}
     <div class="contador-tentativas">
@@ -289,8 +322,36 @@
                 if (jogoFinalizado) {
                   window.location.reload();
                 } else {
+                  // Salva o estado das dicas reveladas antes de atualizar
+                  const dicasReveladas = {
+                    serie: document.getElementById("serie-revelado") && 
+                           document.getElementById("serie-revelado").style.display !== "none",
+                    mascote: document.getElementById("mascote-revelado") && 
+                             document.getElementById("mascote-revelado").style.display !== "none"
+                  };
+
                   document.querySelector(".conteudo-classico").innerHTML =
                     novoConteudo.innerHTML;
+                  
+                  // Restaura o estado das dicas reveladas
+                  if (dicasReveladas.serie) {
+                    const botaoSerie = document.querySelector('.dica-serie .botao-revelar-dica');
+                    const serieRevelado = document.getElementById("serie-revelado");
+                    if (botaoSerie && serieRevelado) {
+                      botaoSerie.style.display = "none";
+                      serieRevelado.style.display = "block";
+                    }
+                  }
+                  
+                  if (dicasReveladas.mascote) {
+                    const botaoMascote = document.querySelector('.dica-mascote .botao-revelar-dica');
+                    const mascoteRevelado = document.getElementById("mascote-revelado");
+                    if (botaoMascote && mascoteRevelado) {
+                      botaoMascote.style.display = "none";
+                      mascoteRevelado.style.display = "block";
+                    }
+                  }
+
                   const input = document.getElementById("chute");
                   if (input) {
                     input.value = "";
@@ -323,14 +384,21 @@
         });
     }
 
-    function revelarDica() {
-      const botaoRevelar = document.querySelector(".botao-revelar-dica");
-      const mascoteRevelado = document.getElementById("mascote-revelado");
+    function revelarDica(tipo) {
+      let botaoRevelar, elementoRevelado;
+      
+      if (tipo === 'mascote') {
+        botaoRevelar = document.querySelector(".dica-mascote .botao-revelar-dica");
+        elementoRevelado = document.getElementById("mascote-revelado");
+      } else if (tipo === 'serie') {
+        botaoRevelar = document.querySelector(".dica-serie .botao-revelar-dica");
+        elementoRevelado = document.getElementById("serie-revelado");
+      }
 
-      if (botaoRevelar && mascoteRevelado) {
+      if (botaoRevelar && elementoRevelado) {
         botaoRevelar.style.display = "none";
-        mascoteRevelado.style.display = "block";
-        mascoteRevelado.style.animation = "fadeIn 0.5s ease-in";
+        elementoRevelado.style.display = "block";
+        elementoRevelado.style.animation = "fadeIn 0.5s ease-in";
       }
     }
 
@@ -387,15 +455,17 @@
       </div>
 
       <div class="ajuda-secao">
-        <h3>💡 Dica Especial</h3>
-        <p>
-          Após 7 tentativas erradas, você recebe uma dica sobre o mascote do
-          time!
-        </p>
+        <h3>💡 Dicas Especiais</h3>
+        <ul>
+          <li><strong>4 tentativas erradas:</strong> Você recebe uma dica sobre a série do time (A, B, C ou D)</li>
+          <li><strong>7 tentativas erradas:</strong> Você recebe uma dica sobre o mascote do time</li>
+        </ul>
       </div>
 
       <div class="assinatura-copilot">
-        <p><small>💡 Este modal foi criado com auxílio do GitHub Copilot</small></p>
+        <p>
+          <small>💡 Este modal foi criado com auxílio do GitHub Copilot</small>
+        </p>
       </div>
     </div>
   </div>

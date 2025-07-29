@@ -29,7 +29,8 @@ def sugestoes():
     if time.nome in tentativas_nomes:
       continue
     nome_normalizado = normalizar_nome(time.nome)
-    if query_normalizado in nome_normalizado:
+    # Busca apenas no início do nome (não em qualquer parte)
+    if nome_normalizado.startswith(query_normalizado):
       sugestoes.append({
         'nome': time.nome,
         'escudo': time.nome_arquivo() + '.jpg'

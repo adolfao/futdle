@@ -40,7 +40,8 @@ def classico_mode():
   jogo_finalizado = session.get("jogo_finalizado", False)
   tentativas_nomes = session.get("tentativas", [])
   tentativas_erradas = session.get("tentativas_erradas", 0)
-  mostrar_dica = tentativas_erradas >= 7
+  mostrar_dica_mascote = tentativas_erradas >= 7
+  mostrar_dica_serie = tentativas_erradas >= 4
   
   #converte nomes das tentativas em objetos time
   tentativas_objetos = [Time.get_by_nome(nome) for nome in tentativas_nomes if Time.get_by_nome(nome)]
@@ -49,7 +50,8 @@ def classico_mode():
   if request.method == "POST":
     resultado = processar_chute(tentativas_nomes, tentativas_objetos, time_secreto)
     tentativas_erradas = session.get("tentativas_erradas", 0)
-    mostrar_dica = tentativas_erradas >= 7
+    mostrar_dica_mascote = tentativas_erradas >= 7
+    mostrar_dica_serie = tentativas_erradas >= 4
 
   return render_template("classico.html", 
                        resultado=resultado, 
@@ -57,7 +59,8 @@ def classico_mode():
                        time_secreto=time_secreto, 
                        jogo_finalizado=session.get("jogo_finalizado", False),
                        tentativas_erradas=tentativas_erradas,
-                       mostrar_dica=mostrar_dica,
+                       mostrar_dica_mascote=mostrar_dica_mascote,
+                       mostrar_dica_serie=mostrar_dica_serie,
                        comparar_cores=comparar_cores)
 
 #processa tentativa do usuario e atualiza estado do jogo
