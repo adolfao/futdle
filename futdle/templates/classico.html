@@ -142,11 +142,9 @@
         style="background-color: {% if time.ano_fundacao == time_secreto.ano_fundacao %}#28a745{% else %}#dc3545{% endif %};"
       >
         <strong>{{ time.ano_fundacao }}</strong>
-        {% set resultado_ano = comparar_anos(time.ano_fundacao,
-        time_secreto.ano_fundacao) %} {% if resultado_ano == 'seta_cima' %}<span
-          >↑</span
-        >
-        {% elif resultado_ano == 'seta_baixo' %}<span>↓</span>
+        {% set diferenca_anos = (time.ano_fundacao - time_secreto.ano_fundacao) %}
+        {% if diferenca_anos > 0 %}<span>↓</span>
+        {% elif diferenca_anos < 0 %}<span>↑</span>
         {% endif %}
       </div>
     </div>

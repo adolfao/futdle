@@ -1,6 +1,7 @@
 from flask import render_template, Blueprint, request, session, jsonify
 from futdle.models import Time, normalizar_nome
 from futdle.classico import classico_mode
+from futdle.escudo import escudo_mode
 
 main = Blueprint('main', __name__)
 
@@ -13,6 +14,11 @@ def home():
 def classico():
     """Endpoint do modo clássico."""
     return classico_mode()
+
+@main.route('/escudo', methods=["GET", "POST"])
+def escudo():
+    """Endpoint do modo escudo."""
+    return escudo_mode()
 
 @main.route('/api/sugestoes', methods=["GET"])
 def sugestoes():

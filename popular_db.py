@@ -64,7 +64,7 @@ def popular_times():
         ("Botafogo-SP", "Vermelho, Preto e Branco", "SP", 1918, "B", "Pantera"),
         ("Caxias", "Vermelho e Branco", "RS", 1935, "C", "Grená"),
         ("Ponte Preta", "Preto e Branco", "SP", 1900, "C", "Macaca"),
-        ("Londrina", "Azul Celeste e Branco", "PR", 1956, "C", "Tubarão"),
+        ("Londrina", "Azul e Branco", "PR", 1956, "C", "Tubarão"),
         ("Náutico", "Vermelho e Branco", "PE", 1901, "C", "Timbu"),
         ("São Bernardo", "Amarelo e Preto", "SP", 2004, "C", "Cachorrão"),
         ("Ypiranga", "Verde e Amarelo", "RS", 1924, "C", "Canarinho"),

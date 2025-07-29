@@ -28,6 +28,18 @@
       <span>Clássico</span>
     </a>
   </div>
+
+  <div class="botao-escudo">
+    <a href="{{ url_for('.escudo') }}">
+      <div class="icone">
+        <img
+          src="{{ url_for('static', filename='images/bola_escudo.png') }}"
+          alt="bola escudo futdle"
+        />
+      </div>
+      <span>Escudo</span>
+    </a>
+  </div>
 </div>
 
 <!-- Modal de Suporte -->
@@ -98,11 +110,25 @@
     </div>
     <div class="modal-body-atualizacoes">
       <div class="atualizacao-secao">
-        <h3>🆕 Versão 1.4.0 - Julho 2025</h3>
-        <>
+        <h3>🆕 Versão 1.5.0 - Julho 2025</h3>
+        <ul>
+          <li>✅ Foto do Ypiranga arrumada</li>
+          <li>✅ Londrina atualizado de "Azul Celeste" para "Azul"</li>
+          <li>✅ Foto do Vinas substituindo temporariamente a do Flamengo</li>
+          <li>✅ Botão do Modo Escudo criado e implementado</li>
+          <li>✅ Modo Escudo em desenvolvimento - Em breve!</li>
+        </ul>
+      </div>
+
+      <div class="atualizacao-secao">
+        <h3>🔧 Versão 1.4.0 - Julho 2025</h3>
+        <ul>
           <li>✅ Refresh imediato após acerto do time</li>
           <li>✅ Botão de atualizações criado</li>
-          <li>✅ Correção do BUG onde "preto e branco" era diferente de "branco e preto"</li>
+          <li>
+            ✅ Correção do BUG onde "preto e branco" era diferente de "branco e
+            preto"
+          </li>
           <li>✅ Dica da série do time criada</li>
         </ul>
       </div>
