@@ -1,76 +1,84 @@
 from flask import render_template, request, session
-from futdle.models import Time
+from futdle.models import Time, normalizar_nome
 import random
-import unicodedata
 
-def normalizar_nome(nome):
-  nome_normalizado = unicodedata.normalize('NFKD', nome)
-  nome_normalizado = ''.join([c for c in nome_normalizado if not unicodedata.combining(c)])
-  nome_normalizado = nome_normalizado.lower().replace('ç', 'c').strip()
-  return nome_normalizado
-
+#compara cores dos times e retorna exato, parcial ou diferente
 def comparar_cores(cores1, cores2):
   if cores1 == cores2:
     return "exato"
   
-  # Converte para minúsculo e separa por vírgula ou "e"
+  #converte para listas normalizadas
   cores1_list = [c.strip().lower() for c in cores1.replace(' e ', ',').split(',')]
   cores2_list = [c.strip().lower() for c in cores2.replace(' e ', ',').split(',')]
   
-  # Verifica se há alguma cor em comum
-  for cor1 in cores1_list:
-    for cor2 in cores2_list:
-      if cor1 == cor2:
-        return "parcial"
+  #verifica se ha alguma cor em comum
+  if any(cor1 == cor2 for cor1 in cores1_list for cor2 in cores2_list):
+    return "parcial"
   
   return "diferente"
 
 def buscar_time_por_nome(chute):
-  chute_normalizado = normalizar_nome(chute)
-  times = Time.query.all()
-  
-  for time in times:
-    nome_time_normalizado = normalizar_nome(time.nome)
-    if chute_normalizado == nome_time_normalizado:
-      return time
-  return None
+  return Time.buscar_por_nome_normalizado(chute)
 
-def classico_mode():
+#inicializa novo jogo se nao existe ou retorna time secreto atual
+def inicializar_jogo():
   if "time_secreto_id" not in session:
-    times = Time.query.all()
+    times = Time.query_all()
     time_secreto = random.choice(times)
-    session["time_secreto_id"] = time_secreto.id
-    session["tentativas"] = []
-  else:
-    time_secreto = Time.query.get(session["time_secreto_id"])
+    session.update({
+      "time_secreto_id": time_secreto.id,
+      "tentativas": [],
+      "tentativas_erradas": 0,
+      "jogo_finalizado": False
+    })
+    return time_secreto
+  return Time.get_by_id(session["time_secreto_id"])
+
+#funcao principal do modo classico
+def classico_mode():
+  time_secreto = inicializar_jogo()
+  jogo_finalizado = session.get("jogo_finalizado", False)
+  tentativas_nomes = session.get("tentativas", [])
+  tentativas_erradas = session.get("tentativas_erradas", 0)
+  mostrar_dica = tentativas_erradas >= 7
+  
+  #converte nomes das tentativas em objetos time
+  tentativas_objetos = [Time.get_by_nome(nome) for nome in tentativas_nomes if Time.get_by_nome(nome)]
 
   resultado = None
-  tentativas_nomes = session.get("tentativas", [])
-  
-  tentativas_objetos = []
-  for nome in tentativas_nomes:
-    time_obj = Time.query.filter_by(nome=nome).first()
-    if time_obj:
-      tentativas_objetos.append(time_obj)
-
   if request.method == "POST":
-    chute = request.form.get("chute", "").strip()
-    time_chutado = buscar_time_por_nome(chute)
+    resultado = processar_chute(tentativas_nomes, tentativas_objetos, time_secreto)
+    tentativas_erradas = session.get("tentativas_erradas", 0)
+    mostrar_dica = tentativas_erradas >= 7
 
-    if not time_chutado:
-      resultado = "Time não encontrado!"
-    elif time_chutado.nome in tentativas_nomes:
-      resultado = "Você já digitou esse time!"
-    elif time_chutado.id == time_secreto.id:
-      resultado = "Acertou!"
-      session.pop("time_secreto_id", None)
-      session["tentativas"] = []
-      tentativas_nomes = []
-      tentativas_objetos = []
-    else:
-      resultado = "Errou!"
-      tentativas_nomes.append(time_chutado.nome)
-      session["tentativas"] = tentativas_nomes
-      tentativas_objetos.append(time_chutado)
+  return render_template("classico.html", 
+                       resultado=resultado, 
+                       tentativas=tentativas_objetos, 
+                       time_secreto=time_secreto, 
+                       jogo_finalizado=session.get("jogo_finalizado", False),
+                       tentativas_erradas=tentativas_erradas,
+                       mostrar_dica=mostrar_dica,
+                       comparar_cores=comparar_cores)
 
-  return render_template("classico.html", resultado=resultado, tentativas=tentativas_objetos, time_secreto=time_secreto)
+#processa tentativa do usuario e atualiza estado do jogo
+def processar_chute(tentativas_nomes, tentativas_objetos, time_secreto):
+  chute = request.form.get("chute", "").strip()
+  time_chutado = buscar_time_por_nome(chute)
+
+  if not time_chutado:
+    return "Time não encontrado!"
+  
+  if time_chutado.nome in tentativas_nomes:
+    return "Você já digitou esse time!"
+
+  tentativas_nomes.append(time_chutado.nome)
+  tentativas_objetos.append(time_chutado)
+  session["tentativas"] = tentativas_nomes
+
+  if time_chutado.id == time_secreto.id:
+    session["jogo_finalizado"] = True
+    return "Acertou!"
+  else:
+    tentativas_erradas = session.get("tentativas_erradas", 0) + 1
+    session["tentativas_erradas"] = tentativas_erradas
+    return "Errou!"

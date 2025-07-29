@@ -41,12 +41,108 @@
     {% block head %} {% endblock %}
   </head>
   <body class="fundo">
-    <img
-      src="{{ url_for('static', filename='images/logo_futdle.png') }}"
-      class="logo"
-      alt="Logo do Futdle"
-    />
+    <div class="header-container">
+      <a href="{{ url_for('main.home') }}" class="logo-link">
+        <img
+          src="{{ url_for('static', filename='images/logo_futdle.png') }}"
+          class="logo"
+          alt="Logo do Futdle"
+        />
+      </a>
+      <button class="botao-suporte-pequeno" onclick="mostrarSuporte()" title="Suporte & Feedback">
+        💬
+      </button>
+    </div>
     {% block body %}{% endblock %}
+
+    <!-- Modal de Suporte -->
+    <div id="modal-suporte" class="modal-suporte">
+      <div class="modal-conteudo-suporte">
+        <div class="modal-header-suporte">
+          <h2>💚 Suporte & Feedback</h2>
+          <span class="botao-fechar-suporte" onclick="fecharSuporte()"
+            >&times;</span
+          >
+        </div>
+        <div class="modal-body-suporte">
+          <div class="suporte-secao">
+            <h3>🚧 Site em Construção</h3>
+            <p>
+              O Futdle está sendo desenvolvido por alguém que está aprendendo
+              programação! Feedbacks são muito bem-vindos e várias ideias novas
+              serão implementadas em breve.
+            </p>
+          </div>
+
+          <div class="suporte-secao">
+            <h3>💌 Envie suas Sugestões</h3>
+            <p>
+              Tem ideias para melhorar o jogo? Encontrou algum bug? Entre em
+              contato:
+            </p>
+            <div class="contatos">
+              <div class="contato-item">
+                <span class="contato-icone">📧</span>
+                <a href="mailto:adolfomendonca123@gmail.com" target="_blank"
+                  >adolfomendonca123@gmail.com</a
+                >
+              </div>
+              <div class="contato-item">
+                <span class="contato-icone">📱</span>
+                <a href="https://instagram.com/adolfomendonca5" target="_blank"
+                  >@adolfomendonca5</a
+                >
+              </div>
+            </div>
+          </div>
+
+          <div class="suporte-secao">
+            <h3>💻 Código Aberto</h3>
+            <p>
+              O projeto está disponível no GitHub para quem quiser contribuir ou
+              apenas dar uma olhada no código:
+            </p>
+            <div class="github-link">
+              <a href="https://github.com/adolfao/futdle" target="_blank">
+                <span class="contato-icone">🔗</span>
+                github.com/adolfao/futdle
+              </a>
+            </div>
+          </div>
+
+          <div class="suporte-secao agradecimento">
+            <p><strong>Obrigado por jogar o Futdle! 🙏</strong></p>
+            <p>
+              Sua participação e feedback são fundamentais para o crescimento do
+              projeto!
+            </p>
+          </div>
+
+          <div class="assinatura-copilot">
+            <p><small>💡 Este modal foi criado com auxílio do GitHub Copilot</small></p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      function mostrarSuporte() {
+        document.getElementById("modal-suporte").style.display = "flex";
+      }
+
+      function fecharSuporte() {
+        document.getElementById("modal-suporte").style.display = "none";
+      }
+
+      // Fechar modal clicando fora dele
+      window.onclick = function (event) {
+        const modal = document.getElementById("modal-suporte");
+        if (event.target == modal) {
+          modal.style.display = "none";
+        }
+      };
+    </script>
+
     <script
       src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"
       integrity="sha384-ndDqU0Gzau9qJ1lfW4pNLlhNTkCfHzAVBReH9diLvGRem5+R9g2FzA8ZGN954O5Q"

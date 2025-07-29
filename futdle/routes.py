@@ -1,6 +1,6 @@
 from flask import render_template, Blueprint, request, session, jsonify
-from futdle.models import Time
-from futdle.classico import classico_mode, normalizar_nome
+from futdle.models import Time, normalizar_nome
+from futdle.classico import classico_mode
 
 main = Blueprint('main', __name__)
 
@@ -12,6 +12,7 @@ def home():
 def classico():
   return classico_mode()
 
+#api para autocomplete do campo de busca
 @main.route('/api/sugestoes', methods=["GET"])
 def sugestoes():
   query = request.args.get('q', '').strip()
@@ -19,10 +20,14 @@ def sugestoes():
     return jsonify([])
   
   query_normalizado = normalizar_nome(query)
-  times = Time.query.all()
+  times = Time.query_all()
+  tentativas_nomes = session.get("tentativas", [])
   sugestoes = []
   
+  #filtra times que ja foram tentados
   for time in times:
+    if time.nome in tentativas_nomes:
+      continue
     nome_normalizado = normalizar_nome(time.nome)
     if query_normalizado in nome_normalizado:
       sugestoes.append({
@@ -30,5 +35,13 @@ def sugestoes():
         'escudo': time.nome_arquivo() + '.jpg'
       })
   
-  # Limita a 5 sugestões
   return jsonify(sugestoes[:5])
+
+#reinicia jogo limpando sessao
+@main.route('/reiniciar-jogo', methods=["POST"])
+def reiniciar_jogo():
+  session.pop("time_secreto_id", None)
+  session.pop("tentativas", None)
+  session.pop("tentativas_erradas", None)
+  session.pop("jogo_finalizado", None)
+  return jsonify({"success": True})

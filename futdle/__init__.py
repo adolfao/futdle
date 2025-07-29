@@ -1,20 +1,14 @@
 from flask import Flask
-from flask_sqlalchemy import SQLAlchemy
-from dotenv import load_dotenv
 import os
-
-db = SQLAlchemy()
-load_dotenv()
+import sqlite3
 
 def create_app():
     app = Flask(__name__)
     app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///futdle.db'
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-    app.secret_key = os.getenv("SECRET_KEY") 
+    app.secret_key = "chave-secreta-temporaria-para-desenvolvimento"
 
-    db.init_app(app)
-
-    # Função personalizada para comparar cores
+    #funcao auxiliar para comparar cores no template jinja
     def comparar_cores_jinja(cores1, cores2):
         if cores1 == cores2:
             return "exato"
@@ -29,25 +23,20 @@ def create_app():
         
         return "diferente"
 
-    # Função personalizada para comparar anos
+    #funcao auxiliar para comparar anos e mostrar setas no template
     def comparar_anos_jinja(ano_chute, ano_secreto):
         if ano_chute == ano_secreto:
             return "correto"
         elif ano_chute < ano_secreto:
-            return "seta_cima"  # Precisa ir para cima (ano maior)
+            return "seta_cima"
         else:
-            return "seta_baixo"  # Precisa ir para baixo (ano menor)
+            return "seta_baixo"
 
+    #registra funcoes no contexto global do jinja
     app.jinja_env.globals.update(comparar_cores=comparar_cores_jinja)
     app.jinja_env.globals.update(comparar_anos=comparar_anos_jinja)
 
     from futdle.routes import main
     app.register_blueprint(main)
-
-    with app.app_context():
-        from futdle.models import Time
-        from futdle.tests_db.tests import popular_se_vazio 
-        db.create_all()
-        popular_se_vazio() 
 
     return app

@@ -1,5 +1,7 @@
 # futdle
 
+🚀 **Projeto disponível em: [https://futdle.app](https://futdle.app)**
+
 # 🟢 Projeto Futdle — Escopo Geral
 
 ## 🎯 Objetivo

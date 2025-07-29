@@ -3,10 +3,7 @@
 <div
   class="conteudo-classico {% if jogo_finalizado %}jogo-finalizado{% endif %}"
 >
-  <div class="titulo-container">
-    <h1>Modo Clássico</h1>
-    <button class="botao-ajuda" onclick="mostrarAjuda()" title="Como jogar">?</button>
-  </div>
+  <h1>Modo Clássico</h1>
 
   {% if resultado %}
   <p
@@ -16,43 +13,30 @@
   </p>
   {% endif %} {% if jogo_finalizado %}
   <button class="botao-jogar-novamente" onclick="jogarNovamente()">
-    Jogar Novamente
+    🎯 Jogar Novamente
   </button>
-  {% else %}
+  {% endif %}
+
+  <!-- Seção de Dicas -->
   <div class="secao-dicas">
-    {% if mostrar_dica and time_secreto.mascote %}
-    <div class="dica-container">
-      <h3>DICA DISPONIVEL!</h3>
-      <div class="dica-mascote">
-        <p class="texto-dica-inicio">O mascote desse time é o/a...</p>
-        <button class="botao-revelar-dica" onclick="revelarDica()">
-          Clique para ver
-        </button>
-        <p
-          class="texto-dica-oculto"
-          id="mascote-revelado"
-          style="display: none"
-        >
-          <strong>{{ time_secreto.mascote }}</strong>!
-        </p>
-      </div>
-    </div>
-    {% elif tentativas_erradas >= 1 and tentativas_erradas < 7 %}
-    <div class="dica-bloqueada">
-      <div class="contador-tentativas-integrado">
-        <span class="label-contador">Tentativas Erradas:</span>
-        <span class="numero-tentativas">{{ tentativas_erradas }}/7</span>
-      </div>
-      <p>Dica será liberada após {{ 7 - tentativas_erradas }} erro(s)</p>
-    </div>
-    {% elif tentativas_erradas >= 1 %}
     <div class="contador-tentativas">
       <span class="label-contador">Tentativas Erradas:</span>
       <span class="numero-tentativas">{{ tentativas_erradas }}/7</span>
     </div>
+
+    {% if mostrar_dica and time_secreto.mascote %}
+    <div class="dica-container">
+      <h3>💡 DICA LIBERADA!</h3>
+      <p class="texto-dica">
+        O mascote desse time é o/a <strong>{{ time_secreto.mascote }}</strong>!
+      </p>
+    </div>
+    {% elif tentativas_erradas >= 1 and tentativas_erradas < 7 %}
+    <div class="dica-bloqueada">
+      <p>🔒 Dica será liberada após {{ 7 - tentativas_erradas }} erro(s)</p>
+    </div>
     {% endif %}
   </div>
-  {% endif %}
 
   <div class="formulario-chute">
     <form method="post" id="form-chute">
@@ -73,18 +57,10 @@
   </div>
 
   {% if tentativas %}
-  <div class="cabecalho-tentativas">
-    <div class="col-nome">NOME</div>
-    <div class="col-cores">CORES</div>
-    <div class="col-estado">ESTADO</div>
-    <div class="col-ano">ANO DE FUNDAÇÃO</div>
-  </div>
-  {% endif %} {% if tentativas %}
   <div class="tentativas-container">
     {% for time in tentativas %}
     <div class="tentativa-item">
       <div class="escudo-simples">
-        <div class="nome-clube">{{ time.nome }}</div>
         <img
           src="{{ url_for('static', filename='times/' ~ time.nome_arquivo() ~ '.jpg') }}"
           alt="{{ time.nome }}"
@@ -283,21 +259,15 @@
               const novoConteudo = tempDiv.querySelector(".conteudo-classico");
 
               if (novoConteudo) {
-                const jogoFinalizado =
-                  novoConteudo.classList.contains("jogo-finalizado");
-
-                if (jogoFinalizado) {
-                  window.location.reload();
-                } else {
-                  document.querySelector(".conteudo-classico").innerHTML =
-                    novoConteudo.innerHTML;
-                  const input = document.getElementById("chute");
-                  if (input) {
-                    input.value = "";
-                    input.focus();
-                  }
-                  new FutdleGame();
+                document.querySelector(".conteudo-classico").innerHTML =
+                  novoConteudo.innerHTML;
+                const input = document.getElementById("chute");
+                if (input) {
+                  input.value = "";
+                  input.focus();
                 }
+                // Reinicializar a funcionalidade
+                new FutdleGame();
               }
             })
             .catch((error) => {
@@ -308,6 +278,7 @@
       }
     }
 
+    // Função global para o botão "Jogar Novamente"
     function jogarNovamente() {
       fetch("/reiniciar-jogo", {
         method: "POST",
@@ -323,82 +294,9 @@
         });
     }
 
-    function revelarDica() {
-      const botaoRevelar = document.querySelector(".botao-revelar-dica");
-      const mascoteRevelado = document.getElementById("mascote-revelado");
-
-      if (botaoRevelar && mascoteRevelado) {
-        botaoRevelar.style.display = "none";
-        mascoteRevelado.style.display = "block";
-        mascoteRevelado.style.animation = "fadeIn 0.5s ease-in";
-      }
-    }
-
-    function mostrarAjuda() {
-      document.getElementById("modal-ajuda").style.display = "flex";
-    }
-
-    function fecharAjuda() {
-      document.getElementById("modal-ajuda").style.display = "none";
-    }
-
+    // Inicializar o jogo
     document.addEventListener("DOMContentLoaded", () => new FutdleGame());
   </script>
-</div>
-
-<!-- Modal de Ajuda -->
-<div id="modal-ajuda" class="modal-ajuda">
-  <div class="modal-conteudo">
-    <div class="modal-header">
-      <h2>Como Jogar - Modo Clássico</h2>
-      <span class="botao-fechar" onclick="fecharAjuda()">&times;</span>
-    </div>
-    <div class="modal-body">
-      <div class="ajuda-secao">
-        <h3>🎯 Objetivo</h3>
-        <p>Descubra qual é o time de futebol brasileiro secreto!</p>
-      </div>
-
-      <div class="ajuda-secao">
-        <h3>⚽ Como Jogar</h3>
-        <ul>
-          <li>Digite o nome de um time brasileiro</li>
-          <li>Receba dicas baseadas nas características do time</li>
-          <li>Use as cores das dicas para se aproximar da resposta</li>
-        </ul>
-      </div>
-
-      <div class="ajuda-secao">
-        <h3>🎨 Código de Cores</h3>
-        <div class="cores-exemplo">
-          <div class="cor-exemplo verde">
-            <span class="cor-box"></span>
-            <span>Verde = Correto</span>
-          </div>
-          <div class="cor-exemplo amarelo">
-            <span class="cor-box"></span>
-            <span>Amarelo = Parcialmente correto</span>
-          </div>
-          <div class="cor-exemplo vermelho">
-            <span class="cor-box"></span>
-            <span>Vermelho = Incorreto</span>
-          </div>
-        </div>
-      </div>
-
-      <div class="ajuda-secao">
-        <h3>💡 Dica Especial</h3>
-        <p>
-          Após 7 tentativas erradas, você recebe uma dica sobre o mascote do
-          time!
-        </p>
-      </div>
-
-      <div class="assinatura-copilot">
-        <p><small>💡 Este modal foi criado com auxílio do GitHub Copilot</small></p>
-      </div>
-    </div>
-  </div>
 </div>
 
 {% endblock %}
