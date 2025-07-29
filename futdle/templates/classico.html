@@ -81,7 +81,12 @@
           if (sugestaoSelecionada >= 0) {
             event.preventDefault();
             selecionarSugestao(sugestoes[sugestaoSelecionada]);
+          } else if (sugestoes.length > 0 && sugestoesLista.style.display !== "none") {
+            // Se há sugestões disponíveis mas nenhuma selecionada, usar a primeira
+            event.preventDefault();
+            selecionarSugestao(sugestoes[0]);
           }
+          // Se não há sugestões, deixa o Enter normal do form funcionar
         } else if (event.key === "Escape") {
           sugestoesLista.style.display = "none";
           sugestaoSelecionada = -1;
@@ -136,14 +141,14 @@
     function selecionarSugestao(sugestao) {
       const input = document.getElementById("chute");
       const sugestoesLista = document.getElementById("sugestoes-lista");
-
+      
       input.value = sugestao.nome;
       sugestoesLista.style.display = "none";
       sugestaoSelecionada = -1;
-      input.focus();
-    }
-
-    document
+      
+      // Enviar o formulário automaticamente
+      document.getElementById("form-chute").dispatchEvent(new Event('submit'));
+    }    document
       .getElementById("form-chute")
       .addEventListener("submit", function (event) {
         event.preventDefault();

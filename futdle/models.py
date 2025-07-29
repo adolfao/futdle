@@ -9,6 +9,7 @@ class Time(db.Model):
   cores = db.Column(db.String(50), nullable=False)
   estado = db.Column(db.String(2), nullable=False) 
   ano_fundacao = db.Column(db.Integer, nullable=False)
+  serie = db.Column(db.String(1), nullable=False, default='A')
 
   def nome_arquivo(self):
     nome_normalizado = unicodedata.normalize('NFKD', self.nome)
