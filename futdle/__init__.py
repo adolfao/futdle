@@ -1,12 +1,21 @@
 from flask import Flask
 import os
-import sqlite3
 
 def create_app():
     app = Flask(__name__)
     app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///futdle.db'
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-    app.secret_key = "chave-secreta-temporaria-para-desenvolvimento"
+    
+    from dotenv import load_dotenv
+    load_dotenv()
+    app.secret_key = os.getenv('SECRET_KEY', 'chave-secreta-temporaria-para-desenvolvimento')
+    
+    try:
+        from tests import popular_times
+        popular_times()
+    except Exception as e:
+        print(f"⚠️  Erro ao popular banco: {e}")
+        print("ℹ️  Execute 'python tests.py' manualmente para popular o banco")
 
     #funcao auxiliar para comparar cores no template jinja
     def comparar_cores_jinja(cores1, cores2):
