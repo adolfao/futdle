@@ -1,11 +1,12 @@
 from futdle import create_app
+from futdle.config import HOST_DEFAULT, PORT_DEFAULT, DEBUG_DEFAULT, MENSAGENS
 
 app = create_app()
 
-#ponto de entrada principal da aplicacao
+# Ponto de entrada principal da aplicação
 if __name__ == '__main__':
-    print("Iniciando servidor Futdle...")
-    print("Acesse: http://localhost:5000")
-    print("Modo Classico: http://localhost:5000/classico")
-    print("Para parar: Ctrl+C")
-    app.run(debug=True, host='0.0.0.0', port=5000)
+    print(MENSAGENS['servidor_iniciando'])
+    print(MENSAGENS['servidor_url'].format(port=PORT_DEFAULT))
+    print(MENSAGENS['servidor_classico'].format(port=PORT_DEFAULT))
+    print(MENSAGENS['servidor_parar'])
+    app.run(debug=DEBUG_DEFAULT, host=HOST_DEFAULT, port=PORT_DEFAULT)

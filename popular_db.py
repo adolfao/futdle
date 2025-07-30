@@ -1,13 +1,13 @@
 import sqlite3
 import os
+from futdle.config import DB_PATH
 
-#popula banco de dados com times brasileiros
 def popular_times():
-    db_path = os.path.join('futdle', 'futdle.db')
-    conn = sqlite3.connect(db_path)
+    """Popula banco de dados com times brasileiros das séries A, B e C."""
+    conn = sqlite3.connect(DB_PATH)
     cursor = conn.cursor()
 
-    #cria tabela se nao existir
+    # Cria tabela se não existir
     cursor.execute('''
     CREATE TABLE IF NOT EXISTS times (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -20,7 +20,7 @@ def popular_times():
     )
     ''')
 
-    #dados dos times brasileiros organizados por serie
+    # Dados dos times brasileiros organizados por série
     times_dados = [
         ("Atlético Mineiro", "Preto e Branco", "MG", 1908, "A", "Galo"),
         ("Bahia", "Azul, Vermelho e Branco", "BA", 1931, "A", "Super-Homem Tricolor"),
@@ -87,33 +87,33 @@ def popular_times():
     cursor.execute("SELECT COUNT(*) FROM times")
     count = cursor.fetchone()[0]
 
-    #so insere se banco estiver vazio
+    # Só insere se banco estiver vazio
     if count == 0:
-        print("Inserindo times no banco de dados...")
+        print("📊 Inserindo times no banco de dados...")
         cursor.executemany(
             "INSERT INTO times (nome, cores, estado, ano_fundacao, serie, mascote) VALUES (?, ?, ?, ?, ?, ?)",
             times_dados
         )
         conn.commit()
-        print(f"{len(times_dados)} times inseridos com sucesso!")
+        print(f"✅ {len(times_dados)} times inseridos com sucesso!")
     else:
-        print(f"Banco já possui {count} times. Nenhum time foi inserido.")
+        print(f"ℹ️  Banco já possui {count} times. Nenhum time foi inserido.")
 
-    #mostra primeiros times para verificacao
-    print("\nPrimeiros 5 times no banco:")
+    # Mostra primeiros times para verificação
+    print("\n📋 Primeiros 5 times no banco:")
     cursor.execute("SELECT nome, cores, estado, ano_fundacao, serie, mascote FROM times LIMIT 5")
     for row in cursor.fetchall():
         nome, cores, estado, ano, serie, mascote = row
-        print(f"- {nome} ({estado}) - {cores} - {ano} - Série {serie} - Mascote: {mascote}")
+        print(f"   • {nome} ({estado}) - {cores} - {ano} - Série {serie} - Mascote: {mascote}")
 
-    #estatisticas por serie
+    # Estatísticas por série
     cursor.execute("SELECT serie, COUNT(*) FROM times GROUP BY serie ORDER BY serie")
-    print("\nTimes por série:")
+    print("\n📈 Times por série:")
     for serie, count in cursor.fetchall():
-        print(f"- Série {serie}: {count} times")
+        print(f"   • Série {serie}: {count} times")
 
     conn.close()
-    print("\nBanco de dados populado com sucesso!")
+    print("\n🎉 Banco de dados populado com sucesso!")
 
 if __name__ == "__main__":
     popular_times()

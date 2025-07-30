@@ -1,0 +1,95 @@
+{% extends 'base.html' %} {% block head %}
+<!-- estilos customizados para pagina de contato -->
+<style>
+  .futdle-section {
+    background: rgba(0, 0, 0, 0.75);
+    border-radius: 12px;
+    padding: 2rem;
+    margin-top: -7rem;
+    color: #f8f9fa;
+  }
+  .futdle-section h1,
+  .futdle-section h3 {
+    color: #28a745;
+    font-weight: bold;
+  }
+  .contato-item i {
+    color: #28a745;
+    font-size: 1.3rem;
+    margin-right: 8px;
+  }
+  .github-link i {
+    color: #28a745;
+    font-size: 1.3rem;
+    margin-right: 5px;
+  }
+</style>
+{% endblock %} {% block body %}
+<!-- container principal da pagina contato -->
+<div class="container">
+  <div class="futdle-section">
+    <!-- titulo da pagina -->
+    <h1 class="text-center mb-5">
+      <i class="bi bi-chat-dots"></i> Suporte & Feedback
+    </h1>
+
+    <!-- secao de sugestoes -->
+    <section class="mb-4">
+      <h3><i class="bi bi-envelope-paper"></i> Envie suas Sugestões</h3>
+      <p>
+        Tem ideias para melhorar o jogo? Encontrou algum bug? Entre em contato:
+      </p>
+      <div class="mb-3">
+        <p class="d-flex align-items-center">
+          <i class="bi bi-envelope"></i>
+          <a
+            href="mailto:adolfomendonca123@gmail.com"
+            class="text-info ms-2"
+            target="_blank"
+          >
+            adolfomendonca123@gmail.com
+          </a>
+        </p>
+        <p class="d-flex align-items-center">
+          <i class="bi bi-instagram"></i>
+          <a
+            href="https://instagram.com/adolfomendonca5"
+            class="text-info ms-2"
+            target="_blank"
+          >
+            @adolfomendonca5
+          </a>
+        </p>
+      </div>
+    </section>
+
+    <!-- secao codigo aberto -->
+    <section class="mb-4">
+      <h3><i class="bi bi-github"></i> Código Aberto</h3>
+      <p>
+        O projeto está disponível no GitHub para quem quiser contribuir ou
+        apenas dar uma olhada no código:
+      </p>
+      <p class="d-flex align-items-center">
+        <i class="bi bi-link-45deg"></i>
+        <a
+          href="https://github.com/adolfao/futdle"
+          class="text-info ms-2"
+          target="_blank"
+        >
+          github.com/adolfao/futdle
+        </a>
+      </p>
+    </section>
+
+    <!-- agradecimento -->
+    <section>
+      <p><strong>Obrigado por jogar o Futdle! 🙏</strong></p>
+      <p>
+        Sua participação e feedback são fundamentais para o crescimento do
+        projeto!
+      </p>
+    </section>
+  </div>
+</div>
+{% endblock %}

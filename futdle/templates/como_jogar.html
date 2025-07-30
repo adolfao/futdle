@@ -1,0 +1,118 @@
+{% extends 'base.html' %} {% block head %}
+<!-- estilos customizados para pagina de como jogar -->
+<style>
+  .futdle-section {
+    background: rgba(0, 0, 0, 0.75);
+    border-radius: 12px;
+    padding: 2rem;
+    margin-top: -7rem;
+    color: #f8f9fa; /* texto mais forte */
+  }
+  .futdle-section h1,
+  .futdle-section h3 {
+    color: #28a745; /* verde Futdle */
+    font-weight: bold;
+  }
+  .futdle-section p,
+  .futdle-section ul li {
+    font-size: 1.15rem;
+  }
+  .futdle-section .text-muted {
+    color: #adb5bd !important; /* nota final mais visível */
+    font-size: 0.95rem;
+  }
+</style>
+{% endblock %} {% block body %}
+<!-- container principal da pagina como jogar -->
+<div class="container py-5">
+  <div class="futdle-section">
+    <!-- titulo da pagina -->
+    <h1 class="text-center mb-5">
+      <i class="bi bi-controller"></i> Como Jogar - Modo Clássico
+    </h1>
+
+    <!-- secao objetivo -->
+    <section class="mb-4">
+      <h3><i class="bi bi-bullseye"></i> Objetivo</h3>
+      <p>
+        Descubra qual é o time de futebol brasileiro secreto! Teste seus
+        conhecimentos, faça palpites e use as dicas fornecidas para chegar à
+        resposta correta.
+      </p>
+    </section>
+
+    <!-- secao instrucoes -->
+    <section class="mb-4">
+      <h3><i class="bi bi-joystick"></i> Como Jogar</h3>
+      <ul class="list-unstyled">
+        <li>
+          <i class="bi bi-check-circle text-success me-2"></i>Digite o nome de
+          um time brasileiro.
+        </li>
+        <li>
+          <i class="bi bi-check-circle text-success me-2"></i>Receba dicas
+          baseadas nas características do time.
+        </li>
+        <li>
+          <i class="bi bi-check-circle text-success me-2"></i>Use o código de
+          cores para entender se está perto ou longe da resposta.
+        </li>
+      </ul>
+    </section>
+
+    <!-- secao codigo de cores -->
+    <section class="mb-4">
+      <h3><i class="bi bi-palette"></i> Código de Cores</h3>
+      <div class="row">
+        <div class="col-md-4 mb-3 d-flex align-items-center">
+          <span
+            class="d-inline-block rounded-circle bg-success me-2"
+            style="width: 20px; height: 20px"
+          ></span>
+          <span>Verde = Correto</span>
+        </div>
+        <div class="col-md-4 mb-3 d-flex align-items-center">
+          <span
+            class="d-inline-block rounded-circle bg-warning me-2"
+            style="width: 20px; height: 20px"
+          ></span>
+          <span>Amarelo = Parcialmente correto</span>
+        </div>
+        <div class="col-md-4 mb-3 d-flex align-items-center">
+          <span
+            class="d-inline-block rounded-circle bg-danger me-2"
+            style="width: 20px; height: 20px"
+          ></span>
+          <span>Vermelho = Incorreto</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- secao dicas especiais -->
+    <section class="mb-4">
+      <h3><i class="bi bi-lightbulb"></i> Dicas Especiais</h3>
+      <ul class="list-unstyled">
+        <li>
+          <i class="bi bi-arrow-right-circle text-warning me-2"></i>
+          <strong>4 tentativas erradas:</strong> Você recebe uma dica sobre a
+          série do time (A, B ou C).
+        </li>
+        <li>
+          <i class="bi bi-arrow-right-circle text-warning me-2"></i>
+          <strong>7 tentativas erradas:</strong> Você recebe uma dica sobre o
+          mascote do time.
+        </li>
+      </ul>
+    </section>
+
+    <!-- nota sobre atualizacoes -->
+    <p class="text-muted">
+      <i class="bi bi-info-circle"></i> Todas as regras podem ser atualizadas
+      para aprimorar a experiência de jogo. Veja a seção de
+      <a href="{{ url_for('main.atualizacoes') }}" class="text-info"
+        >atualizações</a
+      >.
+    </p>
+  </div>
+</div>
+{% endblock %}

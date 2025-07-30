@@ -1,4 +1,4 @@
-from flask import render_template, request, session
+from flask import render_template, request, session, jsonify
 from futdle.models import Time, normalizar_nome
 import random
 
@@ -55,11 +55,77 @@ def classico_mode():
 
     resultado = None
     if request.method == "POST":
-        resultado = processar_chute(tentativas_nomes, tentativas_objetos, time_secreto)
-        # Atualiza contadores após processamento
-        tentativas_erradas = session.get("tentativas_erradas", 0)
-        mostrar_dica_serie = tentativas_erradas >= 4
-        mostrar_dica_mascote = tentativas_erradas >= 7
+        # Verifica se é uma requisição AJAX
+        if request.headers.get('Content-Type') and 'application/x-www-form-urlencoded' in request.headers.get('Content-Type'):
+            # Processa o chute e retorna JSON
+            chute = request.form.get("chute", "").strip()
+            time_chutado = buscar_time_por_nome(chute)
+
+            if not time_chutado:
+                return jsonify({"erro": "Time não encontrado!"})
+            
+            if time_chutado.nome in tentativas_nomes:
+                return jsonify({"erro": "Você já digitou esse time!"})
+
+            # Adiciona tentativa
+            tentativas_nomes.append(time_chutado.nome)
+            tentativas_objetos.append(time_chutado)
+            session["tentativas"] = tentativas_nomes
+
+            # Verifica se acertou
+            if time_chutado.id == time_secreto.id:
+                session["jogo_finalizado"] = True
+                return jsonify({
+                    "acertou": True,
+                    "resultado": "Acertou!",
+                    "time_chutado": {
+                        "id": time_chutado.id,
+                        "nome": time_chutado.nome,
+                        "cores": time_chutado.cores,
+                        "estado": time_chutado.estado,
+                        "ano_fundacao": time_chutado.ano_fundacao,
+                        "escudo": time_chutado.nome_arquivo() + '.jpg'
+                    },
+                    "jogo_finalizado": True
+                })
+            else:
+                # Incrementa contador de erros
+                tentativas_erradas = session.get("tentativas_erradas", 0) + 1
+                session["tentativas_erradas"] = tentativas_erradas
+                
+                # Atualiza flags de dicas
+                mostrar_dica_serie = tentativas_erradas >= 4
+                mostrar_dica_mascote = tentativas_erradas >= 7
+                
+                return jsonify({
+                    "acertou": False,
+                    "resultado": "Errou!",
+                    "time_chutado": {
+                        "id": time_chutado.id,
+                        "nome": time_chutado.nome,
+                        "cores": time_chutado.cores,
+                        "estado": time_chutado.estado,
+                        "ano_fundacao": time_chutado.ano_fundacao,
+                        "escudo": time_chutado.nome_arquivo() + '.jpg'
+                    },
+                    "time_secreto": {
+                        "cores": time_secreto.cores,
+                        "estado": time_secreto.estado,
+                        "ano_fundacao": time_secreto.ano_fundacao,
+                        "serie": time_secreto.serie,
+                        "mascote": time_secreto.mascote
+                    },
+                    "tentativas_erradas": tentativas_erradas,
+                    "mostrar_dica_serie": mostrar_dica_serie,
+                    "mostrar_dica_mascote": mostrar_dica_mascote,
+                    "jogo_finalizado": False
+                })
+        else:
+            # Processamento tradicional (fallback)
+            resultado = processar_chute(tentativas_nomes, tentativas_objetos, time_secreto)
+            tentativas_erradas = session.get("tentativas_erradas", 0)
+            mostrar_dica_serie = tentativas_erradas >= 4
+            mostrar_dica_mascote = tentativas_erradas >= 7
 
     return render_template("classico.html", 
                          resultado=resultado, 
@@ -73,10 +139,16 @@ def classico_mode():
 
 def processar_chute(tentativas_nomes, tentativas_objetos, time_secreto):
     """Processa tentativa do usuário e atualiza estado do jogo."""
+    print("POST recebido!")
+    print("Form data:", request.form)
     chute = request.form.get("chute", "").strip()
+    print("Chute recebido:", chute)
+    
     time_chutado = buscar_time_por_nome(chute)
+    print("Time encontrado:", time_chutado)
 
     if not time_chutado:
+        print("Time não encontrado!")
         return "Time não encontrado!"
     
     if time_chutado.nome in tentativas_nomes:

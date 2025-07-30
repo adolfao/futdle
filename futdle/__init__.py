@@ -1,14 +1,9 @@
 from flask import Flask
 import os
+from futdle.config import SECRET_KEY_DEFAULT, MENSAGENS
 
 def create_app():
-    """
-    Factory function para criar instância da aplicação Flask.
-    Configura banco de dados, chave secreta, popula dados e registra blueprints.
-    
-    Returns:
-        Flask: Instância configurada da aplicação
-    """
+    """Factory function para criar instância da aplicação Flask."""
     app = Flask(__name__)
     app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///futdle.db'
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
@@ -33,9 +28,9 @@ def _configure_secret_key(app):
     try:
         from dotenv import load_dotenv
         load_dotenv()
-        app.secret_key = os.getenv('SECRET_KEY', 'chave-secreta-temporaria-para-desenvolvimento')
+        app.secret_key = os.getenv('SECRET_KEY', SECRET_KEY_DEFAULT)
     except ImportError:
-        app.secret_key = "chave-secreta-temporaria-para-desenvolvimento"
+        app.secret_key = SECRET_KEY_DEFAULT
 
 def _initialize_database():
     """Popula banco de dados com times brasileiros."""
@@ -43,22 +38,14 @@ def _initialize_database():
         from popular_db import popular_times
         popular_times()
     except Exception as e:
-        print(f"⚠️  Erro ao popular banco: {e}")
-        print("ℹ️  Execute 'python popular_db.py' manualmente para popular o banco")
+        print(MENSAGENS['banco_erro'].format(error=e))
+        print(MENSAGENS['banco_instrucao'])
 
 def _register_jinja_functions(app):
     """Registra funções auxiliares no contexto global do Jinja."""
     
     def comparar_cores_jinja(cores1, cores2):
-        """
-        Compara cores dos times para feedback visual.
-        
-        Args:
-            cores1, cores2 (str): Strings com cores separadas por vírgula
-            
-        Returns:
-            str: 'exato', 'parcial' ou 'diferente'
-        """
+        """Compara cores dos times para feedback visual."""
         if cores1 == cores2:
             return "exato"
         
@@ -79,15 +66,7 @@ def _register_jinja_functions(app):
         return "diferente"
 
     def comparar_anos_jinja(ano_chute, ano_secreto):
-        """
-        Compara anos de fundação e retorna direção da seta.
-        
-        Args:
-            ano_chute, ano_secreto (int): Anos a serem comparados
-            
-        Returns:
-            str: 'correto', 'seta_cima' ou 'seta_baixo'
-        """
+        """Compara anos de fundação e retorna direção da seta."""
         if ano_chute == ano_secreto:
             return "correto"
         elif ano_chute < ano_secreto:

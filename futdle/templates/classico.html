@@ -3,16 +3,17 @@
 <div
   class="conteudo-classico {% if jogo_finalizado %}jogo-finalizado{% endif %}"
 >
+  <!-- título -->
   <div class="titulo-container">
-    <h1>Modo Clássico</h1>
-    <button class="botao-ajuda" onclick="mostrarAjuda()" title="Como jogar">
-      ?
-    </button>
+    <h1 class="modo-classico-titulo text-center">
+      <i class="bi bi-joystick"></i> Modo Clássico
+    </h1>
   </div>
 
   {% if resultado %}
   <p
     class="resultado-mensagem {% if 'Acertou' in resultado %}acertou{% elif 'Errou' in resultado %}errou{% elif 'não encontrado' in resultado %}time-nao-encontrado{% endif %}"
+    id="resultado-mensagem"
   >
     {{ resultado }}
   </p>
@@ -21,13 +22,14 @@
     Jogar Novamente
   </button>
   {% else %}
-  <div class="secao-dicas">
-    {% if tentativas_erradas >= 1 %}
-    <div class="dicas-disponiveis">
-      <!-- Dica da Série -->
+
+  <!-- seção de dicas -->
+  <div class="secao-dicas d-flex justify-content-center gap-4 flex-wrap">
+    <!-- dica da série + contador -->
+    <div class="dica-container-wrapper">
       <div class="dica-container">
         {% if tentativas_erradas >= 4 and time_secreto.serie %}
-        <h3>DICA DISPONÍVEL!</h3>
+        <h3>Dica disponível!</h3>
         <div class="dica-serie">
           <p class="texto-dica-inicio">Este time está na...</p>
           <button class="botao-revelar-dica" onclick="revelarDica('serie')">
@@ -42,18 +44,43 @@
           </p>
         </div>
         {% else %}
-        <h3>DICA BLOQUEADA</h3>
-        <div class="dica-bloqueada-individual">
+        <h3 id="titulo-dica-serie">Dica bloqueada</h3>
+        <div class="dica-bloqueada-individual" id="dica-serie-bloqueada">
           <p class="texto-dica-inicio">Este time está na...</p>
           <p class="texto-dica-bloqueada">Disponível aos 4 erros</p>
         </div>
+        <div
+          class="dica-serie"
+          id="dica-serie-disponivel"
+          style="display: none"
+        >
+          <p class="texto-dica-inicio">Este time está na...</p>
+          <button class="botao-revelar-dica" onclick="revelarDica('serie')">
+            Clique para ver
+          </button>
+          <p
+            class="texto-dica-oculto"
+            id="serie-revelado"
+            style="display: none"
+          >
+            <strong>Série {{ time_secreto.serie }}</strong>!
+          </p>
+        </div>
         {% endif %}
       </div>
+      <div class="contador-tentativas mt-3">
+        <span class="label-contador">Tentativas Erradas:</span>
+        <span class="numero-tentativas" id="contador-erradas"
+          >{{ tentativas_erradas }}</span
+        >
+      </div>
+    </div>
 
-      <!-- Dica do Mascote -->
+    <!-- dica do mascote + resultado -->
+    <div class="dica-container-wrapper">
       <div class="dica-container">
         {% if tentativas_erradas >= 7 and time_secreto.mascote %}
-        <h3>DICA DISPONÍVEL!</h3>
+        <h3>Dica disponível!</h3>
         <div class="dica-mascote">
           <p class="texto-dica-inicio">O mascote desse time é o/a...</p>
           <button class="botao-revelar-dica" onclick="revelarDica('mascote')">
@@ -68,21 +95,55 @@
           </p>
         </div>
         {% else %}
-        <h3>DICA BLOQUEADA</h3>
-        <div class="dica-bloqueada-individual">
+        <h3 id="titulo-dica-mascote">Dica bloqueada</h3>
+        <div class="dica-bloqueada-individual" id="dica-mascote-bloqueada">
           <p class="texto-dica-inicio">O mascote desse time é o/a...</p>
           <p class="texto-dica-bloqueada">Disponível aos 7 erros</p>
         </div>
+        <div
+          class="dica-mascote"
+          id="dica-mascote-disponivel"
+          style="display: none"
+        >
+          <p class="texto-dica-inicio">O mascote desse time é o/a...</p>
+          <button class="botao-revelar-dica" onclick="revelarDica('mascote')">
+            Clique para ver
+          </button>
+          <p
+            class="texto-dica-oculto"
+            id="mascote-revelado"
+            style="display: none"
+          >
+            <strong>{{ time_secreto.mascote }}</strong>!
+          </p>
+        </div>
         {% endif %}
       </div>
-    </div>
 
-    <!-- Contador de tentativas -->
-    <div class="contador-tentativas">
-      <span class="label-contador">Tentativas Erradas:</span>
-      <span class="numero-tentativas">{{ tentativas_erradas }}</span>
+      <div
+        class="resultado-container-abaixo mt-3"
+        id="resultado-container-abaixo"
+        style="display: none"
+      >
+        <div
+          class="resultado-wrapper d-flex align-items-center justify-content-center gap-3"
+        >
+          <p
+            class="resultado-mensagem-abaixo mb-0"
+            id="resultado-mensagem-dinamico"
+          ></p>
+          <button
+            class="btn btn-success btn-sm botao-tentar-novamente-inline"
+            onclick="jogarNovamente()"
+            id="botao-tentar-novamente"
+            style="display: none"
+          >
+            <i class="bi bi-arrow-clockwise me-1"></i>
+            Tentar Novamente
+          </button>
+        </div>
+      </div>
     </div>
-    {% endif %}
   </div>
   {% endif %}
 
@@ -95,12 +156,20 @@
           id="chute"
           name="chute"
           required
-          placeholder="Ex: Flamengo, Santos, Palmeiras..."
+          placeholder="Exemplo: Flamengo"
           autocomplete="off"
+          {%
+          if
+          jogo_finalizado
+          %}disabled{%
+          endif
+          %}
         />
+        <button type="submit" {% if jogo_finalizado %}disabled{% endif %}>
+          Enviar
+        </button>
         <div class="sugestoes-lista" id="sugestoes-lista"></div>
       </div>
-      <button type="submit">Enviar</button>
     </form>
   </div>
 
@@ -111,8 +180,9 @@
     <div class="col-estado">ESTADO</div>
     <div class="col-ano">ANO DE FUNDAÇÃO</div>
   </div>
-  {% endif %} {% if tentativas %}
-  <div class="tentativas-container">
+  {% endif %}
+
+  <div class="tentativas-container" id="tentativas-container">
     {% for time in tentativas %}
     <div class="tentativa-item">
       <div class="escudo-simples">
@@ -142,15 +212,14 @@
         style="background-color: {% if time.ano_fundacao == time_secreto.ano_fundacao %}#28a745{% else %}#dc3545{% endif %};"
       >
         <strong>{{ time.ano_fundacao }}</strong>
-        {% set diferenca_anos = (time.ano_fundacao - time_secreto.ano_fundacao) %}
-        {% if diferenca_anos > 0 %}<span>↓</span>
-        {% elif diferenca_anos < 0 %}<span>↑</span>
+        {% set diferenca_anos = (time.ano_fundacao - time_secreto.ano_fundacao)
+        %} {% if diferenca_anos > 0 %}<span>↓</span> {% elif diferenca_anos < 0
+        %}<span>↑</span>
         {% endif %}
       </div>
     </div>
     {% endfor %}
   </div>
-  {% endif %}
 
   <script>
     class FutdleGame {
@@ -158,6 +227,13 @@
         this.sugestaoSelecionada = -1;
         this.sugestoes = [];
         this.timeoutId = null;
+        this.timeSecreto = {
+          cores: "{{ time_secreto.cores }}",
+          estado: "{{ time_secreto.estado }}",
+          ano_fundacao: {{ time_secreto.ano_fundacao }},
+          serie: "{{ time_secreto.serie }}",
+          mascote: "{{ time_secreto.mascote }}"
+        };
         this.init();
       }
 
@@ -187,7 +263,7 @@
         }
 
         this.timeoutId = setTimeout(() => {
-          fetch(`/api/sugestoes?q=${encodeURIComponent(query)}`)
+          fetch(`{{ url_for('main.sugestoes') }}?q=${encodeURIComponent(query)}`)
             .then((response) => response.json())
             .then((data) => {
               this.sugestoes = data;
@@ -260,7 +336,7 @@
           .map(
             (sugestao, index) =>
               `<div class="sugestao-item" data-index="${index}">
-          <img src="/static/times/${sugestao.escudo}" alt="${sugestao.nome}" class="sugestao-escudo" onerror="this.style.display='none'">
+          <img src="{{ url_for('static', filename='times/') }}${sugestao.escudo}" alt="${sugestao.nome}" class="sugestao-escudo" onerror="this.style.display='none'">
           <span class="sugestao-nome">${sugestao.nome}</span>
         </div>`
           )
@@ -292,9 +368,7 @@
         input.value = sugestao.nome;
         document.getElementById("sugestoes-lista").style.display = "none";
         this.sugestaoSelecionada = -1;
-        document
-          .getElementById("form-chute")
-          .dispatchEvent(new Event("submit"));
+        this.enviarChute();
       }
 
       setupFormSubmit() {
@@ -303,92 +377,209 @@
 
         form.addEventListener("submit", (event) => {
           event.preventDefault();
-
-          fetch(window.location.href, {
-            method: "POST",
-            body: new FormData(form),
-          })
-            .then((response) => response.text())
-            .then((html) => {
-              const tempDiv = document.createElement("div");
-              tempDiv.innerHTML = html;
-              const novoConteudo = tempDiv.querySelector(".conteudo-classico");
-
-              if (novoConteudo) {
-                const jogoFinalizado =
-                  novoConteudo.classList.contains("jogo-finalizado");
-
-                // Verifica se há mensagem de "Acertou!" no resultado
-                const resultadoMensagem = tempDiv.querySelector(
-                  ".resultado-mensagem"
-                );
-                const acertou =
-                  resultadoMensagem &&
-                  resultadoMensagem.textContent.includes("Acertou");
-
-                if (jogoFinalizado || acertou) {
-                  // Refresh imediato após acerto
-                  window.location.reload();
-                } else {
-                  // Salva o estado das dicas reveladas antes de atualizar
-                  const dicasReveladas = {
-                    serie:
-                      document.getElementById("serie-revelado") &&
-                      document.getElementById("serie-revelado").style
-                        .display !== "none",
-                    mascote:
-                      document.getElementById("mascote-revelado") &&
-                      document.getElementById("mascote-revelado").style
-                        .display !== "none",
-                  };
-
-                  document.querySelector(".conteudo-classico").innerHTML =
-                    novoConteudo.innerHTML;
-
-                  // Restaura o estado das dicas reveladas
-                  if (dicasReveladas.serie) {
-                    const botaoSerie = document.querySelector(
-                      ".dica-serie .botao-revelar-dica"
-                    );
-                    const serieRevelado =
-                      document.getElementById("serie-revelado");
-                    if (botaoSerie && serieRevelado) {
-                      botaoSerie.style.display = "none";
-                      serieRevelado.style.display = "block";
-                    }
-                  }
-
-                  if (dicasReveladas.mascote) {
-                    const botaoMascote = document.querySelector(
-                      ".dica-mascote .botao-revelar-dica"
-                    );
-                    const mascoteRevelado =
-                      document.getElementById("mascote-revelado");
-                    if (botaoMascote && mascoteRevelado) {
-                      botaoMascote.style.display = "none";
-                      mascoteRevelado.style.display = "block";
-                    }
-                  }
-
-                  const input = document.getElementById("chute");
-                  if (input) {
-                    input.value = "";
-                    input.focus();
-                  }
-                  new FutdleGame();
-                }
-              }
-            })
-            .catch((error) => {
-              console.error("Erro:", error);
-              form.submit();
-            });
+          this.enviarChute();
         });
+      }
+
+      async enviarChute() {
+        const form = document.getElementById("form-chute");
+        const input = document.getElementById("chute");
+
+        if (!input.value.trim()) return;
+
+        try {
+          const response = await fetch("{{ url_for('main.classico') }}", {
+            method: "POST",
+            headers: {
+              'Content-Type': 'application/x-www-form-urlencoded',
+            },
+            body: new URLSearchParams(new FormData(form))
+          });
+
+          if (!response.ok) {
+            throw new Error('Erro na resposta do servidor');
+          }
+
+          const data = await response.json();
+
+          if (data.erro) {
+            this.mostrarMensagem(data.erro, 'time-nao-encontrado');
+            input.value = "";
+            input.focus();
+            return;
+          }
+
+          if (data.acertou) {
+            // Adiciona a última tentativa antes de mostrar vitória
+            this.adicionarTentativa(data.time_chutado);
+            this.mostrarMensagem(data.resultado, 'acertou');
+            this.desabilitarFormulario();
+            this.mostrarBotaoJogarNovamente();
+          } else {
+            // Adiciona a tentativa à lista
+            this.adicionarTentativa(data.time_chutado);
+            this.mostrarMensagem(data.resultado, 'errou');
+            this.atualizarContador(data.tentativas_erradas);
+            this.verificarDicas(data);
+          }
+
+          input.value = "";
+          input.focus();
+
+        } catch (error) {
+          console.error("Erro ao enviar chute:", error);
+          // Fallback para envio tradicional
+          form.submit();
+        }
+      }
+
+      adicionarTentativa(timeChutado) {
+        const container = document.getElementById("tentativas-container");
+
+        // Mostra cabeçalho se não existir
+        if (!document.querySelector(".cabecalho-tentativas")) {
+          const cabecalho = document.createElement("div");
+          cabecalho.className = "cabecalho-tentativas";
+          cabecalho.innerHTML = `
+            <div class="col-nome">NOME</div>
+            <div class="col-cores">CORES</div>
+            <div class="col-estado">ESTADO</div>
+            <div class="col-ano">ANO DE FUNDAÇÃO</div>
+          `;
+          container.parentNode.insertBefore(cabecalho, container);
+        }
+
+        // Determina cores de fundo
+        const resultadoCor = this.compararCores(timeChutado.cores, this.timeSecreto.cores);
+        let corFundo, corTexto;
+
+        if (resultadoCor === 'exato') {
+          corFundo = '#28a745';
+          corTexto = 'white';
+        } else if (resultadoCor === 'parcial') {
+          corFundo = '#ffc107';
+          corTexto = 'black';
+        } else {
+          corFundo = '#dc3545';
+          corTexto = 'white';
+        }
+
+        const corEstado = timeChutado.estado === this.timeSecreto.estado ? '#28a745' : '#dc3545';
+        const corAno = timeChutado.ano_fundacao === this.timeSecreto.ano_fundacao ? '#28a745' : '#dc3545';
+
+        // Seta para o ano
+        let setaAno = '';
+        if (timeChutado.ano_fundacao > this.timeSecreto.ano_fundacao) {
+          setaAno = '<span>↓</span>';
+        } else if (timeChutado.ano_fundacao < this.timeSecreto.ano_fundacao) {
+          setaAno = '<span>↑</span>';
+        }
+
+        const tentativaDiv = document.createElement("div");
+        tentativaDiv.className = "tentativa-item";
+        tentativaDiv.innerHTML = `
+          <div class="escudo-simples">
+            <div class="nome-clube">${timeChutado.nome}</div>
+            <img src="{{ url_for('static', filename='times/') }}${timeChutado.escudo}" alt="${timeChutado.nome}" />
+          </div>
+          <div class="cores-simples" style="background-color: ${corFundo}; color: ${corTexto};">
+            <strong>${timeChutado.cores}</strong>
+          </div>
+          <div class="estado-simples" style="background-color: ${corEstado};">
+            <strong>${timeChutado.estado}</strong>
+          </div>
+          <div class="ano-simples" style="background-color: ${corAno};">
+            <strong>${timeChutado.ano_fundacao}</strong>
+            ${setaAno}
+          </div>
+        `;
+
+        container.appendChild(tentativaDiv);
+      }
+
+      compararCores(cores1, cores2) {
+        if (cores1 === cores2) return "exato";
+
+        const cores1List = cores1.replace(' e ', ',').split(',').map(c => c.trim().toLowerCase()).sort();
+        const cores2List = cores2.replace(' e ', ',').split(',').map(c => c.trim().toLowerCase()).sort();
+
+        if (JSON.stringify(cores1List) === JSON.stringify(cores2List)) return "exato";
+
+        if (cores1List.some(cor1 => cores2List.some(cor2 => cor1 === cor2))) return "parcial";
+
+        return "diferente";
+      }
+
+      mostrarMensagem(mensagem, classe) {
+        const resultadoContainer = document.getElementById("resultado-container-abaixo");
+        const resultadoMensagem = document.getElementById("resultado-mensagem-dinamico");
+        const botaoTentarNovamente = document.getElementById("botao-tentar-novamente");
+
+        if (resultadoContainer && resultadoMensagem) {
+          resultadoMensagem.textContent = mensagem;
+          resultadoMensagem.className = `resultado-mensagem-abaixo mb-0 ${classe}`;
+          resultadoContainer.style.display = "block";
+
+          // Mostra botão "Tentar Novamente" apenas se acertou
+          if (classe === 'acertou' && botaoTentarNovamente) {
+            botaoTentarNovamente.style.display = "inline-flex";
+          }
+        }
+      }
+
+      atualizarContador(tentativasErradas) {
+        const contador = document.getElementById("contador-erradas");
+        if (contador) {
+          contador.textContent = tentativasErradas;
+        }
+      }
+
+      verificarDicas(data) {
+        // Verifica dica da série
+        if (data.mostrar_dica_serie && data.tentativas_erradas >= 4) {
+          const tituloDicaSerie = document.getElementById("titulo-dica-serie");
+          const dicaSerieBloqueada = document.getElementById("dica-serie-bloqueada");
+          const dicaSerieDisponivel = document.getElementById("dica-serie-disponivel");
+
+          if (tituloDicaSerie && dicaSerieBloqueada && dicaSerieDisponivel) {
+            tituloDicaSerie.textContent = "Dica disponível!";
+            dicaSerieBloqueada.style.display = "none";
+            dicaSerieDisponivel.style.display = "block";
+          }
+        }
+
+        // Verifica dica do mascote
+        if (data.mostrar_dica_mascote && data.tentativas_erradas >= 7) {
+          const tituloDicaMascote = document.getElementById("titulo-dica-mascote");
+          const dicaMascoteBloqueada = document.getElementById("dica-mascote-bloqueada");
+          const dicaMascoteDisponivel = document.getElementById("dica-mascote-disponivel");
+
+          if (tituloDicaMascote && dicaMascoteBloqueada && dicaMascoteDisponivel) {
+            tituloDicaMascote.textContent = "Dica disponível!";
+            dicaMascoteBloqueada.style.display = "none";
+            dicaMascoteDisponivel.style.display = "block";
+          }
+        }
+      }
+
+      desabilitarFormulario() {
+        const input = document.getElementById("chute");
+        const button = document.querySelector("#form-chute button[type='submit']");
+
+        if (input) input.disabled = true;
+        if (button) button.disabled = true;
+      }
+
+      mostrarBotaoJogarNovamente() {
+        const botaoTentarNovamente = document.getElementById("botao-tentar-novamente");
+        if (botaoTentarNovamente) {
+          botaoTentarNovamente.style.display = "inline-flex";
+        }
       }
     }
 
     function jogarNovamente() {
-      fetch("/reiniciar-jogo", {
+      fetch("{{ url_for('main.reiniciar_jogo') }}", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
       })
@@ -424,79 +615,8 @@
       }
     }
 
-    function mostrarAjuda() {
-      document.getElementById("modal-ajuda").style.display = "flex";
-    }
-
-    function fecharAjuda() {
-      document.getElementById("modal-ajuda").style.display = "none";
-    }
-
     document.addEventListener("DOMContentLoaded", () => new FutdleGame());
   </script>
-</div>
-
-<!-- Modal de Ajuda -->
-<div id="modal-ajuda" class="modal-ajuda">
-  <div class="modal-conteudo">
-    <div class="modal-header">
-      <h2>Como Jogar - Modo Clássico</h2>
-      <span class="botao-fechar" onclick="fecharAjuda()">&times;</span>
-    </div>
-    <div class="modal-body">
-      <div class="ajuda-secao">
-        <h3>🎯 Objetivo</h3>
-        <p>Descubra qual é o time de futebol brasileiro secreto!</p>
-      </div>
-
-      <div class="ajuda-secao">
-        <h3>⚽ Como Jogar</h3>
-        <ul>
-          <li>Digite o nome de um time brasileiro</li>
-          <li>Receba dicas baseadas nas características do time</li>
-          <li>Use as cores das dicas para se aproximar da resposta</li>
-        </ul>
-      </div>
-
-      <div class="ajuda-secao">
-        <h3>🎨 Código de Cores</h3>
-        <div class="cores-exemplo">
-          <div class="cor-exemplo verde">
-            <span class="cor-box"></span>
-            <span>Verde = Correto</span>
-          </div>
-          <div class="cor-exemplo amarelo">
-            <span class="cor-box"></span>
-            <span>Amarelo = Parcialmente correto</span>
-          </div>
-          <div class="cor-exemplo vermelho">
-            <span class="cor-box"></span>
-            <span>Vermelho = Incorreto</span>
-          </div>
-        </div>
-      </div>
-
-      <div class="ajuda-secao">
-        <h3>💡 Dicas Especiais</h3>
-        <ul>
-          <li>
-            <strong>4 tentativas erradas:</strong> Você recebe uma dica sobre a
-            série do time (A, B, C ou D)
-          </li>
-          <li>
-            <strong>7 tentativas erradas:</strong> Você recebe uma dica sobre o
-            mascote do time
-          </li>
-        </ul>
-      </div>
-
-      <div class="assinatura-copilot">
-        <p>
-          <small>💡 Este modal foi criado com auxílio do GitHub Copilot</small>
-        </p>
-      </div>
-    </div>
-  </div>
 </div>
 
 {% endblock %}

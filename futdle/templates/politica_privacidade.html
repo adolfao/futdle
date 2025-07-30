@@ -1,0 +1,97 @@
+{% extends 'base.html' %} {% block head %}
+<!-- estilos customizados para pagina de politica de privacidade -->
+<style>
+  .futdle-section {
+    background: rgba(0, 0, 0, 0.75);
+    border-radius: 12px;
+    padding: 2rem;
+    margin-top: -7rem;
+    color: #f8f9fa;
+  }
+  .futdle-section h1,
+  .futdle-section h3 {
+    color: #28a745;
+    font-weight: bold;
+  }
+  .futdle-section p,
+  .futdle-section li {
+    font-size: 1.1rem;
+  }
+</style>
+{% endblock %} {% block body %}
+<!-- container principal da pagina de politica de privacidade -->
+<div class="container">
+  <div class="futdle-section">
+    <!-- titulo da pagina -->
+    <h1 class="text-center mb-5">
+      <i class="bi bi-shield-lock"></i> Política de Privacidade
+    </h1>
+
+    <!-- secao introducao -->
+    <section class="mb-4">
+      <p>
+        A sua privacidade é importante para nós. Esta Política de Privacidade
+        explica como o Futdle lida com informações e dados dos usuários.
+      </p>
+    </section>
+
+    <!-- secao coleta de dados -->
+    <section class="mb-4">
+      <h3><i class="bi bi-collection"></i> Coleta de Dados</h3>
+      <p>
+        O Futdle não coleta informações pessoais identificáveis, como nome ou
+        endereço de e-mail, diretamente dos usuários. No entanto, ferramentas de
+        análise (Google Analytics) e anúncios (Google AdSense) podem coletar
+        dados de navegação por meio de cookies, como:
+      </p>
+      <ul>
+        <li>Páginas visitadas e tempo de permanência;</li>
+        <li>Dispositivo e navegador utilizado;</li>
+        <li>Localização aproximada (baseada em IP).</li>
+      </ul>
+    </section>
+
+    <!-- secao uso de cookies -->
+    <section class="mb-4">
+      <h3><i class="bi bi-cookie"></i> Uso de Cookies</h3>
+      <p>
+        Utilizamos cookies para melhorar a experiência de navegação e exibir
+        anúncios mais relevantes, através do Google Analytics e Google AdSense.
+        Você pode gerenciar cookies nas configurações do seu navegador.
+      </p>
+    </section>
+
+    <!-- secao compartilhamento de dados -->
+    <section class="mb-4">
+      <h3><i class="bi bi-people"></i> Compartilhamento de Dados</h3>
+      <p>
+        Os dados coletados por meio de cookies podem ser compartilhados com o
+        Google e outros parceiros de publicidade, de acordo com as políticas
+        dessas plataformas. Não compartilhamos dados pessoais com terceiros além
+        desses serviços.
+      </p>
+    </section>
+
+    <!-- secao publico alvo -->
+    <section class="mb-4">
+      <h3><i class="bi bi-person"></i> Público-Alvo</h3>
+      <p>
+        O Futdle é um jogo livre para todas as idades e não contém conteúdo
+        impróprio ou restrito a maiores de idade.
+      </p>
+    </section>
+
+    <!-- secao contato -->
+    <section>
+      <h3><i class="bi bi-envelope"></i> Contato</h3>
+      <p>
+        Para dúvidas ou solicitações relacionadas à privacidade, entre em
+        contato:
+        <a href="mailto:adolfomendonca123@gmail.com" class="text-info">
+          adolfomendonca123@gmail.com
+        </a>
+      </p>
+    </section>
+  </div>
+</div>
+{% endblock %}
