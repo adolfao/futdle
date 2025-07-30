@@ -18,7 +18,7 @@ def classico():
 @main.route('/escudo', methods=["GET", "POST"])
 def escudo():
     """Endpoint do modo escudo."""
-    return escudo_mode()
+    return render_template('escudo.html')
 
 @main.route('/api/sugestoes', methods=["GET"])
 def sugestoes():
