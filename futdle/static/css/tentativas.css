@@ -1,0 +1,213 @@
+/* ===== SISTEMA DE TENTATIVAS ===== */
+.tentativas-container {
+  display: flex;
+  flex-direction: column-reverse;
+  gap: 10px;
+  margin-top: 20px;
+  flex-wrap: wrap;
+}
+
+/* ===== CABEÇALHO DAS TENTATIVAS ===== */
+.cabecalho-tentativas {
+  display: grid;
+  grid-template-columns: 2fr 2fr 1fr 2fr;
+  width: calc(100vw - 60px);
+  max-width: calc(100vw - 60px);
+  margin: 0 auto 12px auto;
+  margin-left: calc(-50vw + 50% + 30px);
+  background: #14532d;
+  color: #fff;
+  font-family: "Russo One", sans-serif;
+  padding: 12px 30px;
+  border-radius: 0;
+  font-size: 1.1rem;
+  gap: 15px;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.3);
+  position: relative;
+  left: 0 !important;
+}
+
+.cabecalho-tentativas div {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  justify-content: center;
+}
+
+.col-nome {
+  text-align: center;
+  font-size: 0.9rem;
+}
+
+.col-cores {
+  text-align: center;
+  font-size: 0.9rem;
+}
+
+.col-estado {
+  text-align: center;
+  font-size: 0.9rem;
+}
+
+.col-ano {
+  text-align: center;
+  font-size: 0.9rem;
+}
+
+/* ===== ITENS DE TENTATIVAS ===== */
+.tentativa-item {
+  display: grid;
+  grid-template-columns: 2fr 2fr 1fr 2fr;
+  width: calc(100vw - 60px);
+  max-width: calc(100vw - 60px);
+  margin: 0 auto 12px auto;
+  margin-left: calc(-50vw + 50% + 30px);
+  background: #1f5b2e;
+  border-radius: 0;
+  padding: 18px 30px;
+  gap: 15px;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.3);
+  align-items: center;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  animation: flipIn 0.6s ease-out forwards;
+  opacity: 0;
+  transform: rotateY(90deg);
+  position: relative;
+  left: 0 !important;
+}
+
+.tentativa-item:hover {
+  transform: translateY(-2px) scale(1.01);
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.35);
+}
+
+/* ===== ANIMAÇÃO FLIP ===== */
+@keyframes flipIn {
+  0% {
+    transform: rotateY(90deg);
+    opacity: 0;
+  }
+  60% {
+    transform: rotateY(-10deg);
+    opacity: 1;
+  }
+  100% {
+    transform: rotateY(0deg);
+    opacity: 1;
+  }
+}
+
+/* ===== ESCUDO E NOME ===== */
+.escudo-simples {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+
+.nome-clube {
+  font-size: 1rem;
+  font-weight: bold;
+  color: #fff;
+  text-align: center;
+}
+
+.escudo-simples img {
+  width: 80px;
+  height: 80px;
+  border-radius: 8px;
+  background: #fff;
+  padding: 4px;
+  object-fit: cover;
+}
+
+/* ===== CHIPS DE INFORMAÇÕES ===== */
+.cores-simples,
+.estado-simples,
+.ano-simples {
+  padding: 10px 14px;
+  border-radius: 8px;
+  font-weight: bold;
+  font-size: 1.1rem;
+  color: #fff;
+  text-align: center;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+}
+
+/* ===== ESTADOS DE ACERTO/ERRO ===== */
+.cores-simples {
+  background-color: #dc3545;
+}
+.cores-simples.exato,
+.cores-exato {
+  background-color: #28a745 !important;
+  color: white !important;
+}
+.cores-simples.parcial,
+.cores-parcial {
+  background-color: #ffc107 !important;
+  color: #212529 !important;
+}
+.cores-simples.diferente,
+.cores-diferente {
+  background-color: #dc3545 !important;
+  color: white !important;
+}
+
+.estado-simples {
+  background-color: #dc3545;
+}
+.estado-simples.correto,
+.estado-correto {
+  background-color: #28a745 !important;
+  color: white !important;
+}
+.estado-simples.incorreto,
+.estado-incorreto {
+  background-color: #dc3545 !important;
+  color: white !important;
+}
+
+.ano-simples {
+  background-color: #dc3545;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+}
+.ano-simples.correto,
+.ano-correto {
+  background-color: #28a745 !important;
+  color: white !important;
+}
+.ano-simples.incorreto,
+.ano-incorreto {
+  background-color: #dc3545 !important;
+  color: white !important;
+}
+
+.ano-simples span {
+  font-size: 16px;
+}
+
+/* ===== ESCUDOS DIVERSOS ===== */
+.escudo-pequeno {
+  width: 30px;
+  height: 30px;
+  object-fit: contain;
+}
+
+.escudo-resultado {
+  width: 80px;
+  height: 80px;
+  object-fit: contain;
+  border-radius: 10px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+.escudo-sugestao {
+  width: 24px;
+  height: 24px;
+  object-fit: contain;
+  margin-right: 10px;
+}

@@ -1,0 +1,67 @@
+/* ===== HEADER E LOGO ===== */
+.header-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  width: 100%;
+  margin-bottom: 60px;
+}
+
+.logo {
+  width: 300px;
+  display: block;
+  text-align: center;
+  transition: transform 0.3s ease, filter 0.3s ease;
+}
+
+.logo-link {
+  display: block;
+  text-decoration: none;
+  width: fit-content;
+}
+
+.logo-link:hover .logo {
+  transform: scale(1.05);
+  filter: brightness(1.1) drop-shadow(0 0 20px rgba(62, 207, 62, 0.6));
+}
+
+/* ===== CONTEÚDO HOME ===== */
+.conteudo-home {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  transform: translateY(-40px);
+  gap: 30px;
+}
+
+.botoes-extras {
+  display: flex;
+  gap: 20px;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+/* ===== FOOTER ===== */
+footer {
+  background: linear-gradient(135deg, #2c5f2d, #1a4a1d) !important;
+  backdrop-filter: blur(10px);
+  border-top: 3px solid #ffd700;
+  box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.3);
+}
+
+/* ===== HEADER E NAVEGAÇÃO BOOTSTRAP ===== */
+.btn-outline-light {
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  transition: all 0.3s ease;
+}
+
+.btn-outline-light:hover {
+  background: rgba(255, 255, 255, 0.2);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 15px rgba(255, 255, 255, 0.2);
+}

@@ -28,19 +28,6 @@ def escudo_mode():
     
     game_data = session['escudo_game']
     
-    # Se for GET e o jogo estiver finalizado, inicia uma nova rodada
-    if request.method == 'GET' and game_data.get('jogo_finalizado', False):
-        print("[DEBUG] Jogo finalizado detectado no GET, iniciando nova rodada...")
-        time_secreto_nome = random.choice(times_com_escudo)
-        session['escudo_game'] = {
-            'time_secreto': time_secreto_nome,
-            'tentativas_erradas': 0,
-            'jogo_finalizado': False,
-            'tentativas': []
-        }
-        game_data = session['escudo_game']
-        print(f"[DEBUG] Nova rodada iniciada com time: {time_secreto_nome}")
-    
     # Se for POST, processa o chute
     if request.method == 'POST':
         try:
@@ -51,16 +38,11 @@ def escudo_mode():
                 return jsonify({'sucesso': False, 'mensagem': 'Digite o nome de um time!'})
             
             # Busca o time no banco de dados
-            time_chutado = Time.buscar_por_nome_normalizado(chute)
+            time_chutado = Time.query.filter(Time.nome.ilike(f'%{chute}%')).first()
             print(f"[DEBUG] Time encontrado: {time_chutado.nome if time_chutado else 'Nenhum'}")
             
             if not time_chutado:
                 return jsonify({'sucesso': False, 'mensagem': 'Time não encontrado!'})
-            
-            # Verifica se o time já foi tentado
-            times_ja_tentados = [t['nome'] for t in game_data['tentativas']]
-            if time_chutado.nome in times_ja_tentados:
-                return jsonify({'sucesso': False, 'mensagem': f'{time_chutado.nome} já foi tentado!'})
             
             print(f"[DEBUG] Time secreto: {game_data['time_secreto']}")
             print(f"[DEBUG] Comparando: '{time_chutado.nome.lower().replace(' ', '')}' com '{game_data['time_secreto'].lower()}'")
@@ -77,10 +59,11 @@ def escudo_mode():
             else:
                 # Adiciona tentativa errada
                 game_data['tentativas_erradas'] += 1
-                game_data['tentativas'].append({
-                    'nome': time_chutado.nome,
-                    'escudo': time_chutado.nome_arquivo() + '.jpg'
-                })
+                if time_chutado.nome not in [t['nome'] for t in game_data['tentativas']]:
+                    game_data['tentativas'].append({
+                        'nome': time_chutado.nome,
+                        'escudo': time_chutado.escudo
+                    })
                 
                 session['escudo_game'] = game_data
                 return jsonify({
@@ -89,7 +72,7 @@ def escudo_mode():
                     'tentativas_erradas': game_data['tentativas_erradas'],
                     'time_chutado': {
                         'nome': time_chutado.nome,
-                        'escudo': time_chutado.nome_arquivo() + '.jpg'
+                        'escudo': time_chutado.escudo
                     }
                 })
                 

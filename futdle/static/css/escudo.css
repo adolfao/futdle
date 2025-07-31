@@ -1,0 +1,95 @@
+/* ===== MODO ESCUDO ===== */
+.conteudo-escudo {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 30px 20px;
+  color: white;
+  text-align: center;
+}
+
+.escudo-secreto-container {
+  margin-bottom: 30px;
+}
+
+.escudo-time-secreto {
+  width: 200px;
+  height: 200px;
+  margin: 0 auto 20px;
+  border-radius: 20px;
+  border: 4px solid #28a745;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
+  overflow: hidden;
+  background: white;
+}
+
+.escudo-time-secreto img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 16px;
+}
+
+.texto-escudo {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #fffbe9;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+  margin-bottom: 20px;
+}
+
+/* ===== TENTATIVAS DO MODO ESCUDO ===== */
+.tentativas-container-escudo {
+  margin-top: 30px;
+  text-align: center;
+}
+
+.tentativas-container-escudo h3 {
+  color: #fffbe9;
+  margin-bottom: 20px;
+  font-size: 1.4rem;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+}
+
+.tentativa-item-escudo {
+  display: inline-block;
+  margin: 10px;
+  text-align: center;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 15px;
+  padding: 15px;
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(10px);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+  transition: transform 0.3s ease;
+}
+
+.tentativa-item-escudo:hover {
+  transform: scale(1.05);
+  border-color: rgba(40, 167, 69, 0.8);
+  background: rgba(255, 255, 255, 0.15);
+}
+
+.tentativa-escudo {
+  width: 80px;
+  height: 80px;
+  margin: 0 auto 10px;
+  border-radius: 10px;
+  border: 2px solid #28a745;
+  overflow: hidden;
+  background: white;
+  padding: 5px;
+}
+
+.tentativa-escudo img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  border-radius: 5px;
+}
+
+.tentativa-nome {
+  color: #fffbe9;
+  font-weight: bold;
+  font-size: 0.9rem;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.7);
+}

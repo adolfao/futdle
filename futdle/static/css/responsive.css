@@ -1,0 +1,265 @@
+/* ===== RESPONSIVIDADE ===== */
+@media (max-width: 768px) {
+  .dica-container-wrapper {
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .dica-container-wrapper .contador-tentativas {
+    order: -1;
+    width: 100%;
+    text-align: center;
+  }
+
+  .resultado-mensagem {
+    padding: 15px;
+    font-size: 1rem;
+    margin-bottom: 15px;
+  }
+
+  .card {
+    margin-bottom: 15px;
+  }
+
+  .custom-card {
+    padding: 15px;
+  }
+
+  /* Ajustes para o modo clássico em mobile */
+  .conteudo-classico {
+    transform: translateY(-60px);
+    padding: 10px;
+  }
+
+  .modo-classico-titulo {
+    font-size: 2.2rem;
+  }
+
+  .logo {
+    width: 250px;
+  }
+
+  .botao-classico,
+  .botao-escudo {
+    width: 200px;
+    height: 60px;
+    font-size: 1.5rem;
+    padding: 12px 25px;
+  }
+
+  .botao-suporte,
+  .botao-atualizacoes {
+    font-size: 1.5rem;
+    padding: 8px 20px;
+  }
+
+  /* Ajustes para tentativas em mobile */
+  .cabecalho-tentativas,
+  .tentativa-item {
+    grid-template-columns: 1.5fr 1.5fr 1fr 1.5fr;
+    padding: 15px 20px;
+    margin-left: calc(-50vw + 50% + 15px);
+    width: calc(100vw - 30px);
+    max-width: calc(100vw - 30px);
+  }
+
+  .col-nome,
+  .col-cores,
+  .col-estado,
+  .col-ano {
+    font-size: 0.8rem;
+  }
+
+  .escudo-simples img {
+    width: 60px;
+    height: 60px;
+  }
+
+  .nome-clube {
+    font-size: 0.9rem;
+  }
+
+  .cores-simples,
+  .estado-simples,
+  .ano-simples {
+    padding: 8px 10px;
+    font-size: 1rem;
+  }
+
+  /* Ajustes para dicas em mobile */
+  .dicas-disponiveis {
+    flex-direction: column;
+    gap: 15px;
+  }
+
+  .dicas-disponiveis .dica-container {
+    min-width: auto;
+    max-width: none;
+  }
+
+  .card-dica {
+    width: 100%;
+    max-width: 300px;
+    margin: 0 auto;
+  }
+
+  /* Ajustes para escudo em mobile */
+  .conteudo-escudo {
+    padding: 20px 15px;
+  }
+
+  .escudo-time-secreto {
+    width: 150px;
+    height: 150px;
+  }
+
+  .tentativa-item-escudo {
+    margin: 5px;
+    padding: 10px;
+  }
+
+  .tentativa-escudo {
+    width: 60px;
+    height: 60px;
+  }
+
+  /* Ajustes para autocomplete em mobile */
+  .autocomplete-container {
+    max-width: 350px;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .autocomplete-container input {
+    border-radius: 8px;
+    width: 100%;
+  }
+
+  .autocomplete-container button {
+    border-radius: 8px;
+    width: 100%;
+    padding: 12px 16px;
+  }
+
+  .sugestoes-lista {
+    max-width: 350px;
+  }
+}
+
+@media (max-width: 480px) {
+  .header-container {
+    margin-bottom: 40px;
+  }
+
+  .logo {
+    width: 200px;
+  }
+
+  .conteudo-home {
+    gap: 20px;
+    transform: translateY(-20px);
+  }
+
+  .botoes-extras {
+    flex-direction: column;
+    gap: 15px;
+  }
+
+  .botao-classico,
+  .botao-escudo {
+    width: 180px;
+    height: 55px;
+    font-size: 1.3rem;
+    transform: translateY(-20px);
+  }
+
+  .botao-classico:hover,
+  .botao-escudo:hover {
+    transform: translateY(-20px) scale(1.05);
+  }
+
+  .botao-suporte,
+  .botao-atualizacoes {
+    font-size: 1.3rem;
+    padding: 6px 18px;
+    transform: translateY(-20px);
+  }
+
+  .botao-suporte:hover,
+  .botao-atualizacoes:hover {
+    transform: translateY(-20px) scale(1.05);
+  }
+
+  .modo-classico-titulo {
+    font-size: 1.8rem;
+  }
+
+  .conteudo-classico {
+    transform: translateY(-40px);
+  }
+
+  /* Botão suporte pequeno em mobile */
+  .botao-suporte-pequeno {
+    right: calc(50% - 150px);
+    width: 30px;
+    height: 30px;
+    font-size: 12px;
+  }
+
+  /* Ajustes extremos para telas muito pequenas */
+  .cabecalho-tentativas,
+  .tentativa-item {
+    padding: 10px 15px;
+    margin-left: calc(-50vw + 50% + 10px);
+    width: calc(100vw - 20px);
+    max-width: calc(100vw - 20px);
+    gap: 10px;
+  }
+
+  .escudo-simples img {
+    width: 50px;
+    height: 50px;
+  }
+
+  .cores-simples,
+  .estado-simples,
+  .ano-simples {
+    padding: 6px 8px;
+    font-size: 0.9rem;
+  }
+
+  .resultado-mensagem,
+  .resultado-mensagem-abaixo {
+    padding: 12px 18px;
+    font-size: 0.9rem;
+  }
+}
+
+/* Ajustes para telas muito grandes */
+@media (min-width: 1400px) {
+  .container {
+    max-width: 1400px;
+  }
+
+  .cabecalho-tentativas,
+  .tentativa-item {
+    max-width: 1200px;
+    margin-left: calc(-50vw + 50%);
+    width: 100vw;
+  }
+}
+
+/* Ajustes para landscape em tablets */
+@media (max-width: 1024px) and (orientation: landscape) {
+  .conteudo-classico {
+    transform: translateY(-80px);
+  }
+
+  .conteudo-home {
+    transform: translateY(-30px);
+  }
+
+  .header-container {
+    margin-bottom: 40px;
+  }
+}

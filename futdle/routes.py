@@ -20,8 +20,15 @@ def classico():
 
 @main.route('/escudo', methods=["GET", "POST"])
 def escudo():
-    """Modo escudo - ainda em desenvolvimento."""
+    """Modo escudo - delega lógica para o módulo escudo.py."""
     return escudo_mode()
+
+@main.route('/escudo/reset', methods=["POST"])
+def escudo_reset():
+    """Reset do jogo escudo."""
+    if 'escudo_game' in session:
+        del session['escudo_game']
+    return jsonify({'sucesso': True, 'mensagem': 'Jogo resetado com sucesso!'})
 
 # === API ENDPOINTS ===
 
@@ -30,6 +37,24 @@ def sugestoes():
     """API para autocomplete de nomes de times."""
     query = request.args.get('q', '').strip()
     tentativas_nomes = session.get("tentativas", [])
+    
+    # Usa o método otimizado da classe Time
+    sugestoes_list = Time.buscar_sugestoes(
+        query=query,
+        times_ja_tentados=tentativas_nomes
+    )
+    
+    return jsonify(sugestoes_list)
+
+@main.route('/api/sugestoes_escudo', methods=["GET"])
+def sugestoes_escudo():
+    """API para autocomplete de nomes de times no modo escudo."""
+    query = request.args.get('q', '').strip()
+    
+    # Pega as tentativas do modo escudo
+    escudo_game = session.get('escudo_game', {})
+    tentativas_escudo = escudo_game.get('tentativas', [])
+    tentativas_nomes = [t['nome'] for t in tentativas_escudo]
     
     # Usa o método otimizado da classe Time
     sugestoes_list = Time.buscar_sugestoes(

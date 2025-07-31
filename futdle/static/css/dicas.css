@@ -1,0 +1,328 @@
+/* ===== SISTEMA DE DICAS ===== */
+.secao-dicas {
+  margin: 20px 0;
+  text-align: center;
+}
+
+/* ===== NOVA ESTRUTURA DE DICAS ===== */
+.dica-container-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  max-width: 300px;
+}
+
+.dica-container-wrapper .dica-container {
+  width: 100%;
+  margin-bottom: 0;
+}
+
+.dica-container-wrapper .contador-tentativas {
+  width: auto;
+  margin-bottom: 0;
+  padding: 10px 20px;
+  font-size: 1rem;
+}
+
+/* ===== CONTADOR DE TENTATIVAS ===== */
+.contador-tentativas {
+  background: linear-gradient(145deg, #1c4520, #256a29);
+  padding: 15px 25px;
+  border-radius: 12px;
+  margin-bottom: 20px;
+  border: 2px solid #3ecf3e;
+  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.3);
+  color: white;
+  font-size: 1.2rem;
+  box-shadow: 0 8px 32px rgba(28, 69, 32, 0.3);
+  backdrop-filter: blur(20px);
+}
+
+.label-contador {
+  color: #fffbe9;
+  font-family: "Exo 2", sans-serif;
+  font-size: 1rem;
+  font-weight: 600;
+  margin-right: 10px;
+}
+
+.numero-tentativas {
+  color: #3ecf3e;
+  font-family: "Russo One", sans-serif;
+  font-size: 1.2rem;
+  font-weight: bold;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+}
+
+.contador-tentativas-integrado {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin-bottom: 5px;
+}
+
+.contador-tentativas-integrado .label-contador {
+  font-family: "Russo One", sans-serif;
+  font-size: 1.1rem;
+  color: #fffbe9;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
+}
+
+.contador-tentativas-integrado .numero-tentativas {
+  font-family: "Orbitron", sans-serif;
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: #3ecf3e;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
+}
+
+/* ===== CONTAINER DE DICAS ===== */
+.dica-container {
+  background: linear-gradient(145deg, #28a745, #20c997);
+  padding: 20px;
+  border-radius: 15px;
+  border: 3px solid #20c997;
+  box-shadow: 0px 6px 20px rgba(40, 167, 69, 0.6);
+  animation: pulseHint 0.8s ease-out;
+}
+
+.dicas-disponiveis {
+  display: flex;
+  gap: 20px;
+  justify-content: center;
+  align-items: stretch;
+  flex-wrap: wrap;
+  margin: 15px 0;
+}
+
+.dicas-disponiveis .dica-container {
+  flex: 1;
+  min-width: 280px;
+  max-width: 400px;
+  margin: 0;
+}
+
+.dica-container h3 {
+  color: #fffbe9;
+  font-family: "Russo One", sans-serif;
+  font-size: 1.4rem;
+  margin: 0 0 10px 0;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+}
+
+.texto-dica {
+  color: #fffbe9;
+  font-family: "Exo 2", sans-serif;
+  font-size: 1.1rem;
+  margin: 0;
+  font-weight: 600;
+}
+
+.dica-mascote {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+
+.dica-serie {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+
+.texto-dica-inicio {
+  color: #fffbe9;
+  font-family: "Exo 2", sans-serif;
+  font-size: 1.1rem;
+  margin: 0;
+  font-weight: 600;
+}
+
+.texto-dica-oculto {
+  color: #fffbe9;
+  font-family: "Russo One", sans-serif;
+  font-size: 1.3rem;
+  margin: 10px 0 0 0;
+  font-weight: bold;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+  animation: fadeIn 0.5s ease-in;
+}
+
+/* ===== DICAS BLOQUEADAS ===== */
+.dica-bloqueada {
+  background: linear-gradient(145deg, #1c4520, #256a29);
+  border: 2px solid #3ecf3e;
+  padding: 15px;
+  border-radius: 10px;
+  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.dica-bloqueada p {
+  color: #fffbe9;
+  font-family: "Exo 2", sans-serif;
+  font-size: 1rem;
+  margin: 10px 0 0 0;
+  font-style: italic;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
+}
+
+.dica-bloqueada-individual {
+  background: #002e11;
+  border: 2px solid #3ecf3e;
+  padding: 15px;
+  border-radius: 10px;
+  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.dica-bloqueada-individual .texto-dica-inicio {
+  color: #fffbe9;
+  font-family: "Exo 2", sans-serif;
+  font-size: 1rem;
+  margin: 10px 0 0 0;
+  font-style: italic;
+}
+
+.dica-bloqueada-individual .texto-dica-bloqueada {
+  color: #fffbe9;
+  font-family: "Exo 2", sans-serif;
+  font-size: 1rem;
+  margin: 10px 0 0 0;
+  font-style: italic;
+}
+
+/* ===== NOVOS CARDS DE DICA ===== */
+.cards-dicas {
+  gap: 1rem;
+  margin: 20px 0;
+}
+
+.card-dica {
+  background: rgba(0, 0, 0, 0.7);
+  border-radius: 12px;
+  padding: 1.5rem;
+  width: 260px;
+  text-align: center;
+  color: #f8f9fa;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
+  transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+}
+
+.card-dica:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.5);
+}
+
+.card-dica .card-icon {
+  font-size: 2rem;
+  margin-bottom: 0.5rem;
+}
+
+.card-dica.disponivel {
+  background: linear-gradient(135deg, #28a745, #218838);
+  border: 2px solid #20c997;
+  box-shadow: 0 4px 12px rgba(40, 167, 69, 0.4);
+}
+
+.card-dica.disponivel:hover {
+  transform: translateY(-5px) scale(1.02);
+  box-shadow: 0 8px 20px rgba(40, 167, 69, 0.6);
+}
+
+.card-dica.bloqueada:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.5);
+}
+
+.card-dica.bloqueada .card-icon {
+  font-size: 2rem;
+  color: #aaa;
+  margin-bottom: 0.5rem;
+}
+
+.card-dica.bloqueada .card-title {
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: #ccc;
+  text-transform: uppercase;
+  margin-bottom: 0.5rem;
+}
+
+.card-dica.bloqueada .card-text {
+  font-size: 1rem;
+  color: #ddd;
+}
+
+.card-dica.bloqueada .card-disponivel {
+  font-size: 0.95rem;
+  color: #ffc107;
+  font-weight: bold;
+  margin-top: 8px;
+}
+
+.card-dica.bloqueada {
+  background: rgba(30, 30, 30, 0.8);
+  backdrop-filter: blur(6px);
+  border: 2px solid rgba(100, 255, 100, 0.3);
+  border-radius: 12px;
+  padding: 1.5rem;
+  width: 260px;
+  text-align: center;
+  color: #f8f9fa;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+  transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+  animation: cardFadeIn 0.6s ease-out, pulseCard 2s infinite ease-in-out;
+}
+
+/* ===== FONTES MELHORADAS ===== */
+.card-dica .card-title,
+.card-dica .card-text,
+.card-dica .card-disponivel {
+  font-family: "Russo One", "Orbitron", sans-serif;
+  letter-spacing: 1px;
+}
+
+/* ===== ANIMAÇÕES ===== */
+@keyframes cardFadeIn {
+  0% {
+    opacity: 0;
+    transform: translateY(15px) scale(0.95);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.card-dica {
+  animation: cardFadeIn 0.6s ease-out;
+}
+
+@keyframes pulseCard {
+  0% {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+  }
+  50% {
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.5);
+    transform: scale(1.01);
+  }
+  100% {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+  }
+}
+
+@keyframes pulseHint {
+  0% {
+    transform: scale(0.9);
+    opacity: 0;
+  }
+  50% {
+    transform: scale(1.05);
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}

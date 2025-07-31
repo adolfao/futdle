@@ -342,6 +342,14 @@
           )
           .join("");
 
+        // Adiciona indicador de quantidade se há muitos resultados
+        if (sugestoes.length > 5) {
+          const indicator = document.createElement('div');
+          indicator.className = 'sugestoes-indicator';
+          indicator.innerHTML = `<small>📊 ${sugestoes.length} times encontrados</small>`;
+          sugestoesLista.insertBefore(indicator, sugestoesLista.firstChild);
+        }
+
         sugestoesLista
           .querySelectorAll(".sugestao-item")
           .forEach((item, index) => {

@@ -1,0 +1,94 @@
+/* ===== MELHORIAS BOOTSTRAP ===== */
+.text-primary {
+  color: #667eea !important;
+}
+
+/* ===== SISTEMA DE CORES BOOTSTRAP ===== */
+.bg-success {
+  background-color: #28a745 !important;
+}
+
+.bg-warning {
+  background-color: #ffc107 !important;
+  color: #212529 !important;
+}
+
+.bg-danger {
+  background-color: #dc3545 !important;
+}
+
+/* ===== MODAIS BOOTSTRAP ===== */
+.modal-content {
+  border-radius: 15px;
+  border: none;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+}
+
+.modal-header {
+  border-radius: 15px 15px 0 0;
+  border-bottom: none;
+}
+
+.modal-footer {
+  border-radius: 0 0 15px 15px;
+  border-top: none;
+}
+
+/* ===== CARDS E ELEMENTOS BOOTSTRAP ===== */
+.card {
+  border-radius: 15px;
+  border: none;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease;
+}
+
+.card:hover {
+  transform: translateY(-2px);
+}
+
+/* ===== TABELAS BOOTSTRAP ===== */
+.table {
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.table th {
+  background-color: #f8f9fa;
+  border: none;
+  font-weight: 600;
+  padding: 15px;
+}
+
+.table td {
+  border: none;
+  padding: 15px;
+  vertical-align: middle;
+}
+
+.table-hover tbody tr:hover {
+  background-color: rgba(0, 123, 255, 0.05);
+}
+
+/* ===== BADGES BOOTSTRAP ===== */
+.badge {
+  font-size: 0.9rem;
+  padding: 8px 12px;
+  border-radius: 20px;
+  font-weight: 500;
+}
+
+/* ===== ALERTS BOOTSTRAP ===== */
+.alert {
+  border-radius: 12px;
+  border: none;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+/* ===== AJUSTES PARA BOOTSTRAP ===== */
+.gap-4 {
+  gap: 1.5rem !important;
+}
+
+.mt-3 {
+  margin-top: 1rem !important;
+}

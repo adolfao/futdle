@@ -1,0 +1,106 @@
+/* ===== SISTEMA DE RESULTADOS ===== */
+.resultado-container {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.resultado-container-abaixo {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+
+/* ===== ESTILOS BASE RESULTADO MENSAGEM ===== */
+.resultado-mensagem {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 15px 25px;
+  border-radius: 12px;
+  font-family: "Russo One", "Orbitron", sans-serif;
+  font-size: 1.3rem;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  animation: fadeSlideDown 0.5s ease-out;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+  margin: 20px 0;
+}
+
+.resultado-mensagem-abaixo {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 20px;
+  border-radius: 12px;
+  font-family: "Russo One", "Orbitron", sans-serif;
+  font-size: 1.2rem;
+  text-transform: uppercase;
+  animation: fadeInAbaixo 0.5s ease-out;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+/* ===== ANIMAÇÕES ===== */
+@keyframes fadeSlideDown {
+  0% {
+    opacity: 0;
+    transform: translateY(-10px) scale(0.95);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* ===== VARIAÇÕES DE RESULTADO ===== */
+.resultado-mensagem.acertou,
+.resultado-mensagem-abaixo.acertou {
+  background: linear-gradient(145deg, #28a745, #20c997);
+  color: #fff;
+  border: 2px solid #20c997;
+}
+.resultado-mensagem.acertou::before,
+.resultado-mensagem-abaixo.acertou::before {
+  content: "✔";
+  font-weight: bold;
+}
+
+.resultado-mensagem.errou,
+.resultado-mensagem-abaixo.errou {
+  background: linear-gradient(145deg, #dc3545, #e74c3c);
+  color: #fff;
+  border: 2px solid #e74c3c;
+}
+.resultado-mensagem.errou::before,
+.resultado-mensagem-abaixo.errou::before {
+  content: "✖";
+  font-weight: bold;
+}
+
+.resultado-mensagem.time-nao-encontrado,
+.resultado-mensagem-abaixo.time-nao-encontrado {
+  background: linear-gradient(145deg, #007bff, #0056b3);
+  color: #fff;
+  border: 2px solid #0056b3;
+}
+.resultado-mensagem.time-nao-encontrado::before,
+.resultado-mensagem-abaixo.time-nao-encontrado::before {
+  content: "❓";
+  font-weight: bold;
+}
+
+.resultado-mensagem.repetido,
+.resultado-mensagem-abaixo.repetido {
+  background: linear-gradient(145deg, #17a2b8, #138496);
+  color: #fff;
+  border: 2px solid #138496;
+}
+.resultado-mensagem.repetido::before,
+.resultado-mensagem-abaixo.repetido::before {
+  content: "↺";
+  font-weight: bold;
+}
+
+.resultado-wrapper {
+  animation: fadeInAbaixo 0.5s ease-out;
+}

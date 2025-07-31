@@ -1,14 +1,472 @@
 {% extends 'base.html' %} {% block body %}
 
-<!-- container do modo escudo -->
-<div class="conteudo-escudo">
-  <!-- titulo do modo -->
+<div
+  class="conteudo-classico {% if jogo_finalizado %}jogo-finalizado{% endif %}"
+>
+  <!-- título -->
   <div class="titulo-container">
-    <h1>Modo Escudo</h1>
+    <h1 class="modo-classico-titulo text-center">
+      <i class="bi bi-shield-check"></i> Modo Escudo
+    </h1>
   </div>
 
-  <!-- placeholder para desenvolvimento -->
-  <p>Em desenvolvimento... xd</p>
+  <!-- escudo secreto -->
+  <div class="escudo-secreto-container text-center">
+    <div class="escudo-time-secreto mx-auto">
+      <img
+        src="{{ url_for('static', filename='times_escudo/' ~ time_secreto_nome ~ '_escudo.png') }}"
+        alt="Escudo do time secreto"
+        class="img-fluid"
+        onerror="this.src='{{ url_for('static', filename='images/bola.png') }}'"
+      />
+    </div>
+  </div>
+
+  <div class="formulario-chute">
+    <form method="post" id="form-chute">
+      <label for="chute">Digite um time:</label>
+      <div class="autocomplete-container">
+        <input
+          type="text"
+          id="chute"
+          name="chute"
+          required
+          placeholder="Exemplo: Flamengo"
+          autocomplete="off"
+          {%
+          if
+          jogo_finalizado
+          %}disabled{%
+          endif
+          %}
+        />
+        <button type="submit" {% if jogo_finalizado %}disabled{% endif %}>
+          Enviar
+        </button>
+        <div class="sugestoes-lista" id="sugestoes-lista"></div>
+      </div>
+    </form>
+
+    <!-- Contador de tentativas -->
+    <div class="contador-tentativas mt-3">
+      <span class="label-contador">Tentativas Erradas:</span>
+      <span class="numero-tentativas" id="contador-erradas"
+        >{{ tentativas_erradas or 0 }}</span
+      >
+    </div>
+
+    <!-- Container para mensagens de resultado -->
+    <div
+      class="resultado-container-abaixo"
+      id="resultado-container-abaixo"
+      style="display: none"
+    >
+      <div class="d-flex align-items-center gap-3">
+        <p
+          class="resultado-mensagem-abaixo mb-0"
+          id="resultado-mensagem-dinamico"
+        ></p>
+        <button
+          class="btn btn-success btn-sm botao-tentar-novamente-inline"
+          onclick="jogarNovamente()"
+          id="botao-tentar-novamente"
+          style="display: none"
+        >
+          <i class="bi bi-arrow-clockwise me-1"></i>
+          Tentar Novamente
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Tentativas feitas -->
+  {% if tentativas %}
+  <div class="tentativas-container-escudo">
+    <h3>Times que você tentou:</h3>
+    <div class="lista-tentativas-escudo">
+      {% for tentativa in tentativas %}
+      <div class="tentativa-item-escudo">
+        <div class="tentativa-escudo">
+          <img
+            src="{{ url_for('static', filename='times/') }}{{ tentativa.escudo }}"
+            alt="{{ tentativa.nome }}"
+            onerror="this.src='{{ url_for('static', filename='images/bola.png') }}'"
+          />
+        </div>
+        <div class="tentativa-nome">{{ tentativa.nome }}</div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+  {% endif %}
+
+  <script>
+    class FutdleEscudoGame {
+      constructor() {
+        this.sugestaoSelecionada = -1;
+        this.sugestoes = [];
+        this.timeoutId = null;
+        this.init();
+      }
+
+      init() {
+        this.setupAutoComplete();
+        this.setupFormSubmit();
+      }
+
+      setupAutoComplete() {
+        const input = document.getElementById("chute");
+        const sugestoesLista = document.getElementById("sugestoes-lista");
+
+        if (!input || !sugestoesLista) return;
+
+        input.addEventListener("input", (e) => this.handleInput(e));
+        input.addEventListener("keydown", (e) => this.handleKeydown(e));
+        document.addEventListener("click", (e) => this.handleClickOutside(e));
+      }
+
+      handleInput(event) {
+        const query = event.target.value.trim();
+        clearTimeout(this.timeoutId);
+
+        if (query.length < 1) {
+          document.getElementById("sugestoes-lista").style.display = "none";
+          return;
+        }
+
+        this.timeoutId = setTimeout(() => {
+          fetch(
+            `{{ url_for('main.sugestoes_escudo') }}?q=${encodeURIComponent(
+              query
+            )}`
+          )
+            .then((response) => response.json())
+            .then((data) => {
+              this.sugestoes = data;
+              this.sugestaoSelecionada = -1;
+              this.mostrarSugestoes(data);
+            })
+            .catch((error) => {
+              console.error("Erro ao buscar sugestões:", error);
+              document.getElementById("sugestoes-lista").style.display = "none";
+            });
+        }, 200);
+      }
+
+      handleKeydown(event) {
+        const sugestoesLista = document.getElementById("sugestoes-lista");
+        if (sugestoesLista.style.display === "none") return;
+
+        switch (event.key) {
+          case "ArrowDown":
+            event.preventDefault();
+            this.sugestaoSelecionada = Math.min(
+              this.sugestaoSelecionada + 1,
+              this.sugestoes.length - 1
+            );
+            this.atualizarSelecao();
+            break;
+          case "ArrowUp":
+            event.preventDefault();
+            this.sugestaoSelecionada = Math.max(
+              this.sugestaoSelecionada - 1,
+              -1
+            );
+            this.atualizarSelecao();
+            break;
+          case "Enter":
+            if (this.sugestaoSelecionada >= 0) {
+              event.preventDefault();
+              this.selecionarSugestao(this.sugestoes[this.sugestaoSelecionada]);
+            } else if (
+              this.sugestoes.length > 0 &&
+              sugestoesLista.style.display !== "none"
+            ) {
+              event.preventDefault();
+              this.selecionarSugestao(this.sugestoes[0]);
+            }
+            break;
+          case "Escape":
+            sugestoesLista.style.display = "none";
+            this.sugestaoSelecionada = -1;
+            break;
+        }
+      }
+
+      handleClickOutside(event) {
+        if (!event.target.closest(".autocomplete-container")) {
+          document.getElementById("sugestoes-lista").style.display = "none";
+          this.sugestaoSelecionada = -1;
+        }
+      }
+
+      mostrarSugestoes(sugestoes) {
+        const sugestoesLista = document.getElementById("sugestoes-lista");
+
+        if (sugestoes.length === 0) {
+          sugestoesLista.style.display = "none";
+          return;
+        }
+
+        sugestoesLista.innerHTML = sugestoes
+          .map(
+            (sugestao, index) =>
+              `<div class="sugestao-item" data-index="${index}">
+          <img src="{{ url_for('static', filename='times/') }}${sugestao.escudo}" alt="${sugestao.nome}" class="sugestao-escudo" onerror="this.style.display='none'">
+          <span class="sugestao-nome">${sugestao.nome}</span>
+        </div>`
+          )
+          .join("");
+
+        // Adiciona indicador de quantidade se há muitos resultados
+        if (sugestoes.length > 5) {
+          const indicator = document.createElement("div");
+          indicator.className = "sugestoes-indicator";
+          indicator.innerHTML = `<small>📊 ${sugestoes.length} times encontrados</small>`;
+          sugestoesLista.insertBefore(indicator, sugestoesLista.firstChild);
+        }
+
+        sugestoesLista
+          .querySelectorAll(".sugestao-item")
+          .forEach((item, index) => {
+            item.addEventListener("click", () =>
+              this.selecionarSugestao(sugestoes[index])
+            );
+            item.addEventListener("mouseenter", () => {
+              this.sugestaoSelecionada = index;
+              this.atualizarSelecao();
+            });
+          });
+
+        sugestoesLista.style.display = "block";
+      }
+
+      atualizarSelecao() {
+        document.querySelectorAll(".sugestao-item").forEach((item, index) => {
+          item.classList.toggle("selected", index === this.sugestaoSelecionada);
+        });
+      }
+
+      selecionarSugestao(sugestao) {
+        const input = document.getElementById("chute");
+        input.value = sugestao.nome;
+        document.getElementById("sugestoes-lista").style.display = "none";
+        this.sugestaoSelecionada = -1;
+        this.enviarChute();
+      }
+
+      setupFormSubmit() {
+        const form = document.getElementById("form-chute");
+        if (!form) return;
+
+        form.addEventListener("submit", (event) => {
+          event.preventDefault();
+          this.enviarChute();
+        });
+      }
+
+      async enviarChute() {
+        const form = document.getElementById("form-chute");
+        const input = document.getElementById("chute");
+
+        if (!input.value.trim()) return;
+
+        try {
+          const response = await fetch("/escudo", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/x-www-form-urlencoded",
+            },
+            body: `chute=${encodeURIComponent(input.value)}`,
+          });
+
+          if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+          }
+
+          const data = await response.json();
+          console.log("Resposta do servidor:", data);
+
+          if (data.sucesso) {
+            this.mostrarMensagem("🎉 Parabéns! Você acertou!", "acertou");
+            this.desabilitarFormulario();
+          } else {
+            this.atualizarContador(data.tentativas_erradas || 0);
+            if (data.time_chutado) {
+              this.adicionarTentativa(data.time_chutado);
+            }
+
+            // Determina a classe baseada no tipo de erro
+            let classe = "errou";
+            let mensagem = data.mensagem || "Tente novamente!";
+
+            if (
+              mensagem.includes("não foi encontrado") ||
+              mensagem.includes("não encontrado")
+            ) {
+              classe = "time-nao-encontrado";
+            } else if (
+              mensagem.includes("já foi tentado") ||
+              mensagem.includes("já digitado")
+            ) {
+              classe = "repetido"; // Usa classe específica para times repetidos
+            }
+
+            this.mostrarMensagem(mensagem, classe);
+          }
+        } catch (error) {
+          console.error("Erro completo:", error);
+          this.mostrarMensagem(
+            `Erro ao enviar chute: ${error.message}`,
+            "time-nao-encontrado"
+          );
+        }
+
+        input.value = "";
+        input.focus();
+      }
+
+      atualizarContador(tentativasErradas) {
+        const contador = document.getElementById("contador-erradas");
+        if (contador) {
+          contador.textContent = tentativasErradas;
+
+          // Adiciona animação visual
+          contador.style.transform = "scale(1.2)";
+          contador.style.color = "#ff6b6b";
+
+          setTimeout(() => {
+            contador.style.transform = "scale(1)";
+            contador.style.color = "#3ecf3e";
+          }, 300);
+        }
+      }
+
+      adicionarTentativa(timeChutado) {
+        if (!timeChutado) return;
+
+        let container = document.querySelector(".tentativas-container-escudo");
+
+        // Cria o container se não existir
+        if (!container) {
+          container = document.createElement("div");
+          container.className = "tentativas-container-escudo";
+          container.innerHTML = `
+            <h3>Times que Você Tentou:</h3>
+            <div class="lista-tentativas-escudo"></div>
+          `;
+          document.querySelector(".conteudo-classico").appendChild(container);
+        }
+
+        const lista = container.querySelector(".lista-tentativas-escudo");
+
+        // Verifica se já existe para evitar duplicatas
+        const jaExiste = Array.from(lista.children).some(
+          (item) =>
+            item.querySelector(".tentativa-nome").textContent ===
+            timeChutado.nome
+        );
+
+        if (!jaExiste) {
+          const tentativaItem = document.createElement("div");
+          tentativaItem.className = "tentativa-item-escudo";
+          tentativaItem.innerHTML = `
+            <div class="tentativa-escudo">
+              <img src="/static/times/${timeChutado.escudo}" 
+                   alt="${timeChutado.nome}"
+                   onerror="this.src='/static/images/bola.png'">
+            </div>
+            <div class="tentativa-nome">${timeChutado.nome}</div>
+          `;
+
+          // Adiciona com animação
+          tentativaItem.style.opacity = "0";
+          tentativaItem.style.transform = "translateY(20px)";
+          lista.appendChild(tentativaItem);
+
+          setTimeout(() => {
+            tentativaItem.style.transition = "opacity 0.3s ease, transform 0.3s ease";
+            tentativaItem.style.opacity = "1";
+            tentativaItem.style.transform = "translateY(0)";
+            
+            // Remove a transição inline após a animação para não interferir no hover
+            setTimeout(() => {
+              tentativaItem.style.transition = "";
+            }, 300);
+          }, 100);
+        }
+      }
+
+      mostrarMensagem(mensagem, classe) {
+        const resultadoContainer = document.getElementById(
+          "resultado-container-abaixo"
+        );
+        const resultadoMensagem = document.getElementById(
+          "resultado-mensagem-dinamico"
+        );
+        const botaoTentarNovamente = document.getElementById(
+          "botao-tentar-novamente"
+        );
+
+        if (resultadoContainer && resultadoMensagem) {
+          resultadoMensagem.textContent = mensagem;
+          resultadoMensagem.className = `resultado-mensagem-abaixo mb-0 ${classe}`;
+          resultadoContainer.style.display = "block";
+
+          // Mostra botão "Tentar Novamente" imediatamente quando acerta
+          if (classe === "acertou" && botaoTentarNovamente) {
+            botaoTentarNovamente.style.display = "inline-flex";
+          } else if (botaoTentarNovamente) {
+            // Esconde o botão para outros tipos de mensagem
+            botaoTentarNovamente.style.display = "none";
+          }
+        }
+      }
+
+      desabilitarFormulario() {
+        const input = document.getElementById("time-input");
+        const botao = document.getElementById("submit-btn");
+
+        if (input) {
+          input.disabled = true;
+          input.style.opacity = "0.6";
+          input.style.cursor = "not-allowed";
+        }
+        if (botao) {
+          botao.disabled = true;
+          botao.style.opacity = "0.6";
+          botao.style.cursor = "not-allowed";
+        }
+      }
+
+      mostrarBotaoJogarNovamente() {
+        const botao = document.getElementById("botao-tentar-novamente");
+        if (botao) {
+          botao.style.display = "inline-flex";
+        }
+      }
+    }
+
+    document.addEventListener("DOMContentLoaded", () => new FutdleEscudoGame());
+
+    // Função global para o botão "Tentar Novamente"
+    function jogarNovamente() {
+      // Opção 1: Reset via API (mais limpo)
+      fetch("/escudo/reset", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      })
+        .then(() => {
+          window.location.reload();
+        })
+        .catch(() => {
+          // Fallback: redirecionamento direto
+          window.location.href = "/escudo";
+        });
+    }
+  </script>
 </div>
 
 {% endblock %}
