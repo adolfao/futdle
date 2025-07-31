@@ -758,7 +758,7 @@ body {
 }
 
 .dica-bloqueada-individual {
-  background: linear-gradient(145deg, #1c4520, #256a29);
+  background: #002E11;
   border: 2px solid #3ecf3e;
   padding: 15px;
   border-radius: 10px;

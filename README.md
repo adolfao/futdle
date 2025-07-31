@@ -6,15 +6,15 @@
 
 ## 🎯 Objetivo
 
-Criar um jogo estilo Loodle onde o jogador precisa adivinhar um **time de futebol brasileiro** com base em dicas visuais e textuais.
+Criar um jogo estilo Loldle onde o jogador precisa adivinhar um **time de futebol brasileiro** com base em dicas visuais e textuais.
 
 ## 🧱 Tecnologias Utilizadas
 
-- **Back-end**: Flask (Python)
-- **Front-end**: HTML + Bootstrap (provavelmente)
-- **Banco de Dados**: PostgreSQL (provavelmente)
-- **APIs externas**: indefinido
-- **Deploy**: será feito no final
+- **Back-end**: Flask (Python) com Blueprint para organização modular
+- **Front-end**: HTML5 + CSS3 + JavaScript + Bootstrap 5.3.7
+- **Banco de Dados**: SQLite com 60 times brasileiros (séries A, B, C)
+- **AJAX**: Interações sem refresh de página
+- **Deploy**: Render (configurado com Procfile) e hospedado em futdle.app
 
 ## 🧩 Modos de Jogo
 
@@ -88,7 +88,6 @@ Criar um jogo estilo Loodle onde o jogador precisa adivinhar um **time de futebo
 - Sem foco em design nem segurança inicialmente
 - Linguagem e estrutura simples para facilitar o desenvolvimento solo
 - Complexidade controlada para garantir avanço constante
-- Deploy será visto apenas ao final do projeto
 
 ## 🗂️ Página Inicial
 
@@ -140,23 +139,8 @@ Criar um jogo estilo Loodle onde o jogador precisa adivinhar um **time de futebo
    http://127.0.0.1:5000
    ```
 
-### 🎮 Modos de Jogo Disponíveis
-
-- **Modo Clássico** (`/classico`): Adivinhe o time baseado em cores, estado e ano de fundação
-  - 🟢 Verde: acerto completo
-  - 🟡 Amarelo: acerto parcial (cores)
-  - 🔴 Vermelho: incorreto
-  - ↑↓ Setas: indicam se o ano é maior ou menor
-
 ### 🗃️ Base de Dados
 
-O projeto inclui 20 times brasileiros das principais séries:
-
-- Atlético Mineiro, Bahia, Botafogo, Bragantino, Ceará
-- Corinthians, Cruzeiro, Flamengo, Fluminense, Fortaleza
-- Grêmio, Internacional, Juventude, Mirassol, Palmeiras
-- Santos, Sport, São Paulo, Vasco da Gama, Vitória
-
----
+O projeto inclui 60 times brasileiros das principais séries, por enquanto.
 
 > Este arquivo README foi gerado com auxílio do ChatGPT (OpenAI) em julho de 2025 para fins de documentação e organização do projeto Futdle.

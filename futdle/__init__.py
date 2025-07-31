@@ -35,8 +35,11 @@ def _configure_secret_key(app):
 def _initialize_database():
     """Popula banco de dados com times brasileiros."""
     try:
-        from popular_db import popular_times
-        popular_times()
+        import sys
+        import os
+        sys.path.append(os.path.join(os.path.dirname(__file__), '..', 'scripts'))
+        from populate_db import popular_banco
+        popular_banco()
     except Exception as e:
         print(MENSAGENS['banco_erro'].format(error=e))
         print(MENSAGENS['banco_instrucao'])

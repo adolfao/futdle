@@ -1,49 +1,54 @@
-{% extends "base.html" %}
-
-{% block title %}{{ modo }} - Em Desenvolvimento{% endblock %}
-
-{% block body %}
+{% extends "base.html" %} {% block title %}{{ modo }} - Em Desenvolvimento{%
+endblock %} {% block body %}
 <div class="container mt-5">
-    <div class="row justify-content-center">
-        <div class="col-lg-8">
-            <!-- Card de aviso -->
-            <div class="card shadow-lg border-0">
-                <div class="card-header bg-warning text-dark text-center">
-                    <h2 class="mb-0">
-                        <i class="fas fa-tools me-2"></i>
-                        Modo {{ modo }} - Em Desenvolvimento
-                    </h2>
-                </div>
-                
-                <div class="card-body text-center p-5">
-                    <div class="mb-4">
-                        <i class="fas fa-cog fa-spin fa-3x text-warning mb-3"></i>
-                        <h4 class="text-muted">Estamos trabalhando neste modo!</h4>
-                    </div>
-                    
-                    <p class="lead text-muted mb-4">
-                        O modo <strong>{{ modo }}</strong> está sendo desenvolvido e estará disponível em breve.
-                    </p>
-                    
-                    <div class="alert alert-info">
-                        <i class="fas fa-info-circle me-2"></i>
-                        Enquanto isso, que tal experimentar o <strong>Modo Clássico</strong>?
-                    </div>
-                    
-                    <!-- Botões de ação -->
-                    <div class="d-grid gap-2 d-md-block">
-                        <a href="{{ url_for('main.classico') }}" class="btn btn-primary btn-lg">
-                            <i class="fas fa-play me-2"></i>
-                            Jogar Modo Clássico
-                        </a>
-                        <a href="{{ url_for('main.home') }}" class="btn btn-outline-secondary btn-lg">
-                            <i class="fas fa-home me-2"></i>
-                            Voltar ao Início
-                        </a>
-                    </div>
-                </div>
-            </div>
+  <div class="row justify-content-center">
+    <div class="col-lg-8">
+      <!-- Card de aviso -->
+      <div class="card shadow-lg border-0">
+        <div class="card-header bg-warning text-dark text-center">
+          <h2 class="mb-0">
+            <i class="fas fa-tools me-2"></i>
+            Modo {{ modo }} - Em Desenvolvimento
+          </h2>
         </div>
+
+        <div class="card-body text-center p-5">
+          <div class="mb-4">
+            <i class="fas fa-cog fa-spin fa-3x text-warning mb-3"></i>
+            <h4 class="text-muted">Estamos trabalhando neste modo!</h4>
+          </div>
+
+          <p class="lead text-muted mb-4">
+            O modo <strong>{{ modo }}</strong> está sendo desenvolvido e estará
+            disponível em breve.
+          </p>
+
+          <div class="alert alert-info">
+            <i class="fas fa-info-circle me-2"></i>
+            Enquanto isso, que tal experimentar o
+            <strong>Modo Clássico</strong>?
+          </div>
+
+          <!-- Botões de ação -->
+          <div class="d-grid gap-2 d-md-block">
+            <a
+              href="{{ url_for('main.classico') }}"
+              class="btn btn-primary btn-lg"
+            >
+              <i class="fas fa-play me-2"></i>
+              Jogar Modo Clássico
+            </a>
+            <a
+              href="{{ url_for('main.home') }}"
+              class="btn btn-outline-secondary btn-lg"
+            >
+              <i class="fas fa-home me-2"></i>
+              Voltar ao Início
+            </a>
+          </div>
+        </div>
+      </div>
     </div>
+  </div>
 </div>
 {% endblock %}
