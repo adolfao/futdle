@@ -135,3 +135,8 @@ def contato():
 @main.route('/atualizacoes')
 def atualizacoes():
     return render_template('atualizacoes.html')
+
+@main.route('/sitemap.xml')
+def sitemap():
+    xml = render_template('sitemap.xml')
+    return Response(xml, mimetype='application/xml')

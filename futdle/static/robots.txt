@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://futdle.app/sitemap.xml

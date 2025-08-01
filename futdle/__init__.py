@@ -1,15 +1,19 @@
 from flask import Flask
 import os
 from futdle.config import SECRET_KEY_DEFAULT, MENSAGENS
+from futdle.sitemap import sitemap_bp
+
 
 def create_app():
     """Factory function para criar instância da aplicação Flask."""
     app = Flask(__name__)
     app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///futdle.db'
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-    
+    app.config['SEND_FILE_MAX_AGE_DEFAULT'] = 31536000
     # Configura chave secreta do Flask
     _configure_secret_key(app)
+    
+    app.register_blueprint(sitemap_bp)
     
     # Inicializa banco de dados
     _initialize_database()

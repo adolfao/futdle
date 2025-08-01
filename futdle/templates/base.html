@@ -3,7 +3,28 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>FUTDLE</title>
+    <title>
+      {% block title %}FUTDLE - Adivinhe os Times do Brasileirão{% endblock %}
+    </title>
+
+    <meta
+      name="description"
+      content="{% block description %}Futdle é o jogo de adivinhar times do Brasileirão! Teste seus conhecimentos e divirta-se com desafios diários.{% endblock %}"
+    />
+    <meta property="og:type" content="website" />
+    <meta
+      property="og:title"
+      content="{% block og_title %}FUTDLE - Adivinhe os Times do Brasileirão{% endblock %}"
+    />
+    <meta
+      property="og:description"
+      content="{% block og_description %}Futdle é o jogo de adivinhar times do Brasileirão! Teste seus conhecimentos e divirta-se com desafios diários.{% endblock %}"
+    />
+    <meta
+      property="og:image"
+      content="{{ url_for('static', filename='images/logo_futdle.png') }}"
+    />
+    <meta property="og:url" content="{{ request.url }}" />
 
     <!-- Favicon -->
     <link
@@ -17,63 +38,52 @@
       href="{{ url_for('static', filename='images/bola.png') }}"
     />
 
-    <!-- CSS Modular - Carregamento otimizado -->
-    <!-- Base e tipografia -->
+    <!-- CSS Modular -->
     <link
       rel="stylesheet"
       href="{{ url_for('static', filename='css/base.css') }}"
     />
-    <!-- Layout e estrutura -->
     <link
       rel="stylesheet"
       href="{{ url_for('static', filename='css/layout.css') }}"
     />
-    <!-- Sistema de botões -->
     <link
       rel="stylesheet"
       href="{{ url_for('static', filename='css/buttons.css') }}"
     />
-    <!-- Modo clássico -->
     <link
       rel="stylesheet"
       href="{{ url_for('static', filename='css/classico.css') }}"
     />
-    <!-- Sistema de dicas -->
     <link
       rel="stylesheet"
       href="{{ url_for('static', filename='css/dicas.css') }}"
     />
-    <!-- Resultados e mensagens -->
     <link
       rel="stylesheet"
       href="{{ url_for('static', filename='css/resultados.css') }}"
     />
-    <!-- Sistema de tentativas -->
     <link
       rel="stylesheet"
       href="{{ url_for('static', filename='css/tentativas.css') }}"
     />
-    <!-- Modo escudo -->
     <link
       rel="stylesheet"
       href="{{ url_for('static', filename='css/escudo.css') }}"
     />
-    <!-- Componentes Bootstrap customizados -->
     <link
       rel="stylesheet"
       href="{{ url_for('static', filename='css/bootstrap-custom.css') }}"
     />
-    <!-- Responsividade -->
     <link
       rel="stylesheet"
       href="{{ url_for('static', filename='css/responsive.css') }}"
     />
+
     <!-- bootstrap css -->
     <link
       href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css"
       rel="stylesheet"
-      integrity="sha384-LN+7fdVzj6u52u30Kp6M/trliBMCMKTyK833zpbD+pXdCLuTusPj697FH4R/5mcr"
-      crossorigin="anonymous"
     />
     <!-- bootstrap icons -->
     <link
@@ -84,9 +94,8 @@
     <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
-      integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw=="
-      crossorigin="anonymous"
     />
+
     <!-- adsense -->
     <script
       async
@@ -106,18 +115,16 @@
       gtag("js", new Date());
       gtag("config", "G-3XSMYRDVQE");
     </script>
-    {% block head %} {% endblock %}
+    {% block head %}{% endblock %}
   </head>
   <body class="fundo">
     <!-- header com logo -->
-    <div class="header-container">
-      <a href="{{ url_for('main.home') }}" class="logo-link">
-        <img
-          src="{{ url_for('static', filename='images/logo_futdle.png') }}"
-          class="logo"
-          alt="Logo do Futdle"
-        />
-      </a>
+    <div class="header-container text-center">
+      <img
+        src="{{ url_for('static', filename='images/logo_futdle.png') }}"
+        class="img-fluid"
+        alt="Futdle - Adivinhe os Times do Brasileirão"
+      />
     </div>
 
     <!-- conteudo principal -->
@@ -164,10 +171,6 @@
     </footer>
 
     <!-- bootstrap js -->
-    <script
-      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"
-      integrity="sha384-ndDqU0Gzau9qJ1lfW4pNLlhNTkCfHzAVBReH9diLvGRem5+R9g2FzA8ZGN954O5Q"
-      crossorigin="anonymous"
-    ></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"></script>
   </body>
 </html>
