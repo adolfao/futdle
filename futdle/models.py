@@ -105,6 +105,12 @@ class Time:
         return cls._criar_time_de_row(row) if row else None
     
     @classmethod
+    def buscar_por_serie(cls, serie):
+        """Busca todos os times de uma série específica."""
+        rows = cls._executar_query(f"SELECT {cls.COLUNAS_SQL} FROM times WHERE serie = ?", (serie,), fetch_all=True)
+        return [cls._criar_time_de_row(row) for row in rows]
+    
+    @classmethod
     def buscar_por_nome_normalizado(cls, nome_busca):
         """
         Busca time comparando nome normalizado para evitar problemas com acentos.

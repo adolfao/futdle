@@ -28,22 +28,23 @@
   <div class="futdle-section">
     <!-- titulo da pagina -->
     <h1 class="text-center mb-5">
-      <i class="bi bi-controller"></i> Como Jogar - Modo Clássico
+      <i class="bi bi-controller"></i> Como Jogar
     </h1>
 
-    <!-- secao objetivo -->
-    <section class="mb-4">
-      <h3><i class="bi bi-bullseye"></i> Objetivo</h3>
+    <!-- modo classico -->
+    <section id="modo-classico" class="mb-5">
+      <h3 class="text-success"><i class="bi bi-trophy"></i> Modo Clássico</h3>
+
+      <!-- objetivo -->
+      <h4><i class="bi bi-bullseye"></i> Objetivo</h4>
       <p>
         Descubra qual é o time de futebol brasileiro secreto! Teste seus
         conhecimentos, faça palpites e use as dicas fornecidas para chegar à
         resposta correta.
       </p>
-    </section>
 
-    <!-- secao instrucoes -->
-    <section class="mb-4">
-      <h3><i class="bi bi-joystick"></i> Como Jogar</h3>
+      <!-- instrucoes -->
+      <h4><i class="bi bi-list-check"></i> Como Jogar</h4>
       <ul class="list-unstyled">
         <li>
           <i class="bi bi-check-circle text-success me-2"></i>Digite o nome de
@@ -58,12 +59,10 @@
           cores para entender se está perto ou longe da resposta.
         </li>
       </ul>
-    </section>
 
-    <!-- secao codigo de cores -->
-    <section class="mb-4">
-      <h3><i class="bi bi-palette"></i> Código de Cores</h3>
-      <div class="row">
+      <!-- codigo de cores -->
+      <h4><i class="bi bi-palette"></i> Código de Cores</h4>
+      <div class="row mb-3">
         <div class="col-md-4 mb-3 d-flex align-items-center">
           <span
             class="d-inline-block rounded-circle bg-success me-2"
@@ -86,11 +85,9 @@
           <span>Vermelho = Incorreto</span>
         </div>
       </div>
-    </section>
 
-    <!-- secao dicas especiais -->
-    <section class="mb-4">
-      <h3><i class="bi bi-lightbulb"></i> Dicas Especiais</h3>
+      <!-- dicas especiais -->
+      <h4><i class="bi bi-lightbulb"></i> Dicas Especiais</h4>
       <ul class="list-unstyled">
         <li>
           <i class="bi bi-arrow-right-circle text-warning me-2"></i>
@@ -103,6 +100,81 @@
           mascote do time.
         </li>
       </ul>
+    </section>
+
+    <!-- modo escudo -->
+    <section id="modo-escudo" class="mb-5">
+      <h3 class="text-info"><i class="bi bi-shield-check"></i> Modo Escudo</h3>
+
+      <!-- objetivo -->
+      <h4><i class="bi bi-bullseye"></i> Objetivo</h4>
+      <p>
+        Identifique o time brasileiro através do seu escudo! O escudo aparece
+        com zoom máximo e vai diminuindo conforme você erra. Disponível com
+        <strong>20 times da Série A</strong>.
+      </p>
+
+      <!-- instrucoes -->
+      <h4><i class="bi bi-list-check"></i> Como Jogar</h4>
+      <ul class="list-unstyled">
+        <li>
+          <i class="bi bi-check-circle text-info me-2"></i>O escudo aparece
+          ampliado e rotacionado aleatoriamente.
+        </li>
+        <li>
+          <i class="bi bi-check-circle text-info me-2"></i>A cada tentativa
+          errada, o zoom diminui (9 níveis total).
+        </li>
+        <li>
+          <i class="bi bi-check-circle text-info me-2"></i>Use os controles para
+          alternar cores e rotação.
+        </li>
+        <li>
+          <i class="bi bi-check-circle text-info me-2"></i>Digite o nome do time
+          quando conseguir identificar.
+        </li>
+      </ul>
+
+      <!-- controles especiais -->
+      <h4><i class="bi bi-gear"></i> Controles Especiais</h4>
+      <div class="row mb-3">
+        <div class="col-md-6 mb-3">
+          <div class="d-flex align-items-center">
+            <i
+              class="bi bi-palette text-info me-2"
+              style="font-size: 1.2rem"
+            ></i>
+            <div>
+              <strong>Alternar Cores</strong><br />
+              <small>Alterne entre preto & branco e cores originais</small>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6 mb-3">
+          <div class="d-flex align-items-center">
+            <i
+              class="bi bi-arrow-clockwise text-info me-2"
+              style="font-size: 1.2rem"
+            ></i>
+            <div>
+              <strong>Controlar Rotação</strong><br />
+              <small>Alterne entre rotação normal e aleatória</small>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- sistema de zoom -->
+      <h4><i class="bi bi-zoom-in"></i> Sistema de Zoom</h4>
+      <p>
+        O escudo começa com zoom 5x e diminui progressivamente:
+        <strong>5x → 4.5x → 4x → 3.5x → 3x → 2.5x → 2x → 1.5x → 1x</strong>
+      </p>
+      <p class="text-muted">
+        <i class="bi bi-info-circle"></i>
+        <strong>Dica:</strong> Use os controles de cor e rotação para facilitar
+        a identificação!
+      </p>
     </section>
 
     <!-- nota sobre atualizacoes -->

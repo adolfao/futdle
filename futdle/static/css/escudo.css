@@ -12,21 +12,213 @@
 }
 
 .escudo-time-secreto {
-  width: 200px;
-  height: 200px;
+  width: 280px;
+  height: 280px;
   margin: 0 auto 20px;
   border-radius: 20px;
   border: 4px solid #28a745;
   box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
   overflow: hidden;
-  background: white;
+  background: transparent;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
 }
 
 .escudo-time-secreto img {
   width: 100%;
   height: 100%;
-  object-fit: cover;
+  object-fit: contain;
   border-radius: 16px;
+  transition: transform 0.5s ease-in-out, filter 0.3s ease;
+  filter: grayscale(100%);
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform-origin: center center;
+  /* Inicia com zoom máximo e invisível até o JS carregar */
+  transform: translate(-50%, -50%) scale(5);
+  opacity: 0;
+}
+
+/* Classe aplicada quando o JS termina de carregar */
+.escudo-time-secreto img.js-loaded {
+  opacity: 1;
+}
+
+.escudo-time-secreto img.colorido {
+  filter: grayscale(0%);
+}
+
+.escudo-time-secreto img.rotacao-normal {
+  /* Rotação controlada via JavaScript */
+}
+
+/* Zoom e transformações controladas dinamicamente via JavaScript */
+
+/* Classes de rotação aleatória - funcionam junto com zoom via JavaScript */
+.rotacao-15 {
+  transform: rotate(15deg);
+}
+.rotacao-30 {
+  transform: rotate(30deg);
+}
+.rotacao-45 {
+  transform: rotate(45deg);
+}
+.rotacao-60 {
+  transform: rotate(60deg);
+}
+.rotacao-90 {
+  transform: rotate(90deg);
+}
+.rotacao-120 {
+  transform: rotate(120deg);
+}
+.rotacao-135 {
+  transform: rotate(135deg);
+}
+.rotacao-150 {
+  transform: rotate(150deg);
+}
+.rotacao-180 {
+  transform: rotate(180deg);
+}
+.rotacao-210 {
+  transform: rotate(210deg);
+}
+.rotacao-225 {
+  transform: rotate(225deg);
+}
+.rotacao-240 {
+  transform: rotate(240deg);
+}
+.rotacao-270 {
+  transform: rotate(270deg);
+}
+.rotacao-300 {
+  transform: rotate(300deg);
+}
+.rotacao-315 {
+  transform: rotate(315deg);
+}
+.rotacao-330 {
+  transform: rotate(330deg);
+}
+.rotacao-210 {
+  transform: rotate(210deg);
+}
+.rotacao-225 {
+  transform: rotate(225deg);
+}
+.rotacao-240 {
+  transform: rotate(240deg);
+}
+.rotacao-270 {
+  transform: rotate(270deg);
+}
+.rotacao-300 {
+  transform: rotate(300deg);
+}
+.rotacao-315 {
+  transform: rotate(315deg);
+}
+.rotacao-330 {
+  transform: rotate(330deg);
+}
+
+/* Pontos de zoom aleatórios para evitar áreas transparentes */
+.zoom-ponto-centro {
+  transform-origin: 50% 50%;
+}
+.zoom-ponto-superior {
+  transform-origin: 50% 30%;
+}
+.zoom-ponto-inferior {
+  transform-origin: 50% 70%;
+}
+.zoom-ponto-esquerda {
+  transform-origin: 30% 50%;
+}
+.zoom-ponto-direita {
+  transform-origin: 70% 50%;
+}
+.zoom-ponto-superior-esquerda {
+  transform-origin: 35% 35%;
+}
+.zoom-ponto-superior-direita {
+  transform-origin: 65% 35%;
+}
+.zoom-ponto-inferior-esquerda {
+  transform-origin: 35% 65%;
+}
+.zoom-ponto-inferior-direita {
+  transform-origin: 65% 65%;
+}
+
+/* Botão para alternar cores */
+.botao-alternar-cores {
+  background: linear-gradient(135deg, #6c757d, #495057);
+  color: white;
+  border: none;
+  border-radius: 15px;
+  padding: 12px 20px;
+  font-size: 0.9rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+  margin: 15px 0;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.botao-alternar-cores:hover {
+  background: linear-gradient(135deg, #5a6268, #3d4143);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+}
+
+.botao-alternar-cores.colorido {
+  background: linear-gradient(135deg, #28a745, #20c997);
+}
+
+.botao-alternar-cores.colorido:hover {
+  background: linear-gradient(135deg, #218838, #1eaa8a);
+}
+
+/* Botão para alternar rotação */
+.botao-alternar-rotacao {
+  background: linear-gradient(135deg, #fd7e14, #e55353);
+  color: white;
+  border: none;
+  border-radius: 15px;
+  padding: 12px 20px;
+  font-size: 0.9rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+  margin: 15px 10px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.botao-alternar-rotacao:hover {
+  background: linear-gradient(135deg, #e55353, #dc3545);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+}
+
+.botao-alternar-rotacao.normal {
+  background: linear-gradient(135deg, #17a2b8, #138496);
+}
+
+.botao-alternar-rotacao.normal:hover {
+  background: linear-gradient(135deg, #138496, #117a8b);
 }
 
 .texto-escudo {
@@ -76,8 +268,11 @@
   border-radius: 10px;
   border: 2px solid #28a745;
   overflow: hidden;
-  background: white;
+  background: transparent;
   padding: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .tentativa-escudo img {

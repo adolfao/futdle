@@ -14,12 +14,45 @@
   <div class="escudo-secreto-container text-center">
     <div class="escudo-time-secreto mx-auto">
       <img
+        id="escudo-imagem"
         src="{{ url_for('static', filename='times_escudo/' ~ time_secreto_nome ~ '_escudo.png') }}"
         alt="Escudo do time secreto"
-        class="img-fluid"
+        class="img-fluid zoom-nivel-{{ tentativas_erradas or 0 }}"
         onerror="this.src='{{ url_for('static', filename='images/bola.png') }}'"
       />
     </div>
+
+    <!-- Botão para alternar cores -->
+    <button
+      id="botao-cores"
+      class="botao-alternar-cores"
+      onclick="alternarCores()"
+      {%
+      if
+      jogo_finalizado
+      %}disabled{%
+      endif
+      %}
+    >
+      <i class="bi bi-palette"></i>
+      <span id="texto-botao-cores">Mostrar Cores</span>
+    </button>
+
+    <!-- Botão para alternar rotação -->
+    <button
+      id="botao-rotacao"
+      class="botao-alternar-rotacao"
+      onclick="alternarRotacao()"
+      {%
+      if
+      jogo_finalizado
+      %}disabled{%
+      endif
+      %}
+    >
+      <i class="bi bi-arrow-clockwise"></i>
+      <span id="texto-botao-rotacao">Rotação Normal</span>
+    </button>
   </div>
 
   <div class="formulario-chute">
@@ -112,6 +145,22 @@
       init() {
         this.setupAutoComplete();
         this.setupFormSubmit();
+
+        // Inicializa o zoom baseado nas tentativas erradas atuais
+        const tentativasErradas = {{ tentativas_erradas or 0 }};
+        this.aplicarZoomAleatorio();
+        this.aplicarRotacaoAleatoria();
+        this.atualizarZoom(tentativasErradas);
+
+        // Inicializa estado das cores (sempre começa em P&B)
+        this.coresAtivadas = false;
+        this.rotacaoNormal = false;
+
+        // Torna a imagem visível após configurar tudo
+        const imagem = document.getElementById("escudo-imagem");
+        if (imagem) {
+          imagem.classList.add("js-loaded");
+        }
       }
 
       setupAutoComplete() {
@@ -340,6 +389,115 @@
             contador.style.color = "#3ecf3e";
           }, 300);
         }
+
+        // Atualiza o zoom da imagem baseado no número de tentativas erradas
+        this.atualizarZoom(tentativasErradas);
+      }
+
+      atualizarZoom(tentativasErradas) {
+        const imagem = document.getElementById("escudo-imagem");
+        if (imagem) {
+          // Remove todas as classes de zoom existentes
+          for (let i = 0; i <= 8; i++) {
+            imagem.classList.remove(`zoom-nivel-${i}`);
+          }
+
+          // Aplica a classe correspondente ao número de tentativas erradas (máximo 8)
+          const nivel = Math.min(tentativasErradas, 8);
+          imagem.classList.add(`zoom-nivel-${nivel}`);
+
+          // Atualiza o transform combinando zoom e rotação
+          this.atualizarTransform(nivel);
+
+          console.log(`[DEBUG] Zoom atualizado para nível ${nivel} (${tentativasErradas} tentativas erradas)`);
+        }
+      }
+
+      atualizarTransform(nivelZoom) {
+        const imagem = document.getElementById("escudo-imagem");
+        if (!imagem) return;
+
+        // Define escalas para cada nível - corrigido para diminuir progressivamente
+        const escalas = [5, 4.5, 4, 3.5, 3, 2.5, 2, 1.5, 1];
+        const escala = escalas[Math.min(nivelZoom, 8)];
+
+        // Pega a rotação atual
+        let rotacao = 0;
+        const rotacoes = [
+          'rotacao-15', 'rotacao-30', 'rotacao-45', 'rotacao-60', 'rotacao-90',
+          'rotacao-120', 'rotacao-135', 'rotacao-150', 'rotacao-180', 'rotacao-210',
+          'rotacao-225', 'rotacao-240', 'rotacao-270', 'rotacao-300', 'rotacao-315', 'rotacao-330'
+        ];
+
+        // Verifica qual rotação está ativa
+        for (let i = 0; i < rotacoes.length; i++) {
+          if (imagem.classList.contains(rotacoes[i])) {
+            rotacao = parseInt(rotacoes[i].replace('rotacao-', ''));
+            break;
+          }
+        }
+
+        if (imagem.classList.contains('rotacao-normal')) {
+          rotacao = 0;
+        }
+
+        // Aplica transform combinado com centralização
+        imagem.style.transform = `translate(-50%, -50%) scale(${escala}) rotate(${rotacao}deg)`;
+
+        console.log(`[DEBUG] Transform aplicado: translate(-50%, -50%) scale(${escala}) rotate(${rotacao}deg)`);
+      }
+
+      aplicarRotacaoAleatoria() {
+        const imagem = document.getElementById("escudo-imagem");
+        if (imagem) {
+          // Define rotações possíveis
+          const rotacoes = [
+            'rotacao-15', 'rotacao-30', 'rotacao-45', 'rotacao-60', 'rotacao-90',
+            'rotacao-120', 'rotacao-135', 'rotacao-150', 'rotacao-180', 'rotacao-210',
+            'rotacao-225', 'rotacao-240', 'rotacao-270', 'rotacao-300', 'rotacao-315', 'rotacao-330'
+          ];
+
+          // Remove classes de rotação anteriores
+          rotacoes.forEach(classe => imagem.classList.remove(classe));
+          imagem.classList.remove('rotacao-normal');
+
+          // Escolhe uma rotação aleatória
+          const rotacaoAleatoria = rotacoes[Math.floor(Math.random() * rotacoes.length)];
+          imagem.classList.add(rotacaoAleatoria);
+
+          // Atualiza o transform com zoom atual
+          const nivelZoom = {{ tentativas_erradas or 0 }};
+          this.atualizarTransform(nivelZoom);
+
+          console.log(`[DEBUG] Aplicada rotação aleatória: ${rotacaoAleatoria}`);
+        }
+      }
+
+      aplicarZoomAleatorio() {
+        const imagem = document.getElementById("escudo-imagem");
+        if (imagem) {
+          // Define pontos de zoom possíveis (evitando bordas transparentes)
+          const pontosZoom = [
+            'zoom-ponto-centro',
+            'zoom-ponto-superior',
+            'zoom-ponto-inferior',
+            'zoom-ponto-esquerda',
+            'zoom-ponto-direita',
+            'zoom-ponto-superior-esquerda',
+            'zoom-ponto-superior-direita',
+            'zoom-ponto-inferior-esquerda',
+            'zoom-ponto-inferior-direita'
+          ];
+
+          // Remove classes de zoom aleatório anteriores
+          pontosZoom.forEach(classe => imagem.classList.remove(classe));
+
+          // Escolhe um ponto aleatório
+          const pontoAleatorio = pontosZoom[Math.floor(Math.random() * pontosZoom.length)];
+          imagem.classList.add(pontoAleatorio);
+
+          console.log(`[DEBUG] Aplicado zoom aleatório: ${pontoAleatorio}`);
+        }
       }
 
       adicionarTentativa(timeChutado) {
@@ -372,7 +530,7 @@
           tentativaItem.className = "tentativa-item-escudo";
           tentativaItem.innerHTML = `
             <div class="tentativa-escudo">
-              <img src="/static/times/${timeChutado.escudo}" 
+              <img src="/static/times/${timeChutado.escudo}"
                    alt="${timeChutado.nome}"
                    onerror="this.src='/static/images/bola.png'">
             </div>
@@ -385,10 +543,11 @@
           lista.appendChild(tentativaItem);
 
           setTimeout(() => {
-            tentativaItem.style.transition = "opacity 0.3s ease, transform 0.3s ease";
+            tentativaItem.style.transition =
+              "opacity 0.3s ease, transform 0.3s ease";
             tentativaItem.style.opacity = "1";
             tentativaItem.style.transform = "translateY(0)";
-            
+
             // Remove a transição inline após a animação para não interferir no hover
             setTimeout(() => {
               tentativaItem.style.transition = "";
@@ -449,8 +608,124 @@
 
     document.addEventListener("DOMContentLoaded", () => new FutdleEscudoGame());
 
+    // Função global para alternar cores
+    function alternarCores() {
+      const imagem = document.getElementById("escudo-imagem");
+      const botao = document.getElementById("botao-cores");
+      const textoBotao = document.getElementById("texto-botao-cores");
+
+      if (imagem && botao && textoBotao) {
+        const jaColorido = imagem.classList.contains("colorido");
+
+        if (jaColorido) {
+          // Volta para P&B
+          imagem.classList.remove("colorido");
+          botao.classList.remove("colorido");
+          textoBotao.textContent = "Mostrar Cores";
+          botao.innerHTML = '<i class="bi bi-palette"></i><span id="texto-botao-cores">Mostrar Cores</span>';
+        } else {
+          // Ativa cores
+          imagem.classList.add("colorido");
+          botao.classList.add("colorido");
+          textoBotao.textContent = "Preto e Branco";
+          botao.innerHTML = '<i class="bi bi-palette-fill"></i><span id="texto-botao-cores">Preto e Branco</span>';
+        }
+
+        // Animação visual no botão
+        botao.style.transform = "scale(0.95)";
+        setTimeout(() => {
+          botao.style.transform = "scale(1)";
+        }, 150);
+      }
+    }
+
+    // Função global para alternar rotação
+    function alternarRotacao() {
+      const imagem = document.getElementById("escudo-imagem");
+      const botao = document.getElementById("botao-rotacao");
+      const textoBotao = document.getElementById("texto-botao-rotacao");
+
+      if (imagem && botao && textoBotao) {
+        const jaRotacaoNormal = imagem.classList.contains("rotacao-normal");
+
+        // Define todas as classes de rotação possíveis
+        const rotacoes = [
+          'rotacao-15', 'rotacao-30', 'rotacao-45', 'rotacao-60', 'rotacao-90',
+          'rotacao-120', 'rotacao-135', 'rotacao-150', 'rotacao-180', 'rotacao-210',
+          'rotacao-225', 'rotacao-240', 'rotacao-270', 'rotacao-300', 'rotacao-315', 'rotacao-330'
+        ];
+
+        // Pega o nível de zoom atual
+        let nivelZoom = 0;
+        for (let i = 0; i <= 8; i++) {
+          if (imagem.classList.contains(`zoom-nivel-${i}`)) {
+            nivelZoom = i;
+            break;
+          }
+        }
+
+        if (jaRotacaoNormal) {
+          // Volta para rotação aleatória
+          imagem.classList.remove("rotacao-normal");
+          botao.classList.remove("normal");
+          textoBotao.textContent = "Rotação Normal";
+          botao.innerHTML = '<i class="bi bi-arrow-clockwise"></i><span id="texto-botao-rotacao">Rotação Normal</span>';
+
+          // Aplica uma nova rotação aleatória
+          const rotacaoAleatoria = rotacoes[Math.floor(Math.random() * rotacoes.length)];
+          imagem.classList.add(rotacaoAleatoria);
+        } else {
+          // Ativa rotação normal (0 graus)
+          rotacoes.forEach(classe => imagem.classList.remove(classe));
+          imagem.classList.add("rotacao-normal");
+          botao.classList.add("normal");
+          textoBotao.textContent = "Rotação Aleatória";
+          botao.innerHTML = '<i class="bi bi-arrow-repeat"></i><span id="texto-botao-rotacao">Rotação Aleatória</span>';
+        }
+
+        // Atualiza o transform
+        const escalas = [5, 4.5, 4, 3.5, 3, 2.5, 2, 1.5, 1];
+        const escala = escalas[Math.min(nivelZoom, 8)];
+
+        let rotacao = 0;
+        for (let i = 0; i < rotacoes.length; i++) {
+          if (imagem.classList.contains(rotacoes[i])) {
+            rotacao = parseInt(rotacoes[i].replace('rotacao-', ''));
+            break;
+          }
+        }
+
+        if (imagem.classList.contains('rotacao-normal')) {
+          rotacao = 0;
+        }
+
+        imagem.style.transform = `translate(-50%, -50%) scale(${escala}) rotate(${rotacao}deg)`;
+
+        // Animação visual no botão
+        botao.style.transform = "scale(0.95)";
+        setTimeout(() => {
+          botao.style.transform = "scale(1)";
+        }, 150);
+      }
+    }
+
     // Função global para o botão "Tentar Novamente"
     function jogarNovamente() {
+      // Reset das cores e rotação antes do reload
+      const imagem = document.getElementById("escudo-imagem");
+      if (imagem) {
+        imagem.classList.remove("colorido");
+        imagem.classList.remove("rotacao-normal");
+
+        // Remove todas as classes de rotação
+        const rotacoes = [
+          'rotacao-15', 'rotacao-30', 'rotacao-45', 'rotacao-60', 'rotacao-90',
+          'rotacao-120', 'rotacao-135', 'rotacao-150', 'rotacao-180', 'rotacao-210',
+          'rotacao-225', 'rotacao-240', 'rotacao-270', 'rotacao-300', 'rotacao-315', 'rotacao-330'
+        ];
+        rotacoes.forEach(classe => imagem.classList.remove(classe));
+      }
+
       // Opção 1: Reset via API (mais limpo)
       fetch("/escudo/reset", {
         method: "POST",
