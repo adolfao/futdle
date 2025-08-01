@@ -36,10 +36,27 @@
   position: absolute;
   top: 50%;
   left: 50%;
-  transform-origin: center center;
-  /* Inicia com zoom máximo e invisível até o JS carregar */
+  transform-origin: 50% 50%; /* padrão, mas JS sobrescreve */
   transform: translate(-50%, -50%) scale(5);
   opacity: 0;
+
+  /* Previne o menu de contexto e drag */
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+
+  -webkit-touch-callout: none;
+  -webkit-user-drag: none;
+  -khtml-user-drag: none;
+  -moz-user-drag: none;
+  -o-user-drag: none;
+  user-drag: none;
+
+  pointer-events: auto;
+
+  /* Previne o comportamento de "press and hold" no iOS */
+  -webkit-tap-highlight-color: transparent;
 }
 
 /* Classe aplicada quando o JS termina de carregar */

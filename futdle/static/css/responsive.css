@@ -57,10 +57,10 @@
   .cabecalho-tentativas,
   .tentativa-item {
     grid-template-columns: 1.5fr 1.5fr 1fr 1.5fr;
-    padding: 15px 20px;
-    margin-left: calc(-50vw + 50% + 15px);
-    width: calc(100vw - 30px);
-    max-width: calc(100vw - 30px);
+    padding: 12px 20px;
+    margin: 0 auto 12px auto;
+    width: 100%;
+    max-width: 900px;
   }
 
   .col-nome,
@@ -209,10 +209,10 @@
   /* Ajustes extremos para telas muito pequenas */
   .cabecalho-tentativas,
   .tentativa-item {
-    padding: 10px 15px;
-    margin-left: calc(-50vw + 50% + 10px);
-    width: calc(100vw - 20px);
-    max-width: calc(100vw - 20px);
+    padding: 8px 15px;
+    margin: 0 auto 12px auto;
+    width: 100%;
+    max-width: 900px;
     gap: 10px;
   }
 
@@ -243,9 +243,9 @@
 
   .cabecalho-tentativas,
   .tentativa-item {
-    max-width: 1200px;
-    margin-left: calc(-50vw + 50%);
-    width: 100vw;
+    max-width: 900px;
+    margin: 0 auto 12px auto;
+    width: 100%;
   }
 }
 

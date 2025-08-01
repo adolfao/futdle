@@ -148,8 +148,12 @@
 
         // Inicializa o zoom baseado nas tentativas erradas atuais
         const tentativasErradas = {{ tentativas_erradas or 0 }};
+
+        // PRIMEIRO: Aplica zoom e rotação aleatórios (define this.pontoOriginal)
         this.aplicarZoomAleatorio();
         this.aplicarRotacaoAleatoria();
+
+        // DEPOIS: Atualiza o zoom baseado nas tentativas (usa this.pontoOriginal já definido)
         this.atualizarZoom(tentativasErradas);
 
         // Inicializa estado das cores (sempre começa em P&B)
@@ -161,6 +165,48 @@
         if (imagem) {
           imagem.classList.add("js-loaded");
         }
+      }
+      setupImageProtection() {
+        const imagem = document.getElementById("escudo-imagem");
+        if (!imagem) return;
+
+        // Previne menu de contexto (botão direito / toque longo)
+        imagem.addEventListener('contextmenu', function(e) {
+          e.preventDefault();
+          return false;
+        });
+
+        // Previne drag da imagem
+        imagem.addEventListener('dragstart', function(e) {
+          e.preventDefault();
+          return false;
+        });
+
+        // Previne seleção da imagem
+        imagem.addEventListener('selectstart', function(e) {
+          e.preventDefault();
+          return false;
+        });
+
+        // Previne o comportamento de toque longo no mobile
+        imagem.addEventListener('touchstart', function(e) {
+          // Permite o toque normal mas previne o toque longo
+          this.touchStartTime = Date.now();
+        });
+
+        imagem.addEventListener('touchend', function(e) {
+          // Se foi um toque muito longo, previne o comportamento padrão
+          if (Date.now() - this.touchStartTime > 500) {
+            e.preventDefault();
+          }
+        });
+
+        // Previne o zoom por pinch (opcional)
+        imagem.addEventListener('touchmove', function(e) {
+          if (e.touches.length > 1) {
+            e.preventDefault();
+          }
+        });
       }
 
       setupAutoComplete() {
@@ -421,6 +467,9 @@
         const escalas = [5, 4.5, 4, 3.5, 3, 2.5, 2, 1.5, 1];
         const escala = escalas[Math.min(nivelZoom, 8)];
 
+        // Atualiza o transform-origin para centralização progressiva
+        this.atualizarTransformOriginProgressive(nivelZoom);
+
         // Pega a rotação atual
         let rotacao = 0;
         const rotacoes = [
@@ -441,10 +490,134 @@
           rotacao = 0;
         }
 
-        // Aplica transform combinado com centralização
+        // Aplica apenas scale e rotate (o posicionamento é feito pelo transform-origin + translate inicial do CSS)
         imagem.style.transform = `translate(-50%, -50%) scale(${escala}) rotate(${rotacao}deg)`;
 
         console.log(`[DEBUG] Transform aplicado: translate(-50%, -50%) scale(${escala}) rotate(${rotacao}deg)`);
+      }
+
+      atualizarTransformOriginProgressive(nivelZoom) {
+        const imagem = document.getElementById("escudo-imagem");
+        if (!imagem) return;
+
+        // Garante que temos o ponto original
+        if (!this.pontoOriginal) {
+          // Fallback para centro se não tiver ponto original
+          this.pontoOriginal = { x: 50, y: 50 };
+        }
+
+        // Centro do escudo
+        const centro = { x: 50, y: 50 };
+
+        // Calcula a progressão do ponto original para o centro
+        let fatorCentralizacao = 0;
+
+        if (nivelZoom <= 1) {
+          fatorCentralizacao = 0; // Mantém no ponto original
+        } else if (nivelZoom <= 6) {
+          fatorCentralizacao = (nivelZoom - 1) / 5; // Transição gradual de 0 a 1
+        } else {
+          fatorCentralizacao = 1; // Totalmente centralizado
+        }
+
+        // Interpola entre o ponto original e o centro
+        const novoX = this.pontoOriginal.x + (centro.x - this.pontoOriginal.x) * fatorCentralizacao;
+        const novoY = this.pontoOriginal.y + (centro.y - this.pontoOriginal.y) * fatorCentralizacao;
+
+        // Aplica o novo transform-origin
+        imagem.style.transformOrigin = `${novoX}% ${novoY}%`;
+
+        console.log(`[DEBUG] Transform-origin progressivo: ${novoX.toFixed(1)}% ${novoY.toFixed(1)}% (fator: ${fatorCentralizacao.toFixed(2)}) - Nível: ${nivelZoom}`);
+      }
+
+      calcularDeslocamentoCentralizacao(nivelZoom) {
+        // Garante que temos o ponto original
+        if (!this.pontoOriginal) {
+          const pontosZoom = [
+            { x: 20, y: 20 }, { x: 80, y: 20 }, { x: 20, y: 80 }, { x: 80, y: 80 },
+            { x: 50, y: 20 }, { x: 50, y: 80 }, { x: 20, y: 50 }, { x: 80, y: 50 },
+            { x: 30, y: 30 }, { x: 70, y: 30 }, { x: 30, y: 70 }, { x: 70, y: 70 }
+          ];
+          this.pontoOriginal = pontosZoom[Math.floor(Math.random() * pontosZoom.length)];
+        }
+
+        // Calcula o deslocamento necessário baseado no transform-origin
+        // Para simular o efeito de zoom com origin diferente usando apenas translate
+        const baseX = -50; // translate(-50%, -50%) padrão
+        const baseY = -50;
+
+        // Calcula o deslocamento baseado na diferença do ponto original para o centro
+        const diffX = this.pontoOriginal.x - 50; // diferença do centro (50%)
+        const diffY = this.pontoOriginal.y - 50; // diferença do centro (50%)
+
+        // Fator de centralização progressiva
+        let fatorCentralizacao = 0;
+        if (nivelZoom <= 1) {
+          fatorCentralizacao = 1; // Mantém no ponto original
+        } else if (nivelZoom <= 6) {
+          fatorCentralizacao = 1 - ((nivelZoom - 1) / 5); // Reduz gradualmente de 1 a 0
+        } else {
+          fatorCentralizacao = 0; // Totalmente centralizado
+        }
+
+        // Aplica o deslocamento com o fator de centralização
+        const deslocamentoX = baseX + (diffX * fatorCentralizacao);
+        const deslocamentoY = baseY + (diffY * fatorCentralizacao);
+
+        console.log(`[DEBUG] Centralização: nível=${nivelZoom}, fator=${fatorCentralizacao.toFixed(2)}, deslocamento=(${deslocamentoX.toFixed(1)}%, ${deslocamentoY.toFixed(1)}%)`);
+
+        return { x: deslocamentoX, y: deslocamentoY };
+      }
+
+      atualizarTransformOrigin(nivelZoom) {
+        const imagem = document.getElementById("escudo-imagem");
+        if (!imagem) return;
+
+        // Pega o ponto original aleatório (salvo quando o jogo começou)
+        if (!this.pontoOriginal) {
+          // Se não temos o ponto original salvo, pega do CSS atual ou usa um ponto padrão
+          const currentOrigin = getComputedStyle(imagem).transformOrigin;
+          const matches = currentOrigin.match(/(\d+(?:\.\d+)?)%\s+(\d+(?:\.\d+)?)%/);
+          if (matches) {
+            this.pontoOriginal = {
+              x: parseFloat(matches[1]),
+              y: parseFloat(matches[2])
+            };
+          } else {
+            // Fallback: define um ponto aleatório agora
+            const pontosZoom = [
+              { x: 20, y: 20 }, { x: 80, y: 20 }, { x: 20, y: 80 }, { x: 80, y: 80 },
+              { x: 50, y: 20 }, { x: 50, y: 80 }, { x: 20, y: 50 }, { x: 80, y: 50 },
+              { x: 30, y: 30 }, { x: 70, y: 30 }, { x: 30, y: 70 }, { x: 70, y: 70 }
+            ];
+            this.pontoOriginal = pontosZoom[Math.floor(Math.random() * pontosZoom.length)];
+            console.log(`[DEBUG] Definindo ponto original de fallback: ${this.pontoOriginal.x}%, ${this.pontoOriginal.y}%`);
+          }
+        }
+
+        // Centro do escudo
+        const centro = { x: 50, y: 50 };
+
+        // Calcula a progressão do ponto original para o centro
+        // Centralização mais agressiva para ser mais visível
+        let fatorCentralizacao = 0;
+
+        if (nivelZoom <= 1) {
+          fatorCentralizacao = 0; // Mantém no ponto original apenas no primeiro nível
+        } else if (nivelZoom <= 6) {
+          fatorCentralizacao = (nivelZoom - 1) / 5; // Transição mais gradual de 0 a 1
+        } else {
+          fatorCentralizacao = 1; // Totalmente centralizado
+        }
+
+        // Interpola entre o ponto original e o centro
+        const novoX = this.pontoOriginal.x + (centro.x - this.pontoOriginal.x) * fatorCentralizacao;
+        const novoY = this.pontoOriginal.y + (centro.y - this.pontoOriginal.y) * fatorCentralizacao;
+
+        // Aplica o novo transform-origin
+        imagem.style.transformOrigin = `${novoX}% ${novoY}%`;
+
+        console.log(`[DEBUG] Transform-origin atualizado para: ${novoX.toFixed(1)}%, ${novoY.toFixed(1)}% (fator: ${fatorCentralizacao.toFixed(2)}) - Nível: ${nivelZoom}`);
       }
 
       aplicarRotacaoAleatoria() {
@@ -476,31 +649,38 @@
       aplicarZoomAleatorio() {
         const imagem = document.getElementById("escudo-imagem");
         if (imagem) {
-          // Define pontos de zoom possíveis (evitando bordas transparentes)
+          // Pontos de zoom aleatórios - diferentes partes do escudo
           const pontosZoom = [
-            'zoom-ponto-centro',
-            'zoom-ponto-superior',
-            'zoom-ponto-inferior',
-            'zoom-ponto-esquerda',
-            'zoom-ponto-direita',
-            'zoom-ponto-superior-esquerda',
-            'zoom-ponto-superior-direita',
-            'zoom-ponto-inferior-esquerda',
-            'zoom-ponto-inferior-direita'
+            { x: "20%", y: "20%" },   // canto superior esquerdo
+            { x: "80%", y: "20%" },   // canto superior direito
+            { x: "20%", y: "80%" },   // canto inferior esquerdo
+            { x: "80%", y: "80%" },   // canto inferior direito
+            { x: "50%", y: "20%" },   // centro superior
+            { x: "50%", y: "80%" },   // centro inferior
+            { x: "20%", y: "50%" },   // centro esquerda
+            { x: "80%", y: "50%" },   // centro direita
+            { x: "30%", y: "30%" },   // quadrante superior esquerdo
+            { x: "70%", y: "30%" },   // quadrante superior direito
+            { x: "30%", y: "70%" },   // quadrante inferior esquerdo
+            { x: "70%", y: "70%" }    // quadrante inferior direito
           ];
 
-          // Remove classes de zoom aleatório anteriores
-          pontosZoom.forEach(classe => imagem.classList.remove(classe));
-
           // Escolhe um ponto aleatório
-          const pontoAleatorio = pontosZoom[Math.floor(Math.random() * pontosZoom.length)];
-          imagem.classList.add(pontoAleatorio);
+          const pontoEscolhido = pontosZoom[Math.floor(Math.random() * pontosZoom.length)];
 
-          console.log(`[DEBUG] Aplicado zoom aleatório: ${pontoAleatorio}`);
+          // Salva o ponto original para usar na centralização gradual (sem % para cálculos)
+          this.pontoOriginal = {
+            x: parseFloat(pontoEscolhido.x),
+            y: parseFloat(pontoEscolhido.y)
+          };
+
+          // Aplica o transform-origin diretamente
+          imagem.style.transformOrigin = `${pontoEscolhido.x} ${pontoEscolhido.y}`;
+
+          console.log(`[DEBUG] Zoom aleatório aplicado com transform-origin: ${pontoEscolhido.x} ${pontoEscolhido.y}`);
+          console.log(`[DEBUG] this.pontoOriginal salvo:`, this.pontoOriginal);
         }
-      }
-
-      adicionarTentativa(timeChutado) {
+      }      adicionarTentativa(timeChutado) {
         if (!timeChutado) return;
 
         let container = document.querySelector(".tentativas-container-escudo");
@@ -606,7 +786,9 @@
       }
     }
 
-    document.addEventListener("DOMContentLoaded", () => new FutdleEscudoGame());
+    document.addEventListener("DOMContentLoaded", () => {
+      window.futdleEscudoGame = new FutdleEscudoGame();
+    });
 
     // Função global para alternar cores
     function alternarCores() {
@@ -699,7 +881,15 @@
           rotacao = 0;
         }
 
-        imagem.style.transform = `translate(-50%, -50%) scale(${escala}) rotate(${rotacao}deg)`;
+        // Atualiza o transform usando o sistema de deslocamento centralizado
+        const game = window.futdleEscudoGame; // Acessa a instância do jogo
+        if (game && game.calcularDeslocamentoCentralizacao) {
+          const deslocamento = game.calcularDeslocamentoCentralizacao(nivelZoom);
+          imagem.style.transform = `translate(${deslocamento.x}%, ${deslocamento.y}%) scale(${escala}) rotate(${rotacao}deg)`;
+        } else {
+          // Fallback para o sistema antigo
+          imagem.style.transform = `translate(-50%, -50%) scale(${escala}) rotate(${rotacao}deg)`;
+        }
 
         // Animação visual no botão
         botao.style.transform = "scale(0.95)";

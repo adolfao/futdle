@@ -3,7 +3,9 @@
   display: flex;
   flex-direction: column-reverse;
   gap: 10px;
-  margin-top: 20px;
+  width: 100%;
+  max-width: 900px; /* igual ao cabeçalho */
+  margin: 20px auto; /* centralizado */
   flex-wrap: wrap;
 }
 
@@ -11,20 +13,17 @@
 .cabecalho-tentativas {
   display: grid;
   grid-template-columns: 2fr 2fr 1fr 2fr;
-  width: calc(100vw - 60px);
-  max-width: calc(100vw - 60px);
+  width: 100%;
+  max-width: 900px;
   margin: 0 auto 12px auto;
-  margin-left: calc(-50vw + 50% + 30px);
   background: #14532d;
   color: #fff;
   font-family: "Russo One", sans-serif;
-  padding: 12px 30px;
-  border-radius: 0;
+  padding: 15px 0; /* <-- remover padding lateral */
+  border-radius: 12px;
   font-size: 1.1rem;
   gap: 15px;
   box-shadow: 0 3px 8px rgba(0, 0, 0, 0.3);
-  position: relative;
-  left: 0 !important;
 }
 
 .cabecalho-tentativas div {
@@ -34,21 +33,9 @@
   justify-content: center;
 }
 
-.col-nome {
-  text-align: center;
-  font-size: 0.9rem;
-}
-
-.col-cores {
-  text-align: center;
-  font-size: 0.9rem;
-}
-
-.col-estado {
-  text-align: center;
-  font-size: 0.9rem;
-}
-
+.col-nome,
+.col-cores,
+.col-estado,
 .col-ano {
   text-align: center;
   font-size: 0.9rem;
@@ -58,13 +45,12 @@
 .tentativa-item {
   display: grid;
   grid-template-columns: 2fr 2fr 1fr 2fr;
-  width: calc(100vw - 60px);
-  max-width: calc(100vw - 60px);
+  width: 100%;
+  max-width: 900px;
   margin: 0 auto 12px auto;
-  margin-left: calc(-50vw + 50% + 30px);
   background: #1f5b2e;
-  border-radius: 0;
-  padding: 18px 30px;
+  border-radius: 12px;
+  padding: 15px 0; /* <-- igual ao cabeçalho */
   gap: 15px;
   box-shadow: 0 3px 8px rgba(0, 0, 0, 0.3);
   align-items: center;
@@ -72,8 +58,6 @@
   animation: flipIn 0.6s ease-out forwards;
   opacity: 0;
   transform: rotateY(90deg);
-  position: relative;
-  left: 0 !important;
 }
 
 .tentativa-item:hover {
@@ -132,6 +116,7 @@
   color: #fff;
   text-align: center;
   border: 2px solid rgba(255, 255, 255, 0.3);
+  margin-right: 10px;
 }
 
 /* ===== ESTADOS DE ACERTO/ERRO ===== */
