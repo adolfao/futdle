@@ -120,11 +120,13 @@
   <body class="fundo">
     <!-- header com logo -->
     <div class="header-container text-center">
-      <img
-        src="{{ url_for('static', filename='images/logo_futdle.png') }}"
-        class="img-fluid"
-        alt="Futdle - Adivinhe os Times do Brasileirão"
-      />
+      <a href="{{ url_for('main.home') }}" class="logo-link">
+        <img
+          src="{{ url_for('static', filename='images/logo_futdle.png') }}"
+          class="logo"
+          alt="Futdle - Adivinhe os Times do Brasileirão"
+        />
+      </a>
     </div>
 
     <!-- conteudo principal -->

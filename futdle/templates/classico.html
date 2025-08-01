@@ -1,10 +1,18 @@
-{% extends "base.html" %} {% block title %}Modo Clássico - Futdle{% endblock %}
-{% block description %} Adivinhe o time do Brasileirão com dicas de cores,
-estado e ano de fundação! Desafio diário do Futdle no modo clássico. Teste seu
-conhecimento e compartilhe com os amigos! {% endblock %} {% block og_title
-%}Modo Clássico - Futdle{% endblock %} {% block og_description %} Adivinhe o
-time do Brasileirão com dicas de cores, estado e ano de fundação! Desafio diário
-do Futdle. {% endblock %}
+{% extends "base.html" %}
+
+{% block title %}Modo Clássico - Futdle{% endblock %}
+
+{% block description %}
+Adivinhe o time do Brasileirão com dicas de cores, estado e ano de fundação! Desafio diário do Futdle no modo clássico. Teste seu conhecimento!
+{% endblock %}
+
+{% block og_title %}Modo Clássico - Futdle{% endblock %}
+
+{% block og_description %}
+Adivinhe o time do Brasileirão com dicas de cores, estado e ano de fundação! Desafio diário do Futdle no modo clássico.
+{% endblock %}
+
+{% block body %}
 <div
   class="conteudo-classico {% if jogo_finalizado %}jogo-finalizado{% endif %}"
 >
@@ -632,4 +640,4 @@ do Futdle. {% endblock %}
   </script>
 </div>
 
-{% endblock %}
+{% endblock body %}

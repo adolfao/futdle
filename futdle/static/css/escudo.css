@@ -1,4 +1,20 @@
 /* ===== MODO ESCUDO ===== */
+/* Sobrescreve o fundo para o modo escudo */
+body:has(.conteudo-classico) {
+  background-image: url("../images/fundo_home.png");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+/* Alternativa: fundo sólido para modo escudo */
+.conteudo-classico {
+  background: linear-gradient(135deg, #1a4a1d 0%, #2c5f2d 100%);
+  min-height: 100vh;
+  margin: 0;
+  padding: 0;
+}
+
 .conteudo-escudo {
   max-width: 900px;
   margin: 0 auto;
@@ -24,6 +40,19 @@
   align-items: center;
   justify-content: center;
   position: relative;
+}
+
+/* Remove qualquer texto de fundo que possa aparecer */
+.escudo-time-secreto::before,
+.escudo-time-secreto::after {
+  display: none !important;
+  content: none !important;
+}
+
+.conteudo-classico::before,
+.conteudo-classico::after {
+  display: none !important;
+  content: none !important;
 }
 
 .escudo-time-secreto img {
