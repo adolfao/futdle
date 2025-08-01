@@ -1,18 +1,10 @@
-{% extends 'base.html' %}
-
-{% block title %}Atualizações - Futdle{% endblock %}
-
-{% block description %}
-Confira as últimas novidades e atualizações do Futdle! Veja novas funcionalidades, melhorias e correções do jogo de times do Brasileirão.
-{% endblock %}
-
-{% block og_title %}Atualizações - Futdle{% endblock %}
-
-{% block og_description %}
-Confira as últimas novidades e atualizações do Futdle! Veja novas funcionalidades, melhorias e correções do jogo.
-{% endblock %}
-
-{% block head %}
+{% extends 'base.html' %} {% block title %}Atualizações - Futdle{% endblock %}
+{% block description %} Confira as últimas novidades e atualizações do Futdle!
+Veja novas funcionalidades, melhorias e correções do jogo de times do
+Brasileirão. {% endblock %} {% block og_title %}Atualizações - Futdle{% endblock
+%} {% block og_description %} Confira as últimas novidades e atualizações do
+Futdle! Veja novas funcionalidades, melhorias e correções do jogo. {% endblock
+%} {% block head %}
 <!-- estilos customizados para pagina de atualizacoes -->
 <style>
   .futdle-section {
@@ -48,29 +40,14 @@ Confira as últimas novidades e atualizações do Futdle! Veja novas funcionalid
       <h3>
         <i class="bi bi-wrench-adjustable"></i> Versão 2.0.1 - 01 de Agosto 2025
       </h3>
-      <ul>
-        <li>
-          <strong>Proteção Anti-Spoiler:</strong> Removido comportamento de
-          "segurar para ver imagem completa" no Modo Escudo
-        </li>
-        <li>
-          <strong>Zoom Aprimorado:</strong> Corrigido problema onde zoom inicial
-          sempre começava no centro da imagem
-        </li>
-        <li>
-          <strong>Correção de Imagens:</strong> Arrumado problema com PNGs
-          falsos causando erros visuais
-        </li>
-        <li>
-          <strong>Layout Responsivo:</strong> Rodapé agora permanece
-          corretamente no final da página
-        </li>
-        <li>
-          <strong>Interface do Modo Clássico:</strong> Centralização das dicas e
-          elementos visuais melhorada
-        </li>
-        <li>Melhorias gerais de estabilidade e experiência do usuário</li>
-      </ul>
+      <p>
+        Retirei o comportamento de conseguir segurar a imagem do modo escudo,
+        assim vendo a imagem toda kkkkk. O zoom inicial estava sempre no meio do
+        escudo, também corrigido. Tinha algumas PNGs falsas no meio, troquei
+        elas. E como eu sou meio cegueta, uso o PC no 150% de layout, então para
+        mim tava tudo perfeito, mas quando eu troquei, vi que estava todo torto
+        o rodapé e as informações do modo clássico, também arrumei isso.
+      </p>
     </div>
 
     <!-- versao 2.0.0 -->
@@ -78,20 +55,10 @@ Confira as últimas novidades e atualizações do Futdle! Veja novas funcionalid
       <h3>
         <i class="bi bi-shield-check"></i> Versão 2.0.0 - 01 de Agosto 2025
       </h3>
-      <ul>
-        <li>
-          <strong>🚀 MODO ESCUDO LANÇADO!</strong> - Novo modo de jogo
-          disponível
-        </li>
-        <li>20 times da Série A brasileira com escudos oficiais</li>
-        <li>Sistema de zoom progressivo com 9 níveis de dificuldade</li>
-        <li>
-          Controles de cor (Preto e Branco/Colorido) e rotação
-          (Normal/Aleatória)
-        </li>
-        <li>Interface otimizada para diferentes dispositivos</li>
-        <li>Sistema anti-spoiler para evitar visualização prematura</li>
-      </ul>
+      Lançado o MODO ESCUDO!!! Atualmente está com os 20 times da série A, com
+      os botões para retirar o preto e branco e ver colorido, e também para
+      retirar a rotação aleátoria do escudo, está com 9 níveis de zoom e também
+      está responsivo.
     </div>
 
     <!-- versao 1.6.0 -->
@@ -99,72 +66,74 @@ Confira as últimas novidades e atualizações do Futdle! Veja novas funcionalid
       <h3>
         <i class="bi bi-lightning-charge"></i> Versão 1.6.0 - 31 de Julho 2025
       </h3>
-      <ul>
-        <li>Rodapé criado com design moderno e responsivo</li>
-        <li>Página Políticas de privacidade criada</li>
-        <li>Página Sobre criada</li>
-        <li>
-          Como jogar, Suporte e Atualizações agora estão no rodapé e têm suas
-          próprias páginas
-        </li>
-        <li>Várias melhorias visuais na experiência do jogo</li>
-      </ul>
+      <p>
+        Criei um rodapé com 5 botões: Políticas de privacidade (para o ADSense),
+        Sobre, Como jogar, Contato e Atualizações. Esses 3 botões que já
+        existiam (como jogar, contato e atualizações) antes eram só uma telinha
+        com as informações, agora foram movidos para o rodapé e têm suas
+        respectivas páginas. Os outros 2 botões também têm suas páginas e os
+        botões antigos foram removidos. Também fiz algumas melhorias visuais.
+      </p>
     </div>
 
     <!-- versao 1.5.0 -->
     <div class="versao">
       <h3><i class="bi bi-stars"></i> Versão 1.5.0 - 30 de Julho 2025</h3>
-      <ul>
-        <li>Foto do Ypiranga arrumada</li>
-        <li>Londrina atualizado de "Azul Celeste" para "Azul"</li>
-        <li>Foto do Vinas substituindo temporariamente a do Flamengo</li>
-        <li>Botão do Modo Escudo criado e implementado</li>
-        <li>Preparação da base para o Modo Escudo</li>
-      </ul>
+      <p>
+        Arrumei a foto do Ypiringa que não estava aparecendo e troquei a cor do
+        Londrina de "azul-celeste" para "azul". Coloquei a foto do Vinas
+        substituindo a do Flamengo, temporariamente. Comecei a criação do modo
+        escudo, já criei o botão e dei início ao código.
+      </p>
     </div>
 
     <!-- versao 1.4.0 -->
     <div class="versao">
       <h3><i class="bi bi-tools"></i> Versão 1.4.0 - 29 de Julho 2025</h3>
-      <ul>
-        <li>Refresh imediato após acerto do time</li>
-        <li>Botão de atualizações criado</li>
-        <li>
-          Correção do BUG onde "preto e branco" era diferente de "branco e
-          preto"
-        </li>
-        <li>Dica da série do time criada</li>
-      </ul>
+      <p>
+        Adicionei o botão de tentar novamente ao lado da caixa de aviso
+        "Acertou!", antes dava um refresh automático na página. Também criei
+        essa página de atualizações, mas acho que isso vai servir mais para mim
+        kkkkkk. Também corrigi um bug onde, por exemplo, "preto e branco" era
+        diferente de "branco e preto", ou seja, o programa estava comparando a
+        frase da cor ao invés de cada palavra. Implementei a dica da série do
+        time predeterminado, que pode ser vista aos 4 erros.
+      </p>
     </div>
 
     <!-- versao 1.3.0 -->
     <div class="versao">
-      <h3><i class="bi bi-tools"></i> Versão 1.3.0 - 29 de Julho 2025</h3>
-      <ul>
-        <li>Interface reformulada com melhor organização visual</li>
-        <li>Melhorado espaçamento do botão "Jogar Novamente"</li>
-      </ul>
+      <h3><i class="bi bi-sun"></i> Versão 1.3.0 - 29 de Julho 2025</h3>
+      <p>
+        Fiz melhorias significativas no visual do site, e quando eu digo
+        significativas é porque eu fiquei 7 horas só fazendo melhorias do visual
+        :D
+      </p>
     </div>
 
     <!-- versao 1.2.0 -->
     <div class="versao">
       <h3><i class="bi bi-bullseye"></i> Versão 1.2.0 - 29 de Julho 2025</h3>
-      <ul>
-        <li>Sistema de dicas implementado (7 erros = aparece o mascote)</li>
-        <li>Modal de ajuda com instruções completas</li>
-        <li>Otimização completa do código com documentação profissional</li>
-      </ul>
+      <p>
+        Adicionei as dicas no modo clássico, agora com 7 erros você tem a opção
+        de ver o mascote do time. Também fiz um botão de como jogar e otimizei
+        todo o código.
+      </p>
     </div>
 
     <!-- versao 1.1.0 -->
     <div class="versao">
       <h3><i class="bi bi-trophy"></i> Versão 1.1.0 - 28 de Julho 2025</h3>
-      <ul>
-        <li>Autocomplete inteligente com busca otimizada</li>
-        <li>Interface responsiva com Bootstrap</li>
-        <li>Feedback visual completo (cores e setas)</li>
-        <li>60+ times brasileiros cadastrados</li>
-      </ul>
+      <p>
+        Implementei sugestões da caixa de texto e autocomplete inteligente.
+        Logo, quando você digita, por exemplo, "fl", irá aparecer as sugestões,
+        como "flamengo" ou "fluminense". Se você apertasse enter ou enviasse
+        "fl", daria como time não encontrado, mas agora é completado
+        automaticamente com o time no topo dessas sugestões. Também dei uma
+        ajustada na parte de responsividade, agora ficar melhor para se usar no
+        celular. Adicionei os times da série B e C no modo clássico. Criei um
+        botão para contato na home page, com meu e-mail e instagram.
+      </p>
     </div>
 
     <!-- versao 1.0.0 -->
@@ -172,12 +141,15 @@ Confira as últimas novidades e atualizações do Futdle! Veja novas funcionalid
       <h3>
         <i class="bi bi-rocket-takeoff"></i> Versão 1.0.0 - 28 de Julho 2025
       </h3>
-      <ul>
-        <li>Lançamento inicial do Futdle</li>
-        <li>Jogo de adivinhação de times brasileiros</li>
-        <li>Sistema de comparação por cores, estado e ano</li>
-        <li>Interface clean e intuitiva</li>
-      </ul>
+      <p>
+        Lançamento do FUTDLE, contendo apenas o modo clássico e a página
+        inicial. O modo clássico é um jogo de adivinhação de time do
+        Brasileirão, onde você tenta adivinhar um time predeterminado. Quando
+        você digita um time errado, você rcebe as informações desse time e pode
+        comparar com o time que você tem que adivinhar. Por enquanto temos
+        cores, estado e ano de fundação para comparar. Vou implementar novidades
+        em breve.
+      </p>
     </div>
   </div>
 </div>
