@@ -164,3 +164,47 @@ class Time:
                     break
         
         return sugestoes
+
+    @classmethod
+    def buscar_sugestoes_escudo(cls, query, times_ja_tentados=None, limite=None):
+        """
+        Busca sugestões de times para autocomplete no modo escudo.
+        Retorna apenas times da Série A e B.
+        
+        Args:
+            query: Texto de busca
+            times_ja_tentados: Lista de nomes já tentados (opcional)
+            limite: Número máximo de sugestões (padrão: valor da config)
+        
+        Returns:
+            Lista de dicionários com nome e arquivo do escudo
+        """
+        if not query or len(query.strip()) < TAMANHO_MINIMO_BUSCA:
+            return []
+        
+        limite = limite or LIMITE_SUGESTOES_AUTOCOMPLETE
+        query_normalizado = normalizar_nome(query.strip())
+        
+        # Busca apenas times da Série A e B
+        times_serie_a = cls.buscar_por_serie('A')
+        times_serie_b = cls.buscar_por_serie('B')
+        times_validos = times_serie_a + times_serie_b
+        
+        times_ja_tentados = times_ja_tentados or []
+        sugestoes = []
+        
+        for time in times_validos:
+            if time.nome in times_ja_tentados:
+                continue
+                
+            nome_normalizado = normalizar_nome(time.nome)
+            if nome_normalizado.startswith(query_normalizado):
+                sugestoes.append({
+                    'nome': time.nome,
+                    'escudo': time.nome_arquivo() + '.jpg'
+                })
+                
+                if len(sugestoes) >= limite:
+                    break
+        
+        return sugestoes

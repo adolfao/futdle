@@ -56,8 +56,8 @@ def sugestoes_escudo():
     tentativas_escudo = escudo_game.get('tentativas', [])
     tentativas_nomes = [t['nome'] for t in tentativas_escudo]
     
-    # Usa o método otimizado da classe Time
-    sugestoes_list = Time.buscar_sugestoes(
+    # Busca sugestões APENAS de times da Série A e B (válidos para o modo escudo)
+    sugestoes_list = Time.buscar_sugestoes_escudo(
         query=query,
         times_ja_tentados=tentativas_nomes
     )

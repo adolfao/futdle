@@ -6,13 +6,16 @@ import os
 def escudo_mode():
     """
     Modo escudo - jogador deve adivinhar o time baseado apenas no escudo.
+    Aceita apenas times das Séries A e B.
     """
-    # Busca todos os times da Série A do banco de dados
+    # Busca todos os times das Séries A e B do banco de dados
     times_serie_a = Time.buscar_por_serie('A')
+    times_serie_b = Time.buscar_por_serie('B')
+    times_validos = times_serie_a + times_serie_b
     
     # Converte os nomes dos times para o formato usado nos arquivos (sem espaços, minúsculo)
     times_com_escudo = []
-    for time in times_serie_a:
+    for time in times_validos:
         nome_arquivo = time.nome_arquivo()
         times_com_escudo.append(nome_arquivo)
     
@@ -67,6 +70,10 @@ def escudo_mode():
             if not time_chutado:
                 return jsonify({'sucesso': False, 'mensagem': 'Time não encontrado!'})
             
+            # Verifica se o time é válido para o modo escudo (apenas Séries A e B)
+            if time_chutado.serie not in ['A', 'B']:
+                return jsonify({'sucesso': False, 'mensagem': f'{time_chutado.nome} não é válido para o modo escudo (apenas Séries A e B)!'})
+            
             # Verifica se o time já foi tentado
             times_ja_tentados = [t['nome'] for t in game_data['tentativas']]
             if time_chutado.nome in times_ja_tentados:
@@ -77,7 +84,12 @@ def escudo_mode():
             
             # Encontra o time secreto no banco usando o nome do arquivo
             time_secreto_obj = None
-            for time in Time.buscar_por_serie('A'):
+            # Recarrega os times válidos para busca do time secreto
+            times_serie_a = Time.buscar_por_serie('A')
+            times_serie_b = Time.buscar_por_serie('B')
+            times_validos_busca = times_serie_a + times_serie_b
+            
+            for time in times_validos_busca:
                 if time.nome_arquivo() == time_secreto_nome_arquivo:
                     time_secreto_obj = time
                     break

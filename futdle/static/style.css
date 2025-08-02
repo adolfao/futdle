@@ -2,31 +2,34 @@
 /* Este arquivo importa todos os módulos CSS organizados */
 
 /* Base e tipografia */
-@import url('./css/base.css');
+@import url("./css/base.css");
 
 /* Layout e estrutura */
-@import url('./css/layout.css');
+@import url("./css/layout.css");
 
 /* Sistema de botões */
-@import url('./css/buttons.css');
+@import url("./css/buttons.css");
 
 /* Modo clássico */
-@import url('./css/classico.css');
+@import url("./css/classico.css");
 
 /* Sistema de dicas */
-@import url('./css/dicas.css');
+@import url("./css/dicas.css");
 
 /* Resultados e mensagens */
-@import url('./css/resultados.css');
+@import url("./css/resultados.css");
 
 /* Sistema de tentativas */
-@import url('./css/tentativas.css');
+@import url("./css/tentativas.css");
 
 /* Modo escudo */
-@import url('./css/escudo.css');
+@import url("./css/escudo.css");
 
 /* Componentes Bootstrap customizados */
-@import url('./css/bootstrap-custom.css');
+@import url("./css/bootstrap-custom.css");
 
 /* Responsividade */
-@import url('./css/responsive.css');
+@import url("./css/responsive.css");
+
+/* Melhorias de acessibilidade e contraste */
+@import url("./css/accessibility-contrast.css");

@@ -279,8 +279,8 @@
 
 /* ===== BOTÃO REVELAR DICA ===== */
 .botao-revelar-dica {
-  background: linear-gradient(145deg, #ffc107, #e0a800);
-  color: #000;
+  background: linear-gradient(145deg, #b8860b, #daa520);
+  color: #fff;
   border: none;
   padding: 12px 24px;
   border-radius: 25px;
@@ -289,20 +289,21 @@
   font-weight: bold;
   cursor: pointer;
   transition: all 0.3s ease;
-  box-shadow: 0px 4px 15px rgba(255, 193, 7, 0.4);
+  box-shadow: 0px 4px 15px rgba(184, 134, 11, 0.4);
   text-transform: uppercase;
   letter-spacing: 1px;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
 }
 
 .botao-revelar-dica:hover {
   transform: translateY(-2px);
-  box-shadow: 0px 6px 20px rgba(255, 193, 7, 0.6);
-  background: linear-gradient(145deg, #e0a800, #ffc107);
+  box-shadow: 0px 6px 20px rgba(184, 134, 11, 0.6);
+  background: linear-gradient(145deg, #daa520, #b8860b);
 }
 
 .botao-revelar-dica:active {
   transform: translateY(0px);
-  box-shadow: 0px 2px 10px rgba(255, 193, 7, 0.4);
+  box-shadow: 0px 2px 10px rgba(184, 134, 11, 0.4);
 }
 
 /* ===== BOTÃO TENTAR NOVAMENTE INLINE ===== */

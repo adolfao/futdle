@@ -200,7 +200,7 @@ de cores, estado e ano de fundação! Desafio diário do Futdle no modo clássic
 
       <div
         class="cores-simples"
-        style="background-color: {% set resultado_cor = comparar_cores(time.cores, time_secreto.cores) %}{% if resultado_cor == 'exato' %}#28a745{% elif resultado_cor == 'parcial' %}#ffc107{% else %}#dc3545{% endif %}; color: {% if comparar_cores(time.cores, time_secreto.cores) == 'parcial' %}black{% else %}white{% endif %};"
+        style="background-color: {% set resultado_cor = comparar_cores(time.cores, time_secreto.cores) %}{% if resultado_cor == 'exato' %}#28a745{% elif resultado_cor == 'parcial' %}#b8860b{% else %}#dc3545{% endif %}; color: {% if comparar_cores(time.cores, time_secreto.cores) == 'parcial' %}white{% else %}white{% endif %};"
       >
         <strong>{{ time.cores }}</strong>
       </div>
@@ -470,8 +470,8 @@ de cores, estado e ano de fundação! Desafio diário do Futdle no modo clássic
           corFundo = '#28a745';
           corTexto = 'white';
         } else if (resultadoCor === 'parcial') {
-          corFundo = '#ffc107';
-          corTexto = 'black';
+          corFundo = '#b8860b';
+          corTexto = 'white';
         } else {
           corFundo = '#dc3545';
           corTexto = 'white';

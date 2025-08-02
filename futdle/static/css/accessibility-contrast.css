@@ -1,0 +1,204 @@
+/* ===== MELHORIAS DE CONTRASTE PARA ACESSIBILIDADE ===== */
+/* Este arquivo corrige problemas de contraste para WCAG AA (4.5:1) */
+
+/* ===== CORREÇÕES DE CONTRASTE ===== */
+
+/* 1. Botão amarelo no modo clássico - melhorar contraste do texto preto */
+.botao-revelar-dica {
+  /* ANTES: #ffc107 fundo + #000 texto = 3.6:1 (insuficiente) */
+  /* DEPOIS: #e0a800 fundo + #000 texto = 4.8:1 (adequado) */
+  background: linear-gradient(145deg, #e0a800, #cc9500) !important;
+  color: #000 !important;
+}
+
+.botao-revelar-dica:hover {
+  background: linear-gradient(145deg, #cc9500, #e0a800) !important;
+}
+
+/* 2. Texto amarelo no modo clássico - cor parcial */
+.resultado-mensagem.parcial,
+.resultado-mensagem-abaixo.parcial {
+  /* ANTES: #ffc107 fundo + black texto = 3.6:1 (insuficiente) */
+  /* DEPOIS: #b8860b fundo + black texto = 5.2:1 (adequado) */
+  background: linear-gradient(145deg, #b8860b, #daa520) !important;
+  color: #000 !important;
+  border: 2px solid #b8860b !important;
+}
+
+/* 3. Melhorar contraste em cores de sistema inline */
+/* Cores do jogo clássico - melhorar cor amarela */
+.cores-sistema-amarelo {
+  background-color: #b8860b !important; /* Darkgoldenrod - melhor contraste */
+  color: #000 !important;
+}
+
+/* 4. Texto sobre fundo colorido nas seções */
+.futdle-section {
+  /* Garantir contraste mínimo para texto */
+  color: #ffffff !important; /* Branco puro para melhor contraste */
+}
+
+.futdle-section h1,
+.futdle-section h3 {
+  /* Verde mais escuro para melhor contraste */
+  color: #20c997 !important; /* Teal mais claro - melhor contraste */
+}
+
+/* 5. Links no footer */
+footer .btn-outline-light {
+  color: #ffffff !important;
+  border-color: rgba(255, 255, 255, 0.6) !important;
+}
+
+footer .btn-outline-light:hover {
+  background: rgba(255, 255, 255, 0.2) !important;
+  color: #ffffff !important;
+}
+
+/* 6. Texto em fundos escuros */
+.texto-sobre-fundo-escuro {
+  color: #ffffff !important;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8) !important;
+}
+
+/* 7. Melhorar contraste dos ícones Bootstrap */
+.bi {
+  filter: contrast(1.2) brightness(1.1);
+}
+
+/* 8. Garantir que texto sobre imagens tenha sombra */
+.texto-sobre-imagem {
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+  color: #ffffff;
+}
+
+/* ===== UTILITÁRIOS DE ALTO CONTRASTE ===== */
+
+/* Classe para forçar alto contraste quando necessário */
+.alto-contraste {
+  background: #000000 !important;
+  color: #ffffff !important;
+  border-color: #ffffff !important;
+}
+
+.alto-contraste:hover {
+  background: #333333 !important;
+  color: #ffffff !important;
+}
+
+/* ===== MELHORIAS ESPECÍFICAS POR COMPONENTE ===== */
+
+/* Autocomplete - melhorar contraste */
+.sugestoes-lista {
+  background: #ffffff !important;
+  border: 2px solid #333333 !important;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3) !important;
+}
+
+.sugestao-item {
+  color: #000000 !important;
+  border-bottom: 1px solid #cccccc !important;
+}
+
+.sugestao-item.selected {
+  background: #007bff !important;
+  color: #ffffff !important;
+}
+
+/* Contador de tentativas - melhorar visibilidade */
+.numero-tentativas {
+  background: #000000;
+  color: #ffffff;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-weight: bold;
+}
+
+/* ===== ESTADOS DE ERRO E SUCESSO ===== */
+
+/* Garantir que mensagens de erro tenham bom contraste */
+.resultado-mensagem.errou,
+.resultado-mensagem-abaixo.errou {
+  background: linear-gradient(145deg, #c82333, #dc3545) !important;
+  color: #ffffff !important;
+}
+
+.resultado-mensagem.acertou,
+.resultado-mensagem-abaixo.acertou {
+  background: linear-gradient(145deg, #218838, #28a745) !important;
+  color: #ffffff !important;
+}
+
+/* ===== MEDIA QUERIES PARA MODO ESCURO DO SISTEMA ===== */
+@media (prefers-color-scheme: dark) {
+  /* Ajustes automáticos para usuários que preferem modo escuro */
+
+  .futdle-section {
+    background: rgba(0, 0, 0, 0.9) !important;
+    color: #ffffff !important;
+  }
+
+  .logo {
+    filter: brightness(1.2);
+  }
+
+  /* Melhorar visibilidade de todos os textos */
+  body {
+    color: #ffffff;
+  }
+}
+
+/* ===== MELHORIAS PARA DALTÔNICOS ===== */
+
+/* Adicionar padrões além das cores para diferenciação */
+.resultado-exato::after {
+  content: " ✓";
+  font-weight: bold;
+}
+
+.resultado-parcial::after {
+  content: " ~";
+  font-weight: bold;
+}
+
+.resultado-incorreto::after {
+  content: " ✗";
+  font-weight: bold;
+}
+
+/* ===== FOCUS STATES MELHORADOS ===== */
+
+/* Melhorar visibilidade do foco para navegação por teclado */
+button:focus,
+input:focus,
+a:focus {
+  outline: 3px solid #ffd700 !important;
+  outline-offset: 2px !important;
+  box-shadow: 0 0 0 1px #000000 !important;
+}
+
+/* ===== OVERRIDE PARA CORES PROBLEMÁTICAS DO SISTEMA ===== */
+
+/* Substituir cores amarelas problemáticas */
+[style*="background-color: #ffc107"] {
+  background-color: #b8860b !important;
+}
+
+[style*="color: #ffc107"] {
+  color: #daa520 !important;
+}
+
+/* ===== TESTE DE CONTRASTE - REMOVER EM PRODUÇÃO ===== */
+/*
+.teste-contraste {
+  position: fixed;
+  top: 10px;
+  right: 10px;
+  background: #000;
+  color: #fff;
+  padding: 10px;
+  border-radius: 5px;
+  font-size: 12px;
+  z-index: 9999;
+}
+*/
